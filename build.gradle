@@ -15,7 +15,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        sglVersion = '0.2.1'
+        sglVersion = '0.2.2'
         appName = "LD36"
         gdxVersion = '1.9.3'
         roboVMVersion = '2.1.0'
