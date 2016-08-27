@@ -2,6 +2,7 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 
@@ -14,8 +15,8 @@ public class UnitCastle extends UnitBase {
     private int activeResearch;
     private float researchTime;
 
-    public UnitCastle(SGLStage stage, UnitCastle.Weapons weapons) {
-        super(stage);
+    public UnitCastle(GameScreen screen, UnitCastle.Weapons weapons) {
+        super(screen);
         this.weapons = weapons;
         activeWeapon = 0;
         setHp(1000);

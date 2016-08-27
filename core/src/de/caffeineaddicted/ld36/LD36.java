@@ -68,7 +68,14 @@ public class LD36 extends SGLGame {
                 provide(Music.class).setLooping(true);
                 if (!paused)
                     provide(Music.class).play();
+                /*
+                    While the libryry calls SGLScreen#create() in SGLScreen#<init>()
+                    we have to load the screens after all Assets are loaded
+                 */
                 provide(SGLRootScreen.class).loadScreen(new GameScreen());
+                /*
+                    ... future versions of the library will fix that
+                 */
                 provide(SGLRootScreen.class).hideScreen(LoadingScreen.class);
                 provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.NEAR);
             }

@@ -7,37 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 
-abstract public class UnitBase extends Group {
-    private SGLStage stage;
+abstract public class UnitBase extends Entity {
     private float hp;
 
-    public UnitBase(SGLStage stage) {
-        super();
-        this.stage = stage;
-    }
-
-    abstract public void update();
-
-    abstract protected void onDie();
-
-    public void addTexture(String texture) {
-        addTexture(texture, SGL.provide(Assets.class).get(texture, Texture.class));
-    }
-
-    public void addTexture(String name, Texture texture) {
-        addDrawable(name, new TextureRegionDrawable(new TextureRegion(texture)));
-    }
-
-    public void addDrawable(String name, Drawable drawable) {
-        addActor(new Image(drawable));
-    }
-
-    public void clearTextures() {
-        clearChildren();
+    public UnitBase(GameScreen screen) {
+        super(screen);
     }
 
     void setHp(float hp) {

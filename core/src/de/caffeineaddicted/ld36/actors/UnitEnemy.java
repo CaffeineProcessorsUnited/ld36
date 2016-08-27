@@ -1,6 +1,6 @@
 package de.caffeineaddicted.ld36.actors;
 
-import de.caffeineaddicted.sgl.ui.screens.SGLStage;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 
 public class UnitEnemy extends UnitBase {
     private UnitEnemy.Type type;
@@ -8,8 +8,8 @@ public class UnitEnemy extends UnitBase {
     private float knockbackTime;
     private float speed;
 
-    public UnitEnemy(SGLStage stage, UnitEnemy.Type type) {
-        super(stage);
+    public UnitEnemy(GameScreen screen, UnitEnemy.Type type) {
+        super(screen);
         this.type = type;
         update();
     }
