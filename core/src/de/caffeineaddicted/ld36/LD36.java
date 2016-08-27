@@ -68,6 +68,7 @@ public class LD36 extends SGLGame {
                 provide(Music.class).setLooping(true);
                 if (!paused)
                     provide(Music.class).play();
+                provide(SGLRootScreen.class).loadScreen(new GameScreen());
                 provide(SGLRootScreen.class).hideScreen(LoadingScreen.class);
                 provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.NEAR);
             }
@@ -79,7 +80,6 @@ public class LD36 extends SGLGame {
 	protected void initScreens() {
         provide(SGLRootScreen.class).loadScreen(new BackgroundScreen());
         provide(SGLRootScreen.class).loadScreen(new LoadingScreen());
-        provide(SGLRootScreen.class).loadScreen(new GameScreen());
 	}
 
 	@Override
