@@ -30,13 +30,34 @@ public class Projectile extends Entity {
 
     public Damage calculateDamage(UnitEnemy enemy) {
         Damage enemydamage = new Damage();
-        //Todo Calculate Damages
+        //Calculate Hp Damage
+        float hpDamage = 0;
+        //chanse to pierce armor -> full damage
+        if ( Math.random() < this.type.armor_piercing ){
+            hpDamage = this.type.damage;
+        } else {
+            float damageReduction = (float)( 1 - (Math.sqrt(enemy.type.armor) / 20));
+            hpDamage = this.type.damage * damageReduction;
+        }
+        if ( Math.random() < this.type.crit_hit_chance ){
+            hpDamage *= 2;
+        }
+        enemydamage.setHp_damage(hpDamage);
+
+        // Calculate Knockback
+        float distance = enemy.getX() - this.getX();
+        float knockbackForce = this.type.knockback / (distance * distance + 1);
+        float knockbackSpeed = knockbackForce / enemy.type.mass;
+        if ( distance < 0 ) {
+            knockbackSpeed *= -1;
+        }
+        enemydamage.setKnockback(knockbackSpeed);
 
         //Calculate Sleep Time
         float maxsleeptime = 4f;
         float minsleeptime = 1f;
         boolean sleep = false;
-        if (Math.random() <= this.type.freeze_chance) {
+        if (Math.random() < this.type.freeze_chance) {
             sleep = true;
         }
         if (sleep) {

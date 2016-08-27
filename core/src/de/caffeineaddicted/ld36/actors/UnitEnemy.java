@@ -6,7 +6,7 @@ import de.caffeineaddicted.sgl.SGL;
 import java.util.ArrayList;
 
 public class UnitEnemy extends UnitBase {
-    private UnitEnemy.Type type;
+    public UnitEnemy.Type type;
     private float freezeTime;
     private float knockbackTime;
     private float speed;
