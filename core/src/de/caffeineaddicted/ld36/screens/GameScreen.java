@@ -88,7 +88,7 @@ public class GameScreen extends SGLStagedScreen<LD36> {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     public SGLStage stage() {
@@ -96,6 +96,6 @@ public class GameScreen extends SGLStagedScreen<LD36> {
     }
 
     public float screenWidth() {
-        return 2000;
+        return stage().getViewWidth();
     }
 }
