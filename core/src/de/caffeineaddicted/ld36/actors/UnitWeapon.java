@@ -12,8 +12,6 @@ public class UnitWeapon extends Entity {
 
     private Weapon.Type definition;
     private Image texture;
-    private float lastShot;
-
     private String ACTOR_TEXTURE;
 
     public UnitWeapon() {
@@ -31,7 +29,7 @@ public class UnitWeapon extends Entity {
 
     @Override
     public void update() {
-        lastShot = definition.reload_time;
+
     }
 
     public Actor getActor() {
@@ -41,12 +39,7 @@ public class UnitWeapon extends Entity {
     @Override
     public void act(float delta) {
         super.act(delta);
-        lastShot -= delta;
 
-        if (lastShot < 0) {
-            lastShot = definition.reload_time;
-            //TODO: Fire new Projectile
-        }
     }
 
 
