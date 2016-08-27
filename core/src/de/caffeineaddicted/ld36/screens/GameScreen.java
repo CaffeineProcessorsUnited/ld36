@@ -1,0 +1,83 @@
+package de.caffeineaddicted.ld36.screens;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import de.caffeineaddicted.ld36.LD36;
+import de.caffeineaddicted.ld36.input.GameInputProcessor;
+import de.caffeineaddicted.ld36.messages.FinishedLoadingMessage;
+import de.caffeineaddicted.ld36.utils.Assets;
+import de.caffeineaddicted.sgl.SGL;
+import de.caffeineaddicted.sgl.ui.screens.SGLScreen;
+import de.caffeineaddicted.sgl.ui.screens.SGLStage;
+import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
+
+import java.lang.reflect.Field;
+
+import static de.caffeineaddicted.sgl.SGL.provide;
+
+/**
+ * @author Malte Heinzelmann
+ */
+public class GameScreen extends SGLStagedScreen<LD36> {
+
+    private Label text;
+
+    @Override
+    public void create() {
+        super.create();
+        SGL.game().debug("Creating GameScreen");
+        registerInputListener(new GameInputProcessor(this));
+        text = new Label("TEST", SGL.provide(Assets.class).get("uiskin.json", Skin.class));
+        stage().addActor(text);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
+
+    }
+
+    @Override
+    public void beauty() {
+        /*
+            QUICK "FIX" - PLS DON'T READ
+         */
+        Field field = null;
+        try {
+            field = SGLScreen.class.getDeclaredField("dirty");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        if (field != null) {
+            field.setAccessible(true);
+            try {
+                field.set(this, false);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            field.setAccessible(false);
+        }
+        /*
+            OK, you can continue
+         */
+        text.setPosition(stage().getViewOrigX() + 100, stage().getViewOrigY() + 100);
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    public SGLStage stage() {
+        return stage;
+    }
+
+    public float screenWidth() {
+        return 2000;
+    }
+}
