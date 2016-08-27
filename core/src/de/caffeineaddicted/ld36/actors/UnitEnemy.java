@@ -60,11 +60,9 @@ public class UnitEnemy extends UnitBase {
     @Override
     public void act(float delta) {
         super.act(delta);
-        SGL.game().log("---"+getHp());
 
         UnitCastle castle = SGL.provide(GameScreen.class).getCastle();
 
-        //SGL.game().log("---###"+getWidth()+","+getHeight()+"//"+castle.getWidth()+","+castle.getHeight());
         if(MathUtils.intersectRect(getX(), getY(),
                 getX()+getWidth(),getY()+getHeight(),
                 castle.getX(),castle.getY(),
