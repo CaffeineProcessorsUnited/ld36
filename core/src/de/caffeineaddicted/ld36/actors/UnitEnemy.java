@@ -18,13 +18,11 @@ public class UnitEnemy extends UnitBase {
 
     public void freeze(float freezeTime) {
         this.freezeTime = freezeTime;
-        clearTextures();
         addTexture(type.fileFreeze);
     }
 
     public void unfreeze() {
         freezeTime = -1;
-        clearTextures();
         addTexture(type.fileActive);
     }
 
@@ -75,6 +73,11 @@ public class UnitEnemy extends UnitBase {
             return;
 
         setX(getX() - speed);
+    }
+
+    @Override
+    public String name() {
+        return "UnitEnemy";
     }
 
     public static enum Type {

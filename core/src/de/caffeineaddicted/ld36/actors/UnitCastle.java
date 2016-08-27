@@ -1,26 +1,29 @@
 package de.caffeineaddicted.ld36.actors;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import de.caffeineaddicted.ld36.screens.GameScreen;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
-import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 
 import java.util.ArrayList;
 
 public class UnitCastle extends UnitBase {
     private Weapons weapons;
     private int activeWeapon;
-    private float lastShot;
     private int activeResearch;
     private float researchTime;
+    private UnitWeapon weapon;
+
+    private String ACTOR_BASE = "base";
+    private String ACTOR_WEAPON = "weapon";
 
     public UnitCastle(UnitCastle.Weapons weapons) {
+        //setBounds(getX(), getY(), getWidth(), getHeight());
         this.weapons = weapons;
+        ACTOR_BASE = addTexture("TowerBase.png");
+        weapon = new UnitWeapon();
+        ACTOR_WEAPON = addActor(weapon);
         activeWeapon = 0;
         setHp(1000);
-        lastShot = 0;
         activeResearch = -1;
 
         update();
@@ -37,7 +40,7 @@ public class UnitCastle extends UnitBase {
     public void setActiveWeapon(int type) {
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
-            lastShot = 0;
+            weapon.select(weapon(type).type);
         }
     }
 
@@ -65,7 +68,7 @@ public class UnitCastle extends UnitBase {
     }
 
     public float getResearchTime() {
-        return Math.max(researchTime,0);
+        return Math.max(researchTime, 0);
     }
 
     public Projectile fire(float angle){
@@ -78,14 +81,28 @@ public class UnitCastle extends UnitBase {
 
     @Override
     public void update() {
-        addTexture("TowerBase.png");
-        addTexture(getActiveWeapon().type.texture);
-        lastShot = getActiveWeapon().type.reload_time;
     }
 
     @Override
     protected void onDie() {
 
+    }
+
+    @Override
+    protected void positionChanged() {
+        super.positionChanged();
+        Actor a = getActor(ACTOR_WEAPON);
+        a.setPosition(getWidth() - a.getWidth(), getHeight() - a.getHeight());
+        SGL.game().log("center: " + getCenterPoint().toString());
+        //SGL.game().log(weapon.getCenterPoint().toString());
+    }
+
+    @Override
+    protected void sizeChanged() {
+        super.sizeChanged();
+        //setOrigin(getWidth() / 2, getHeight() / 2);
+        SGL.game().log("width: " + getWidth() + ", " + getHeight());
+        //SGL.game().log(weapon.getCenterPoint().toString());
     }
 
     @Override
@@ -95,12 +112,16 @@ public class UnitCastle extends UnitBase {
             completeResearch();
         }
         activeResearch -= delta;
-        lastShot -= delta;
+    }
 
-        if (lastShot < 0) {
-            lastShot = getActiveWeapon().type.reload_time;
-            //TODO: Fire new Projectile
-        }
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        getActor(ACTOR_BASE).draw(batch, parentAlpha);
+        getActor(ACTOR_WEAPON).draw(batch, parentAlpha);
+    }
+
+    public UnitWeapon getWeapon() {
+        return getActor(ACTOR_WEAPON, UnitWeapon.class);
     }
 
     public static enum Weapons {
@@ -115,7 +136,7 @@ public class UnitCastle extends UnitBase {
         }
 
         public int length() {
-            return weapons.size()-1;
+            return weapons.size() - 1;
         }
 
         public Weapon get(int type) {

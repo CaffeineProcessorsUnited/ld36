@@ -1,10 +1,7 @@
 package de.caffeineaddicted.ld36.input;
 
-import com.badlogic.gdx.Input;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.caffeineaddicted.ld36.LD36;
-import de.caffeineaddicted.ld36.messages.ExitGameMessage;
-import de.caffeineaddicted.ld36.messages.ToggleFullscreenMessage;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.input.SGLInputProcessor;
@@ -35,6 +32,7 @@ public class GameInputProcessor extends SGLInputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        /*
         float dist = (lastTouch.x - screenX);
         SGL.game().log("dist: " + dist);
         if (Math.abs(dist) < 20) {
@@ -49,6 +47,10 @@ public class GameInputProcessor extends SGLInputProcessor {
             SGL.game().log("camera: " + screen.stage().getCamera().position.toString());
         }
         SGL.game().log("touchDragged: " + lastTouch.toString());
+        */
+        float angle = (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getCenterPoint().y);
+        SGL.game().log(screen.getCastle().getWeapon().getActor().getCenterPoint().toString() + ", " + angle);
+        screen.getCastle().getWeapon().setRotation(180 - angle);
         return false;
     }
 

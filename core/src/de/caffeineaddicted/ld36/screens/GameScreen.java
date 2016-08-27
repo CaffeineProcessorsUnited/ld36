@@ -2,7 +2,10 @@ package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import de.caffeineaddicted.ld36.CustomStage;
+import de.caffeineaddicted.ld36.CustomStagedScreen;
 import de.caffeineaddicted.ld36.LD36;
 import de.caffeineaddicted.ld36.actors.UnitCastle;
 import de.caffeineaddicted.ld36.actors.UnitEnemy;
@@ -18,18 +21,22 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static de.caffeineaddicted.sgl.SGL.provide;
+import static de.caffeineaddicted.sgl.SGL.provides;
 
 /**
  * @author Malte Heinzelmann
  */
-public class GameScreen extends SGLStagedScreen<LD36> {
+public class GameScreen extends CustomStagedScreen {
 
     private Label text;
     private UnitCastle castle;
     private ArrayList<UnitEnemy> enemies;
+    private Image cannon;
 
     public static int groundHeight = 100;
     public static float gravity = 9.81f;
+
+    public String ACTOR_CASTLE;
 
     @Override
     public void create() {
@@ -41,19 +48,25 @@ public class GameScreen extends SGLStagedScreen<LD36> {
 
         castle = new UnitCastle(UnitCastle.Weapons.TEST);
         castle.setPosition(0, groundHeight);
-        castle.setSize(32,32);
+        ACTOR_CASTLE = stage().addActor(castle);
+        stage().getActor(ACTOR_CASTLE).setPosition(100, 100);
 
         UnitEnemy enemy = new UnitEnemy(UnitEnemy.Type.TEST);
         enemy.setPosition(stage().getViewWidth()-100,groundHeight);
-
         enemies = new ArrayList<UnitEnemy>();
         enemies.add(enemy);
-        stage().addActor(enemy);
-        stage().addActor(castle);
+        //stage().addActor(enemy);
 
-        stage().addActor(castle.fire(0));
-        stage().addActor(castle.fire(45));
-        stage().addActor(castle.fire(90));
+        cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
+        cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
+        cannon.setWidth(64);
+        cannon.setHeight(64);
+        cannon.setRotation(0);
+        //stage().addActor(cannon);
+
+        //stage().addActor(castle.fire(0));
+        //stage().addActor(castle.fire(45));
+        //stage().addActor(castle.fire(90));
     }
 
     @Override
@@ -64,7 +77,6 @@ public class GameScreen extends SGLStagedScreen<LD36> {
     @Override
     public void draw() {
         super.draw();
-
     }
 
     @Override
@@ -98,11 +110,11 @@ public class GameScreen extends SGLStagedScreen<LD36> {
         stage.dispose();
     }
 
-    public SGLStage stage() {
-        return stage;
-    }
-
     public float screenWidth() {
         return stage().getViewWidth();
+    }
+
+    public UnitCastle getCastle() {
+        return stage().getActor(ACTOR_CASTLE, UnitCastle.class);
     }
 }
