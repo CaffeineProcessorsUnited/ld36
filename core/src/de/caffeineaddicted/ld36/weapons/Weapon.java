@@ -1,9 +1,6 @@
 package de.caffeineaddicted.ld36.weapons;
 
-/**
- * Created by felix on 27.08.16.
- */
-
+import de.caffeineaddicted.ld36.actors.UnitEnemy;
 
 public class Weapon {
     public final Weapon.Type type;
@@ -38,11 +35,11 @@ public class Weapon {
         } else {
             enemydamage.setSleep(0);
         }
-        return Damage;
+        return enemydamage;
     }
 
     public static enum Type {
-        TestWeapon("Sample Weapon", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, 0f, 10f, 5f,"sampele.png");
+        TestWeapon("Sample Weapon", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, 0f, 10f, 5f, "sample.png");
 
         public final String name;
         public final float damage;
