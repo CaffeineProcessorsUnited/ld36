@@ -4,10 +4,12 @@ import de.caffeineaddicted.ld36.actors.UnitEnemy;
 
 public class Weapon {
     public final Weapon.Type type;
+    public final Projectile projectile;
     boolean available;
 
-    public Weapon(Weapon.Type type) {
+    public Weapon(Weapon.Type type, Projectile projectile) {
         this.type = type;
+        this.projectile = projectile;
         this.available = false;
     }
 
@@ -39,7 +41,7 @@ public class Weapon {
     }
 
     public static enum Type {
-        TestWeapon("Sample Weapon", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, 0f, 10f, 5f, "sample.png");
+        TestWeapon("Sample Weapon", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, 0f, 10f, "sample.png");
 
         public final String name;
         public final float damage;
@@ -49,10 +51,9 @@ public class Weapon {
         public final float freeze_chance; //should be a value between 0 and 1
         public final float reload_time;
         public final float research_time;
-        public final float projectile_speed;
         public final String texture;
 
-        Type(String name, float damage, float armor_piercing, float crit_hit_chance,float knockback, float freeze_chance, float reload_time, float research_time, float projectile_speed,String texture) {
+        Type(String name, float damage, float armor_piercing, float crit_hit_chance,float knockback, float freeze_chance, float reload_time, float research_time, String texture) {
             this.name = name;
             this.damage = damage;
             this.armor_piercing = armor_piercing;
@@ -61,7 +62,6 @@ public class Weapon {
             this.freeze_chance = freeze_chance;
             this.reload_time = reload_time;
             this.research_time = research_time;
-            this.projectile_speed = projectile_speed;
             this.texture = texture;
         }
     }
