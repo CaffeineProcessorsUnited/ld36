@@ -54,8 +54,11 @@ public class CustomStage extends SGLStage {
         root.removeActor(a);
     }
 
+    public void act(float delta) {
+        root.act(delta);
+    }
 
-    public void draw () {
+    public void draw() {
         Camera camera = getViewport().getCamera();
         camera.update();
 

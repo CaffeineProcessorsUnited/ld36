@@ -1,6 +1,8 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import de.caffeineaddicted.sgl.SGL;
+
 import java.util.HashMap;
 import java.util.Map;
 

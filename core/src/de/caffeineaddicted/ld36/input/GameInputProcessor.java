@@ -27,6 +27,9 @@ public class GameInputProcessor extends SGLInputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         SGL.game().log("touchDragged" + screenX + ", " + screenY);
+        float angle = 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getCenterPoint().y);
+        screen.stage().addActor(screen.getCastle().fire(angle));
+        screen.getCastle().getWeapon().getActor().setRotation(angle);
         return false;
     }
 
@@ -48,9 +51,9 @@ public class GameInputProcessor extends SGLInputProcessor {
         }
         SGL.game().log("touchDragged: " + lastTouch.toString());
         */
-        float angle = (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getCenterPoint().y);
-        SGL.game().log(screen.getCastle().getWeapon().getActor().getCenterPoint().toString() + ", " + angle);
-        screen.getCastle().getWeapon().setRotation(180 - angle);
+        float angle = 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getActor().getCenterPoint().y);
+        //SGL.game().log(screen.getCastle().getWeapon().getActor().getCenterPoint().toString() + ", " + angle);
+        screen.getCastle().getWeapon().getActor().setRotation(angle);
         return false;
     }
 

@@ -24,8 +24,8 @@ public class Projectile extends Entity {
 
 
     public void setAngle(float angle) {
-        directionX = (float) Math.sin(angle);
-        directionY = (float) Math.cos(angle);
+        directionX = (float) -Math.sin(Math.toRadians(angle));
+        directionY = (float) Math.cos(Math.toRadians(angle));
     }
 
     public Damage calculateDamage(UnitEnemy enemy) {

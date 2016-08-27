@@ -73,9 +73,9 @@ public class UnitCastle extends UnitBase {
 
     public Projectile fire(float angle){
         Projectile projectile = getActiveWeapon().fire(angle);
-        SGL.game().debug("xx:"+getCenterPoint().x+",yy:"+getCenterPoint().y);
+        SGL.game().debug("xx:"+getWeapon().getActor().getCenterPoint().x+",yy:"+getWeapon().getActor().getCenterPoint().y);
 
-        projectile.setPosition(getCenterPoint().x, getCenterPoint().y);
+        projectile.setPosition(getWeapon().getActor().getCenterPoint().x, getWeapon().getActor().getCenterPoint().y);
         return projectile;
     }
 
@@ -93,16 +93,11 @@ public class UnitCastle extends UnitBase {
         super.positionChanged();
         Actor a = getActor(ACTOR_WEAPON);
         a.setPosition(getWidth() - a.getWidth(), getHeight() - a.getHeight());
-        SGL.game().log("center: " + getCenterPoint().toString());
-        //SGL.game().log(weapon.getCenterPoint().toString());
     }
 
     @Override
     protected void sizeChanged() {
         super.sizeChanged();
-        //setOrigin(getWidth() / 2, getHeight() / 2);
-        SGL.game().log("width: " + getWidth() + ", " + getHeight());
-        //SGL.game().log(weapon.getCenterPoint().toString());
     }
 
     @Override

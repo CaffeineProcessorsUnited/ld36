@@ -40,6 +40,10 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return super.getY() + ((parent() != null) ? parent().getY() : 0);
     }
 
+    public void setRotation2 (float degrees) {
+
+    }
+
     public Vector2 getCenter() {
         return center;
     }
@@ -55,7 +59,6 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
     private void updateCenterPoint() {
         centerpoint.set(center.x + getX(), center.y + getY());
-        SGL.game().log("centerpoint " + getName() + "//" + getClass().getSimpleName() + ": " + centerpoint.toString());
     }
 
     @Override
@@ -66,5 +69,10 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     @Override
     protected void sizeChanged () {
         updateCenter();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "//" + getName();
     }
 }

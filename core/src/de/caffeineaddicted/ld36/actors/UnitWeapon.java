@@ -17,7 +17,6 @@ public class UnitWeapon extends Entity {
     private String ACTOR_TEXTURE;
 
     public UnitWeapon() {
-        SGL.game().log("WEAPON");
         texture = new Image();
         select(Weapon.Type.TestWeapon);
     }
@@ -26,6 +25,7 @@ public class UnitWeapon extends Entity {
         this.definition = definition;
         removeActor(getActor(ACTOR_TEXTURE));
         ACTOR_TEXTURE = addTexture(definition.texture);
+        getActor().setRotation(-90);
         update();
     }
 
@@ -36,11 +36,6 @@ public class UnitWeapon extends Entity {
 
     public Actor getActor() {
         return getActor(ACTOR_TEXTURE);
-    }
-
-    @Override
-    public void setRotation(float degrees) {
-        getActor(ACTOR_TEXTURE).setRotation(degrees);
     }
 
     @Override

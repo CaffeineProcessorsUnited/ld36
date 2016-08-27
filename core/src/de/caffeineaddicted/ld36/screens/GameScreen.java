@@ -3,6 +3,8 @@ package de.caffeineaddicted.ld36.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import de.caffeineaddicted.ld36.CustomStage;
 import de.caffeineaddicted.ld36.CustomStagedScreen;
@@ -67,6 +69,11 @@ public class GameScreen extends CustomStagedScreen {
         //stage().addActor(castle.fire(0));
         //stage().addActor(castle.fire(45));
         //stage().addActor(castle.fire(90));
+        RotateToAction action = Actions.action(RotateToAction.class);
+        getCastle().getWeapon().getActor().setRotation(0);
+        action.setRotation(360);
+        action.setDuration(10);
+        //getCastle().getWeapon().getActor().addAction(action);
     }
 
     @Override

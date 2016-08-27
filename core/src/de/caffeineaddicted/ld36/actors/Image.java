@@ -53,7 +53,6 @@ public class Image extends Actor {
     public void setDrawable (Drawable drawable) {
         if (this.drawable == drawable) return;
         this.drawable = drawable;
-        SGL.game().log("centerpoint " + getName() + "//" + getClass().getSimpleName() + ":" + drawable.getMinWidth() + "," + drawable.getMinHeight());
         setSize(drawable.getMinWidth(), drawable.getMinHeight());
         setPosition(0, 0);
     }
