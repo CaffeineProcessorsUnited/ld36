@@ -28,6 +28,9 @@ public class GameScreen extends SGLStagedScreen<LD36> {
     private UnitCastle castle;
     private ArrayList<UnitEnemy> enemies;
 
+    public static int groundHeight = 100;
+    public static float gravity = 9.81f;
+
     @Override
     public void create() {
         super.create();
@@ -37,16 +40,20 @@ public class GameScreen extends SGLStagedScreen<LD36> {
         stage().addActor(text);
 
         castle = new UnitCastle(UnitCastle.Weapons.TEST);
-        castle.setPosition(0, stage().getViewHeight()/2.f);
+        castle.setPosition(0, groundHeight);
+        castle.setSize(32,32);
 
         UnitEnemy enemy = new UnitEnemy(UnitEnemy.Type.TEST);
-        enemy.setPosition(stage().getViewHeight(), stage().getViewHeight()/2.f);
+        enemy.setPosition(stage().getViewWidth()-100,groundHeight);
 
         enemies = new ArrayList<UnitEnemy>();
         enemies.add(enemy);
         stage().addActor(enemy);
         stage().addActor(castle);
 
+        stage().addActor(castle.fire(0));
+        stage().addActor(castle.fire(45));
+        stage().addActor(castle.fire(90));
     }
 
     @Override

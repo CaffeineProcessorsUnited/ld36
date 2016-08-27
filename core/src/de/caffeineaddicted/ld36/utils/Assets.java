@@ -23,5 +23,6 @@ public class Assets extends AssetManager {
         load("Enemy_active.png", Texture.class);
         load("Enemy_frozen.png", Texture.class);
         load("sample.png", Texture.class);
+        load("sample_projectile.png", Texture.class);
     }
 }

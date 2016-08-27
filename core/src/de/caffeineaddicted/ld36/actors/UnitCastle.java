@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.weapons.Weapon;
+import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 
 import java.util.ArrayList;
@@ -53,6 +54,26 @@ public class UnitCastle extends UnitBase {
         if (activeResearch >= 0 && researchTime < 0) {
             weapon(activeResearch).setAvailable(true);
         }
+    }
+
+    public boolean isResearching(){
+        return getActiveResearch() >= 0 && getResearchTime() >= 0;
+    }
+
+    public int getActiveResearch(){
+        return activeResearch;
+    }
+
+    public float getResearchTime() {
+        return Math.max(researchTime,0);
+    }
+
+    public Projectile fire(float angle){
+        Projectile projectile = getActiveWeapon().fire(angle);
+        SGL.game().debug("xx:"+getCenterPoint().x+",yy:"+getCenterPoint().y);
+
+        projectile.setPosition(getCenterPoint().x, getCenterPoint().y);
+        return projectile;
     }
 
     @Override

@@ -29,19 +29,23 @@ public class Weapon {
         return p;
     }
 
+
+
     public static enum Type {
-        TestWeapon("Sample Weapon", 0f, 10f, "sample.png", Projectile.Type.TestProjectile);
+        TestWeapon("Sample Weapon", 0f, 10f, 200f, "sample.png", Projectile.Type.TestProjectile);
 
         public final String name;
         public final float reload_time;
         public final float research_time;
+        public final float range;
         public final String texture;
         public final Projectile.Type projectile;
 
-        Type(String name, float reload_time, float research_time, String texture, Projectile.Type projectile) {
+        Type(String name, float reload_time, float research_time, float range, String texture, Projectile.Type projectile) {
             this.name = name;
             this.reload_time = reload_time;
             this.research_time = research_time;
+            this.range = range;
             this.texture = texture;
             this.projectile = projectile;
         }

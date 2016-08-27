@@ -1,27 +1,31 @@
 package de.caffeineaddicted.ld36.actors;
 
-import de.caffeineaddicted.ld36.actors.UnitEnemy;
+import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.weapons.Damage;
 import de.caffeineaddicted.sgl.SGL;
 
+import java.util.ArrayList;
+
 public class Projectile extends Entity {
 
     public final Type type;
-    private float angle; // should be value between 0 and 360
+    private float directionX, directionY;
+    private boolean finished;
 
     public Projectile(Type type) {
         super();
         this.type = type;
-        angle = 0;
+        directionX = directionY = 0;
+        finished = false;
+        update();
     }
 
-    public float getAngle() {
-        return angle;
-    }
+
 
     public void setAngle(float angle) {
-        this.angle = angle;
+        directionX = (float) Math.sin(angle);
+        directionY = (float) Math.cos(angle);
     }
 
     public Damage calculateDamage(UnitEnemy enemy) {
@@ -43,13 +47,49 @@ public class Projectile extends Entity {
         return enemydamage;
     }
 
+    public Vector2 nextPosition(Vector2 pos,float delta){
+        directionY -= GameScreen.gravity*delta*delta;
+        float newX = pos.x+type.speed*directionX*delta;
+        float newY = pos.y+type.speed*directionY*delta;
+        if(newY < GameScreen.groundHeight){
+            float percentage = (pos.y-GameScreen.groundHeight)/(pos.y-newY);
+            newX = pos.x + percentage*(newX - pos.x);
+            newY = GameScreen.groundHeight;
+        }
+        return new Vector2(newX, newY);
+    }
+
     @Override
     public void update() {
+        addTexture(type.texture);
+    }
 
+    @Override
+    public void act(float delta) {
+        if(finished)
+            return;
+        super.act(delta);
+
+        Vector2 pos = nextPosition(getCenterPoint(),delta);
+        setX(pos.x);
+        setY(pos.y);
+
+        if(pos.y <= GameScreen.groundHeight){
+            ArrayList<Entity> entities = Entity.getEntitiesInRange(pos.x,pos.y,type.range);
+            for(Entity entity: entities){
+                if(entity instanceof UnitEnemy){
+                    UnitEnemy enemy = (UnitEnemy) entity;
+                    Damage damage = calculateDamage(enemy);
+                    enemy.freeze(damage.getSleep());
+                    enemy.receiveDamage(damage.getHp_damage(), damage.getKnockback());
+                }
+            }
+            finished = true;
+        }
     }
 
     public static enum Type{
-        TestProjectile(5f, 5f, "sample_projectile.png", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f);
+        TestProjectile(185f, 5f, "sample_projectile.png", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f,50f);
 
         public final float speed;
         public final float weight;
@@ -60,9 +100,10 @@ public class Projectile extends Entity {
         public final float crit_hit_chance; //should be a value between 0 and 1
         public final float knockback;
         public final float freeze_chance; //should be a value between 0 and 1
+        public final float range;
 
 
-        Type(float speed, float weight, String texture, float damage, float armor_piercing, float crit_hit_chance,float knockback, float freeze_chance){
+        Type(float speed, float weight, String texture, float damage, float armor_piercing, float crit_hit_chance,float knockback, float freeze_chance, float range){
             this.speed = speed;
             this.weight = weight;
             this.texture = texture;
@@ -72,6 +113,7 @@ public class Projectile extends Entity {
             this.crit_hit_chance = crit_hit_chance;
             this.knockback = knockback;
             this.freeze_chance = freeze_chance;
+            this.range = range;
         }
     }
 }

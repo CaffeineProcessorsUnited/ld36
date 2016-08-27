@@ -1,6 +1,9 @@
 package de.caffeineaddicted.ld36.actors;
 
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.sgl.SGL;
+
+import java.util.ArrayList;
 
 public class UnitEnemy extends UnitBase {
     private UnitEnemy.Type type;
@@ -32,6 +35,7 @@ public class UnitEnemy extends UnitBase {
     }
 
     public void receiveDamage(float damage, float knockback) {
+        SGL.game().debug("RECEIVED DAMAGE:d:"+damage+",k:"+knockback);
         receiveDamage(damage);
         speed += knockback;
         knockbackTime = 0;
@@ -51,6 +55,9 @@ public class UnitEnemy extends UnitBase {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if(getY() > GameScreen.groundHeight){
+            setY(Math.max(GameScreen.groundHeight, getY()-GameScreen.gravity*delta));
+        }
 
         float speedDiff = speed - type.speed;
         int speedDir = 0;
