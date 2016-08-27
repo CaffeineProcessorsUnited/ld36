@@ -1,6 +1,8 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import de.caffeineaddicted.ld36.messages.GameOverMessage;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -18,12 +20,14 @@ public class UnitCastle extends UnitBase {
     private String ACTOR_BASE = "base";
     private String ACTOR_WEAPON = "weapon";
 
+
     public UnitCastle(UnitCastle.Weapons weapons) {
         //setBounds(getX(), getY(), getWidth(), getHeight());
         this.weapons = weapons;
         ACTOR_BASE = addTexture("TowerBase.png");
         weapon = new UnitWeapon();
         ACTOR_WEAPON = addActor(weapon);
+        setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
         activeWeapon = 0;
         setHp(1000);
         activeResearch = -1;
@@ -79,7 +83,7 @@ public class UnitCastle extends UnitBase {
             return null;
         lastShot = weapon(activeWeapon).type.reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
-        SGL.game().debug("xx:"+getWeapon().getActor().getCenterPoint().x+",yy:"+getWeapon().getActor().getCenterPoint().y);
+        //SGL.game().debug("xx:"+getWeapon().getActor().getCenterPoint().x+",yy:"+getWeapon().getActor().getCenterPoint().y);
 
         projectile.setPosition(getWeapon().getActor().getCenterPoint().x, getWeapon().getActor().getCenterPoint().y);
         return projectile;
@@ -91,7 +95,9 @@ public class UnitCastle extends UnitBase {
 
     @Override
     protected void onDie() {
-
+        GameOverMessage message = new GameOverMessage();
+        message.put(GameOverMessage.POINTS, SGL.provide(GameScreen.class).points);
+        SGL.message(message);
     }
 
     @Override
@@ -109,6 +115,7 @@ public class UnitCastle extends UnitBase {
     @Override
     public void act(float delta) {
         super.act(delta);
+        SGL.game().log("HP:"+getHp());
         if (activeResearch >= 0 && researchTime < 0) {
             completeResearch();
         }
@@ -121,6 +128,7 @@ public class UnitCastle extends UnitBase {
     public void draw(Batch batch, float parentAlpha) {
         getActor(ACTOR_BASE).draw(batch, parentAlpha);
         getActor(ACTOR_WEAPON).draw(batch, parentAlpha);
+
     }
 
     public UnitWeapon getWeapon() {

@@ -35,6 +35,7 @@ public class GameScreen extends CustomStagedScreen {
     private ArrayList<UnitEnemy> enemies;
     private Image cannon;
 
+    public int points;
     public static int groundHeight = 100;
     public static float gravity = 9.81f;
 
@@ -65,6 +66,8 @@ public class GameScreen extends CustomStagedScreen {
         cannon.setWidth(64);
         cannon.setHeight(64);
         cannon.setRotation(0);
+
+        points = 0;
     }
 
     @Override

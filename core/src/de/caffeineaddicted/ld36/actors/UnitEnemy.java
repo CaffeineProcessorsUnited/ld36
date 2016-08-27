@@ -1,7 +1,9 @@
 package de.caffeineaddicted.ld36.actors;
 
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.sgl.SGL;
+import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 
 import java.util.ArrayList;
 
@@ -52,11 +54,25 @@ public class UnitEnemy extends UnitBase {
     @Override
     protected void onDie() {
         SGL.provide(GameScreen.class).deleteLater.add(this);
+        SGL.provide(GameScreen.class).points += type.points;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        UnitCastle castle = SGL.provide(GameScreen.class).getCastle();
+
+        SGL.game().log("---###"+getWidth()+","+getHeight()+"//"+castle.getWidth()+","+castle.getHeight());
+        if(MathUtils.intersectRect(getX(), getY(),
+                getX()+getWidth(),getY()+getHeight(),
+                castle.getX(),castle.getY(),
+                castle.getX()+castle.getWidth(),castle.getY()+castle.getHeight()))
+        {
+            castle.receiveDamage(type.damage);
+            SGL.game().log("----UNICORN-----");
+        }
+
         if(getY() > GameScreen.groundHeight){
             setY(Math.max(GameScreen.groundHeight, getY()-GameScreen.gravity*delta));
         }
@@ -85,7 +101,7 @@ public class UnitEnemy extends UnitBase {
     }
 
     public static enum Type {
-        TEST(100, 20, 100, 0.5f, 5f, 1, "Enemy");
+        TEST(100, 20, 100, 0.5f, 500f, 1, 10, "Enemy");
 
         public final float hp;
         public final float armor;
@@ -93,16 +109,18 @@ public class UnitEnemy extends UnitBase {
         public final float drag;
         public final float speed;
         public final int points;
+        public final int damage;
         public final String fileActive;
         public final String fileFreeze;
 
-        Type(float hp, float armor, float mass, float drag, float speed, int points, String file) {
+        Type(float hp, float armor, float mass, float drag, float speed, int points, int damage, String file) {
             this.hp = hp;
             this.armor = armor;
             this.mass = mass;
             this.drag = drag;
             this.speed = speed;
             this.points = points;
+            this.damage = damage;
             this.fileActive = file + "_active.png";
             this.fileFreeze = file + "_frozen.png";
         }

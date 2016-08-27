@@ -23,6 +23,13 @@ public class MathUtils {
         );
     }
 
+    /**
+     * Check if point 1 is inside rect spanned by 2 & 3
+     */
+    public static boolean pointInRect(float x1, float y1, float x2, float y2, float x3, float y3) {
+        return x1 > x2 && x1 < x3 && y1 > y2 && y1 < y3;
+    }
+
     public static boolean intersectCircleRect(float x1, float y1, float r, float x2, float y2, float x3, float y3) {
         float closestX = clamp(x1, x2, x3);
         float closestY = clamp(y1, y2, y3);
