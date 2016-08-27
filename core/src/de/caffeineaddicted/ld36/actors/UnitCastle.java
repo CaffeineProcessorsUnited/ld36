@@ -21,7 +21,7 @@ public class UnitCastle extends UnitBase {
         activeWeapon = 0;
         setHp(1000);
         lastShot = 0;
-        activeWeapon = -1;
+        activeResearch = -1;
 
         update();
     }
@@ -84,6 +84,7 @@ public class UnitCastle extends UnitBase {
     }
 
     public static enum Weapons {
+        DUMMY(),
         TEST(new Weapon(Weapon.Type.TestWeapon));
         private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
 
@@ -94,7 +95,7 @@ public class UnitCastle extends UnitBase {
         }
 
         public int length() {
-            return weapons.size();
+            return weapons.size()-1;
         }
 
         public Weapon get(int type) {
