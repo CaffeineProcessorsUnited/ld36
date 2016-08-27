@@ -21,7 +21,9 @@ public class Projectile extends Entity {
         update();
     }
 
-
+    public void onDie(){
+        SGL.provide(GameScreen.class).deleteLater.add(this);
+    }
 
     public void setAngle(float angle) {
         directionX = (float) -Math.sin(Math.toRadians(angle));
@@ -66,30 +68,34 @@ public class Projectile extends Entity {
 
     @Override
     public void act(float delta) {
-        if(finished)
+        if(finished) {
+            onDie();
             return;
+        }
         super.act(delta);
 
         Vector2 pos = nextPosition(getCenterPoint(),delta);
         setX(pos.x);
         setY(pos.y);
 
-        if(pos.y <= GameScreen.groundHeight){
-            ArrayList<Entity> entities = Entity.getEntitiesInRange(pos.x,pos.y,type.range);
-            for(Entity entity: entities){
-                if(entity instanceof UnitEnemy){
-                    UnitEnemy enemy = (UnitEnemy) entity;
-                    Damage damage = calculateDamage(enemy);
-                    enemy.freeze(damage.getSleep());
-                    enemy.receiveDamage(damage.getHp_damage(), damage.getKnockback());
-                }
+        ArrayList<Entity> entities = Entity.getEntitiesInRange(pos.x,pos.y,type.range);
+        for(Entity entity: entities){
+            if(entity instanceof UnitEnemy){
+                UnitEnemy enemy = (UnitEnemy) entity;
+                Damage damage = calculateDamage(enemy);
+                enemy.freeze(damage.getSleep());
+                enemy.receiveDamage(damage.getHp_damage(), damage.getKnockback());
+                finished = true;
             }
+        }
+
+        if(pos.y <= GameScreen.groundHeight){
             finished = true;
         }
     }
 
     public static enum Type{
-        TestProjectile(185f, 5f, "sample_projectile.png", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f,50f);
+        TestProjectile(185f, 5f, "sample_projectile.png", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, 5f);
 
         public final float speed;
         public final float weight;

@@ -2,13 +2,12 @@ package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
+
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import de.caffeineaddicted.ld36.CustomStage;
 import de.caffeineaddicted.ld36.CustomStagedScreen;
 import de.caffeineaddicted.ld36.LD36;
+import de.caffeineaddicted.ld36.actors.Actor;
 import de.caffeineaddicted.ld36.actors.UnitCastle;
 import de.caffeineaddicted.ld36.actors.UnitEnemy;
 import de.caffeineaddicted.ld36.input.GameInputProcessor;
@@ -21,6 +20,7 @@ import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static de.caffeineaddicted.sgl.SGL.provide;
 import static de.caffeineaddicted.sgl.SGL.provides;
@@ -39,6 +39,7 @@ public class GameScreen extends CustomStagedScreen {
     public static float gravity = 9.81f;
 
     public String ACTOR_CASTLE;
+    public ArrayList<Actor> deleteLater = new ArrayList<Actor>();
 
     @Override
     public void create() {
@@ -57,27 +58,24 @@ public class GameScreen extends CustomStagedScreen {
         enemy.setPosition(stage().getViewWidth()-100,groundHeight);
         enemies = new ArrayList<UnitEnemy>();
         enemies.add(enemy);
-        //stage().addActor(enemy);
+        stage().addActor(enemy);
 
         cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
         cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
         cannon.setWidth(64);
         cannon.setHeight(64);
         cannon.setRotation(0);
-        //stage().addActor(cannon);
-
-        //stage().addActor(castle.fire(0));
-        //stage().addActor(castle.fire(45));
-        //stage().addActor(castle.fire(90));
-        RotateToAction action = Actions.action(RotateToAction.class);
-        getCastle().getWeapon().getActor().setRotation(0);
-        action.setRotation(360);
-        action.setDuration(10);
-        //getCastle().getWeapon().getActor().addAction(action);
     }
 
     @Override
     public void act(float delta) {
+        Iterator<Actor> iterator = deleteLater.iterator();
+        while (iterator.hasNext()){
+            Actor actor = iterator.next();
+            actor.parent().removeActor(actor);
+            iterator.remove();
+        }
+
         super.act(delta);
     }
 

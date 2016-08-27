@@ -37,6 +37,10 @@ public class UnitEnemy extends UnitBase {
         receiveDamage(damage);
         speed += knockback;
         knockbackTime = 0;
+
+        if(getHp() < 0)
+            onDie();
+
     }
 
     @Override
@@ -47,7 +51,7 @@ public class UnitEnemy extends UnitBase {
 
     @Override
     protected void onDie() {
-        //TODO: Implement on DieEnemy
+        SGL.provide(GameScreen.class).deleteLater.add(this);
     }
 
     @Override
