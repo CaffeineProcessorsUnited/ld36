@@ -35,7 +35,7 @@ public class UnitEnemy extends UnitBase {
     public void receiveDamage(float damage, float knockback) {
         SGL.game().debug("RECEIVED DAMAGE:d:"+damage+",k:"+knockback);
         receiveDamage(damage);
-        speed += knockback;
+        speed -= knockback;
         knockbackTime = 0;
 
         if(getHp() < 0)
@@ -76,7 +76,7 @@ public class UnitEnemy extends UnitBase {
         if (freezeTime > 0)
             return;
 
-        setX(getX() - speed);
+        setX(getX() - speed*delta);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class UnitEnemy extends UnitBase {
     }
 
     public static enum Type {
-        TEST(100, 20, 100, 0.5f, 0.5f, 1, "Enemy");
+        TEST(100, 20, 100, 0.5f, 5f, 1, "Enemy");
 
         public final float hp;
         public final float armor;
