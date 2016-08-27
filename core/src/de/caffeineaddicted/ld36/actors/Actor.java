@@ -75,4 +75,6 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     public String toString() {
         return getClass().getSimpleName() + "//" + getName();
     }
+
+    public void setPosition(Vector2 pos){setPosition(pos.x,pos.y);}
 }

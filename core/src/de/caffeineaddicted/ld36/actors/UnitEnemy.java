@@ -29,7 +29,7 @@ public class UnitEnemy extends UnitBase {
     }
 
     @Override
-    void receiveDamage(float damage) {
+    public void receiveDamage(float damage) {
         super.receiveDamage(damage);
         knockbackTime = 0;
     }
@@ -60,6 +60,7 @@ public class UnitEnemy extends UnitBase {
     @Override
     public void act(float delta) {
         super.act(delta);
+        SGL.game().log("---"+getHp());
 
         UnitCastle castle = SGL.provide(GameScreen.class).getCastle();
 
@@ -103,7 +104,7 @@ public class UnitEnemy extends UnitBase {
     }
 
     public static enum Type {
-        TEST(100, 20, 100, 0.5f, 500f, 1, 10, "Enemy");
+        TEST(100, 20, 100, 0.5f, 20f, 1, 10, "Enemy");
 
         public final float hp;
         public final float armor;
@@ -125,6 +126,10 @@ public class UnitEnemy extends UnitBase {
             this.damage = damage;
             this.fileActive = file + "_active.png";
             this.fileFreeze = file + "_frozen.png";
+        }
+
+        public static Type getRandom(){
+            return values()[MathUtils.random(0,values().length-1)];
         }
     }
 }

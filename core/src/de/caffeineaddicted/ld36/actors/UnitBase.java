@@ -17,22 +17,22 @@ abstract public class UnitBase extends Entity {
 
     abstract protected void onDie();
 
-    void setHp(float hp) {
+    public void setHp(float hp) {
         this.hp = hp;
     }
 
-    float getHp() {
+    public float getHp() {
         return hp;
     }
 
-    void receiveDamage(float damage) {
+    public void receiveDamage(float damage) {
         hp -= damage;
         if (hp < 0) {
             onDie();
         }
     }
 
-    boolean alive() {
+    public boolean alive() {
         return hp >= 0;
     }
 }
