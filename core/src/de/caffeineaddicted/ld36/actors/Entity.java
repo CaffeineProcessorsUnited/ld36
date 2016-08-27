@@ -17,16 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 abstract public class Entity extends Group {
-    private GameScreen screen;
     private Map<String, Actor> children = new HashMap<String, Actor>();
 
-    protected Vector2 center;
-    protected Vector2 centerpoint;
-
-    public Entity(GameScreen screen) {
-        super();
-        this.screen = screen;
-    }
+    protected Vector2 center = new Vector2();
+    protected Vector2 centerpoint = new Vector2();
 
     private void updateCenter() {
         center.set(getWidth() / 2, getHeight() / 2);
@@ -38,8 +32,6 @@ abstract public class Entity extends Group {
     }
 
     abstract public void update();
-
-    abstract protected void onDie();
 
     public void addTexture(String texture) {
         addTexture(texture, SGL.provide(Assets.class).get(texture, Texture.class));

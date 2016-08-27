@@ -1,7 +1,9 @@
 package de.caffeineaddicted.ld36.actors;
 
 import de.caffeineaddicted.ld36.actors.UnitEnemy;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.weapons.Damage;
+import de.caffeineaddicted.sgl.SGL;
 
 public class Projectile extends Entity {
 
@@ -9,6 +11,7 @@ public class Projectile extends Entity {
     private float angle; // should be value between 0 and 360
 
     public Projectile(Type type) {
+        super();
         this.type = type;
         angle = 0;
     }
@@ -38,6 +41,11 @@ public class Projectile extends Entity {
             enemydamage.setSleep(0);
         }
         return enemydamage;
+    }
+
+    @Override
+    public void update() {
+
     }
 
     public static enum Type{

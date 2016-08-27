@@ -8,8 +8,7 @@ public class UnitEnemy extends UnitBase {
     private float knockbackTime;
     private float speed;
 
-    public UnitEnemy(GameScreen screen, UnitEnemy.Type type) {
-        super(screen);
+    public UnitEnemy(UnitEnemy.Type type) {
         this.type = type;
         update();
     }

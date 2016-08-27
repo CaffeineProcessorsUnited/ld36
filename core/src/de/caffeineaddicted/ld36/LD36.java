@@ -72,7 +72,8 @@ public class LD36 extends SGLGame {
                     While the libryry calls SGLScreen#create() in SGLScreen#<init>()
                     we have to load the screens after all Assets are loaded
                  */
-                provide(SGLRootScreen.class).loadScreen(new GameScreen());
+                supply(GameScreen.class, new GameScreen());
+                provide(SGLRootScreen.class).loadScreen(provide(GameScreen.class));
                 /*
                     ... future versions of the library will fix that
                  */

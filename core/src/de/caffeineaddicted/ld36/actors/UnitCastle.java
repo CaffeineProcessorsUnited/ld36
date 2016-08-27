@@ -15,8 +15,7 @@ public class UnitCastle extends UnitBase {
     private int activeResearch;
     private float researchTime;
 
-    public UnitCastle(GameScreen screen, UnitCastle.Weapons weapons) {
-        super(screen);
+    public UnitCastle(UnitCastle.Weapons weapons) {
         this.weapons = weapons;
         activeWeapon = 0;
         setHp(1000);

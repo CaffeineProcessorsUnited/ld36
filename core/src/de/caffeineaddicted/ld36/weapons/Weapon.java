@@ -1,6 +1,8 @@
 package de.caffeineaddicted.ld36.weapons;
 
 import de.caffeineaddicted.ld36.actors.Projectile;
+import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.sgl.SGL;
 
 public class Weapon {
     public final Weapon.Type type;

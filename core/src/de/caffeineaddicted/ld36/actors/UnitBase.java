@@ -15,9 +15,7 @@ import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 abstract public class UnitBase extends Entity {
     private float hp;
 
-    public UnitBase(GameScreen screen) {
-        super(screen);
-    }
+    abstract protected void onDie();
 
     void setHp(float hp) {
         this.hp = hp;

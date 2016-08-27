@@ -36,10 +36,10 @@ public class GameScreen extends SGLStagedScreen<LD36> {
         text = new Label("TEST", SGL.provide(Assets.class).get("uiskin.json", Skin.class));
         stage().addActor(text);
 
-        castle = new UnitCastle(stage(), UnitCastle.Weapons.TEST);
+        castle = new UnitCastle(UnitCastle.Weapons.TEST);
         castle.setPosition(0, stage().getViewHeight()/2.f);
 
-        UnitEnemy enemy = new UnitEnemy(stage(), UnitEnemy.Type.TEST);
+        UnitEnemy enemy = new UnitEnemy(UnitEnemy.Type.TEST);
         enemy.setPosition(stage().getViewHeight(), stage().getViewHeight()/2.f);
 
         enemies = new ArrayList<UnitEnemy>();
