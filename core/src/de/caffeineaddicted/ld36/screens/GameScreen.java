@@ -1,8 +1,11 @@
 package de.caffeineaddicted.ld36.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import de.caffeineaddicted.ld36.LD36;
+import de.caffeineaddicted.ld36.actors.UnitCastle;
+import de.caffeineaddicted.ld36.actors.UnitEnemy;
 import de.caffeineaddicted.ld36.input.GameInputProcessor;
 import de.caffeineaddicted.ld36.messages.FinishedLoadingMessage;
 import de.caffeineaddicted.ld36.utils.Assets;
@@ -12,6 +15,7 @@ import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import static de.caffeineaddicted.sgl.SGL.provide;
 
@@ -21,6 +25,8 @@ import static de.caffeineaddicted.sgl.SGL.provide;
 public class GameScreen extends SGLStagedScreen<LD36> {
 
     private Label text;
+    private UnitCastle castle;
+    private ArrayList<UnitEnemy> enemies;
 
     @Override
     public void create() {
@@ -29,6 +35,18 @@ public class GameScreen extends SGLStagedScreen<LD36> {
         registerInputListener(new GameInputProcessor(this));
         text = new Label("TEST", SGL.provide(Assets.class).get("uiskin.json", Skin.class));
         stage().addActor(text);
+
+        castle = new UnitCastle(stage(), UnitCastle.Weapons.TEST);
+        castle.setPosition(0, stage().getViewHeight()/2.f);
+
+        UnitEnemy enemy = new UnitEnemy(stage(), UnitEnemy.Type.TEST);
+        enemy.setPosition(stage().getViewHeight(), stage().getViewHeight()/2.f);
+
+        enemies = new ArrayList<UnitEnemy>();
+        enemies.add(enemy);
+        stage().addActor(enemy);
+        stage().addActor(castle);
+
     }
 
     @Override

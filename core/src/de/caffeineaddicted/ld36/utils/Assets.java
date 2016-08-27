@@ -19,10 +19,9 @@ public class Assets extends AssetManager {
 
     public void load() {
         load("theme.ogg", Music.class);
-        load("large.png", Texture.class);
-        load("uiskin.json", Skin.class);
-        load("background.png", Texture.class);
-        load("cpu.png", Texture.class);
-        load("logo.png", Texture.class);
+        load("TowerBase.png", Texture.class);
+        load("Enemy_active.png", Texture.class);
+        load("Enemy_frozen.png", Texture.class);
+        load("sample.png", Texture.class);
     }
 }
