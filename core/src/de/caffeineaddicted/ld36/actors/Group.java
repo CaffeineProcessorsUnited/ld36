@@ -83,4 +83,38 @@ public class Group extends Actor {
             children.get(n).positionChanged();
         }
     }
+
+    @Override
+    public float getWidth(){
+        float minX = Float.MAX_VALUE;
+        for(String n: children.keySet()){
+            minX = Math.min(minX,children.get(n).getX());
+        }
+
+        float maxWidth = 0;
+        for(String n: children.keySet()){
+            Actor child = children.get(n);
+            if(child.getX()+child.getWidth() > minX+maxWidth){
+                maxWidth = child.getX()+child.getWidth()-minX;
+            }
+        }
+        return maxWidth;
+    }
+
+    @Override
+    public float getHeight(){
+        float minY = Float.MAX_VALUE;
+        for(String n: children.keySet()){
+            minY = Math.min(minY,children.get(n).getY());
+        }
+
+        float maxHeight = 0;
+        for(String n: children.keySet()){
+            Actor child = children.get(n);
+            if(child.getY()+child.getHeight() > minY+maxHeight){
+                maxHeight = child.getY()+child.getHeight()-minY;
+            }
+        }
+        return maxHeight;
+    }
 }

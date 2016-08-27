@@ -8,7 +8,6 @@ import de.caffeineaddicted.sgl.SGL;
 import java.util.ArrayList;
 
 public class Projectile extends Entity {
-
     public final Type type;
     private float directionX, directionY;
     private boolean finished;

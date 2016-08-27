@@ -63,7 +63,7 @@ public class UnitEnemy extends UnitBase {
 
         UnitCastle castle = SGL.provide(GameScreen.class).getCastle();
 
-        SGL.game().log("---###"+getWidth()+","+getHeight()+"//"+castle.getWidth()+","+castle.getHeight());
+        //SGL.game().log("---###"+getWidth()+","+getHeight()+"//"+castle.getWidth()+","+castle.getHeight());
         if(MathUtils.intersectRect(getX(), getY(),
                 getX()+getWidth(),getY()+getHeight(),
                 castle.getX(),castle.getY(),
@@ -71,6 +71,8 @@ public class UnitEnemy extends UnitBase {
         {
             castle.receiveDamage(type.damage);
             SGL.game().log("----UNICORN-----");
+            onDie();
+            return;
         }
 
         if(getY() > GameScreen.groundHeight){

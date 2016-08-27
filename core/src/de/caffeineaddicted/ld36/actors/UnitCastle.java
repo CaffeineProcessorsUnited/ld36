@@ -29,7 +29,7 @@ public class UnitCastle extends UnitBase {
         ACTOR_WEAPON = addActor(weapon);
         setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
         activeWeapon = 0;
-        setHp(1000);
+        setHp(1);
         activeResearch = -1;
 
         update();
