@@ -1,5 +1,6 @@
 package de.caffeineaddicted.ld36.input;
 
+import de.caffeineaddicted.ld36.actors.Projectile;
 import de.caffeineaddicted.ld36.utils.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.screens.GameScreen;
@@ -28,8 +29,11 @@ public class GameInputProcessor extends SGLInputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         SGL.game().log("touchDragged" + screenX + ", " + screenY);
         float angle = 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getCenterPoint().y);
-        screen.stage().addActor(screen.getCastle().fire(angle));
-        screen.getCastle().getWeapon().getActor().setRotation(angle);
+        Projectile projectile = screen.getCastle().fire(angle);
+        if(projectile != null) {
+            screen.stage().addActor(projectile);
+            screen.getCastle().getWeapon().getActor().setRotation(angle);
+        }
         return false;
     }
 

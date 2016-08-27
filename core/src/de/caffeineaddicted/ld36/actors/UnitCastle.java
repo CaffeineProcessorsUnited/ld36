@@ -12,6 +12,8 @@ public class UnitCastle extends UnitBase {
     private int activeResearch;
     private float researchTime;
     private UnitWeapon weapon;
+    private float lastShot;
+
 
     private String ACTOR_BASE = "base";
     private String ACTOR_WEAPON = "weapon";
@@ -41,6 +43,7 @@ public class UnitCastle extends UnitBase {
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
             weapon.select(weapon(type).type);
+            lastShot = weapon(activeWeapon).type.reload_time;
         }
     }
 
@@ -72,6 +75,9 @@ public class UnitCastle extends UnitBase {
     }
 
     public Projectile fire(float angle){
+        if(lastShot > 0)
+            return null;
+        lastShot = weapon(activeWeapon).type.reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
         SGL.game().debug("xx:"+getWeapon().getActor().getCenterPoint().x+",yy:"+getWeapon().getActor().getCenterPoint().y);
 
@@ -107,6 +113,8 @@ public class UnitCastle extends UnitBase {
             completeResearch();
         }
         activeResearch -= delta;
+
+        lastShot -= delta;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class Weapon {
 
 
     public static enum Type {
-        TestWeapon("Sample Weapon", 0f, 10f, 200f, "cannon.png", Projectile.Type.TestProjectile);
+        TestWeapon("Sample Weapon", 1f, 10f, 200f, "cannon.png", Projectile.Type.TestProjectile);
 
         public final String name;
         public final float reload_time;
