@@ -1,4 +1,4 @@
-# Ludum Dare 36: *INSERT THEME*
+# Ludum Dare 36: Ancient Technology
 
 ## Development
 
