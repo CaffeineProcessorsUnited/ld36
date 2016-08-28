@@ -18,17 +18,21 @@ public class GameInputProcessor extends SGLInputProcessor {
         this.screen = screen;
     }
 
+    private float angleTouchCastle(int screenX, int screenY) {
+        return 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getCenterPoint().y);
+    }
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         lastTouch.set(screenX, screenY);
-        SGL.game().log("touchDown" + lastTouch.toString());
+        screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         SGL.game().log("touchDragged" + screenX + ", " + screenY);
-        float angle = 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getCenterPoint().y);
+        float angle = angleTouchCastle(screenX, screenY);
         Projectile projectile = screen.getCastle().fire(angle);
         if(projectile != null) {
             screen.stage().addActor(projectile);
@@ -55,9 +59,14 @@ public class GameInputProcessor extends SGLInputProcessor {
         }
         SGL.game().log("touchDragged: " + lastTouch.toString());
         */
-        float angle = 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getActor().getCenterPoint().y);
         //SGL.game().log(screen.getCastle().getWeapon().getActor().getCenterPoint().toString() + ", " + angle);
-        screen.getCastle().getWeapon().getActor().setRotation(angle);
+        screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         return false;
     }
 

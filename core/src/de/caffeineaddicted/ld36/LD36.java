@@ -19,6 +19,7 @@ import de.caffeineaddicted.sgl.messages.Bundle;
 import de.caffeineaddicted.sgl.messages.Message;
 import de.caffeineaddicted.sgl.messages.MessageReceiver;
 import de.caffeineaddicted.sgl.ui.screens.SGLRootScreen;
+import de.caffeineaddicted.sgl.ui.screens.SGLScreen;
 
 public class LD36 extends SGLGame {
 
@@ -74,24 +75,25 @@ public class LD36 extends SGLGame {
                     we have to load the screens after all Assets are loaded
                  */
                 supply(GameScreen.class, new GameScreen());
-                provide(SGLRootScreen.class).loadScreen(provide(GameScreen.class));
-                supply(DemoGameScreen.class, new DemoGameScreen());
-                provide(SGLRootScreen.class).loadScreen(provide(DemoGameScreen.class));
+                loadScreen(provide(GameScreen.class));
                 supply(MenuScreen.class, new MenuScreen());
-                provide(SGLRootScreen.class).loadScreen(provide(MenuScreen.class));
+                loadScreen(provide(MenuScreen.class));
                 /*
                     ... future versions of the library will fix that
                  */
                 provide(SGLRootScreen.class).hideScreen(LoadingScreen.class);
-                SGL.message(new ShowMenuScreenMessage(new Bundle().put(ShowMenuScreenMessage.BUNDLE_MENUTYPE, MenuScreen.Menu.Type.MAINMENU)));
-                provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
+                SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
+            }
+        });
+        SGL.registerMessageReceiver(ShowMenuScreenMessage.class, new MessageReceiver() {
+            @Override
+            public void receiveMessage(Message message) {
                 provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
             }
         });
         SGL.registerMessageReceiver(StartGameMessage.class, new MessageReceiver() {
             @Override
             public void receiveMessage(Message message) {
-                provide(SGLRootScreen.class).hideScreen(DemoGameScreen.class);
                 provide(SGLRootScreen.class).hideScreen(MenuScreen.class);
                 provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.MID);
             }
@@ -100,9 +102,8 @@ public class LD36 extends SGLGame {
             @Override
             public void receiveMessage(Message message) {
                 provide(Highscore.class).set(message.get(GameOverMessage.POINTS, Integer.class, 0));
-                SGL.message(new ShowMenuScreenMessage(new Bundle().put(ShowMenuScreenMessage.BUNDLE_MENUTYPE, MenuScreen.Menu.Type.DEATH)));
-                provide(SGLRootScreen.class).hideScreen(GameScreen.class);
-                provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
+                SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.DEATH));
+                provide(SGLRootScreen.class).get(GameScreen.class).pause();
             }
         });
 
@@ -111,9 +112,15 @@ public class LD36 extends SGLGame {
 
 	@Override
 	protected void initScreens() {
-        provide(SGLRootScreen.class).loadScreen(new BackgroundScreen());
-        provide(SGLRootScreen.class).loadScreen(new LoadingScreen());
+        loadScreen(new BackgroundScreen());
+        loadScreen(new LoadingScreen());
 	}
+
+	public void loadScreen(SGLScreen screen) {
+	    screen.show();
+        screen.hide();
+        provide(SGLRootScreen.class).loadScreen(screen);
+    }
 
 	@Override
 	protected void startGame() {

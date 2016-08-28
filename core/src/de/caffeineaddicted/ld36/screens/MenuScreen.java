@@ -3,9 +3,11 @@ package de.caffeineaddicted.ld36.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -20,6 +22,7 @@ import de.caffeineaddicted.ld36.utils.Highscore;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.impl.exceptions.ProvidedObjectIsNullException;
 import de.caffeineaddicted.sgl.input.SGLScreenInputMultiplexer;
+import de.caffeineaddicted.sgl.messages.Bundle;
 import de.caffeineaddicted.sgl.messages.Message;
 import de.caffeineaddicted.sgl.messages.MessageReceiver;
 import de.caffeineaddicted.sgl.ui.screens.SGLRootScreen;
@@ -44,14 +47,16 @@ public class MenuScreen extends SGLStagedScreen {
         public final float marginBetween;
         public final float marginTitle;
         public final Actor title;
+        public final Actor background;
 
-        public Options(float marginTop, float marginLeft, float marginRight, float marginBetween, float marginTitle, Actor title) {
+        public Options(float marginTop, float marginLeft, float marginRight, float marginBetween, float marginTitle, Actor title, Actor background) {
             this.marginTop = marginTop;
             this.marginLeft = marginLeft;
             this.marginRight = marginRight;
             this.marginBetween = marginBetween;
             this.marginTitle = marginTitle;
             this.title = title;
+            this.background = background;
         }
 
         public static final class Factory {
@@ -61,9 +66,10 @@ public class MenuScreen extends SGLStagedScreen {
             private float marginBetween = 10;
             private float marginTitle = 20;
             private Actor title;
+            private Actor background;
 
             public Options build() {
-                return new Options(marginTop, marginLeft, marginRight, marginBetween, marginTitle, title);
+                return new Options(marginTop, marginLeft, marginRight, marginBetween, marginTitle, title, background);
             }
 
             public Factory marginTop(float marginTop) {
@@ -93,6 +99,11 @@ public class MenuScreen extends SGLStagedScreen {
 
             public Factory title(Actor title) {
                 this.title = title;
+                return this;
+            }
+
+            public Factory background(Actor background) {
+                this.background = background;
                 return this;
             }
         }
@@ -136,7 +147,7 @@ public class MenuScreen extends SGLStagedScreen {
         SGL.provide(InputMultiplexer.class).addProcessor(stage);
         Skin skin = SGL.provide(Assets.class).get("uiskin.json", Skin.class);
         menus.put(Menu.Type.MAINMENU, new Menu(
-                new Options.Factory().title(new Label("Main Menu", skin)).build(),
+                new Options.Factory().title(new Label("Main Menu", skin)).background(new Image(SGL.provide(Assets.class).get("background.png", Texture.class))).build(),
                 new UIElement<TextButton>(new TextButton("Start Game", skin)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
@@ -171,7 +182,7 @@ public class MenuScreen extends SGLStagedScreen {
                 new UIElement<TextButton>(new TextButton("Back", skin)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ExitGameMessage());
+                        SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
                     }
                 }).build()
         ));
@@ -243,12 +254,22 @@ public class MenuScreen extends SGLStagedScreen {
             float m = menu.options.marginBetween;
             float mTitle = menu.options.marginTitle;
             float width = maxW - mL - mR;
-            Actor a = menu.options.title;
+            Actor a;
+            /* Title */
+            a = menu.options.title;
             float top = maxH - mT;
             if (a != null) {
                 top -= a.getHeight();
                 a.setPosition(maxW / 2 - a.getWidth() / 2, top);
                 top -= mTitle;
+                stage.addActor(a);
+            }
+            /* Title */
+            a = menu.options.background;
+            if (a != null) {
+                a.setWidth(stage.getViewWidth());
+                a.setHeight(stage.getViewHeight());
+                a.setPosition(0, 0);
                 stage.addActor(a);
             }
             for (int i = 0; i < menu.entries.length; i++) {
