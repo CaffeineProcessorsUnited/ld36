@@ -2,6 +2,7 @@ package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import de.caffeineaddicted.ld36.CustomStagedScreen;
@@ -24,14 +25,10 @@ import java.util.Iterator;
  * @author Malte Heinzelmann
  */
 public class GameScreen extends CustomStagedScreen {
-
-    private Label text;
-    private Label labelScore;
-    private Label labelWave;
-    private Label labelTime;
     private UnitCastle castle;
-    private ArrayList<UnitEnemy> enemies;
     private Image cannon;
+    private BitmapFont font;
+
 
     public int points;
     public static int groundHeight = 100;
@@ -57,14 +54,7 @@ public class GameScreen extends CustomStagedScreen {
         super.create();
         SGL.game().debug("Creating GameScreen");
         registerInputListener(new GameInputProcessor(this));
-        text = new Label("TEST", SGL.provide(Assets.class).get("uiskin.json", Skin.class));
-        labelScore = new Label("A", SGL.provide(Assets.class).get("uiskin.json", Skin.class));
-        labelWave = new Label("B", SGL.provide(Assets.class).get("uiskin.json", Skin.class));
-        labelTime = new Label("C", SGL.provide(Assets.class).get("uiskin.json", Skin.class));
-        stage().addActor(text);
-        stage().addActor(labelScore);
-        stage().addActor(labelWave);
-        stage().addActor(labelTime);
+        font = SGL.provide(Assets.class).get("uiskin.json", Skin.class).getFont("font-roboto-regular-16");
 
         spawnPosition = new Vector2(stage().getViewWidth()-100,groundHeight);
 
@@ -72,12 +62,6 @@ public class GameScreen extends CustomStagedScreen {
         castle.setPosition(0, groundHeight);
         ACTOR_CASTLE = stage().addActor(castle);
         stage().getActor(ACTOR_CASTLE).setPosition(100, 100);
-
-        UnitEnemy enemy = new UnitEnemy(UnitEnemy.Type.TEST);
-        enemy.setPosition(stage().getViewWidth()-100,groundHeight);
-        enemies = new ArrayList<UnitEnemy>();
-        enemies.add(enemy);
-        stage().addActor(enemy);
 
         cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
         cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
@@ -104,7 +88,10 @@ public class GameScreen extends CustomStagedScreen {
         Iterator<Actor> iterator = deleteLater.iterator();
         while (iterator.hasNext()){
             Actor actor = iterator.next();
-            actor.parent().removeActor(actor);
+            if(actor.parent() != null)
+                actor.parent().removeActor(actor);
+            else
+                actor.remove();
             iterator.remove();
         }
 
@@ -123,15 +110,16 @@ public class GameScreen extends CustomStagedScreen {
         if (alive == 0) {
             waveGenerator.skipToNextWave();
         }
-
-        labelScore.setText("Score: "+points);
-        labelWave.setText("Current wave: "+waveGenerator.getWaveCount());
-        labelTime.setText("Time to next wave: " + (int) waveGenerator.getRemainingTime());
     }
 
     @Override
     public void draw() {
         super.draw();
+        stage().getBatch().begin();
+        font.draw(stage().getBatch(),"Score: "+points, 10, stage().getCamera().viewportHeight - 10);
+        font.draw(stage().getBatch(),"Current wave: "+waveGenerator.getWaveCount(), 10, stage().getCamera().viewportHeight - font.getCapHeight() - 20);
+        font.draw(stage().getBatch(),"Time to next wave: " + (int) waveGenerator.getRemainingTime(), 10, stage().getCamera().viewportHeight - 2 * font.getCapHeight() - 30);
+        stage().getBatch().end();
     }
 
     @Override
@@ -157,7 +145,6 @@ public class GameScreen extends CustomStagedScreen {
         /*
             OK, you can continue
          */
-        text.setPosition(stage().getViewOrigX() + 100, stage().getViewOrigY() + 100);
     }
 
     @Override

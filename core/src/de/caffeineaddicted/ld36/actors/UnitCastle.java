@@ -115,7 +115,6 @@ public class UnitCastle extends UnitBase {
     @Override
     public void act(float delta) {
         super.act(delta);
-        SGL.game().log("HP:"+getHp());
         if (activeResearch >= 0 && researchTime < 0) {
             completeResearch();
         }
