@@ -10,21 +10,25 @@ import de.caffeineaddicted.sgl.SGL;
 
 public class UnitWeapon extends Entity {
 
-    private Weapon.Type definition;
+    private Weapon weapon;
     private Image texture;
     private String ACTOR_TEXTURE;
 
     public UnitWeapon() {
         texture = new Image();
-        select(Weapon.Type.TestWeapon);
+        select(new Weapon(Weapon.Type.Stone));
     }
 
-    public void select(Weapon.Type definition) {
-        this.definition = definition;
+    public void select(Weapon definition) {
+        this.weapon = definition;
         removeActor(getActor(ACTOR_TEXTURE));
-        ACTOR_TEXTURE = addTexture(definition.texture);
+        ACTOR_TEXTURE = addTexture(definition.type.getLevel(weapon.getLevel()).texture);
         getActor().setRotation(-90);
         update();
+    }
+
+    public Weapon getWeapon() {
+        return this.weapon;
     }
 
     @Override

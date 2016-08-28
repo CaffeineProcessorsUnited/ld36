@@ -32,6 +32,8 @@ public class UnitEnemy extends UnitBase {
 
     @Override
     public void receiveDamage(float damage) {
+        if(getHp() < 0)
+            return;
         super.receiveDamage(damage);
         knockbackTime = 0;
     }
@@ -72,6 +74,7 @@ public class UnitEnemy extends UnitBase {
         {
             castle.receiveDamage(type.damage);
             SGL.game().log("----UNICORN-----");
+            SGL.provide(GameScreen.class).points -= type.points;
             onDie();
             return;
         }
