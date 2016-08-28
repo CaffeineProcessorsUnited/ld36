@@ -87,7 +87,7 @@ public class GameScreen extends CustomStagedScreen {
         }
 
         super.act(delta);
-        waveGenerator.setMaxSpawn(waveGenerator.getWaveCount());
+        waveGenerator.setMaxSpawn(5*waveGenerator.getWaveCount());
         waveGenerator.tick(delta);
 
         int alive = 0;
@@ -246,7 +246,7 @@ public class GameScreen extends CustomStagedScreen {
         points = 0;
 
         waveGenerator = new WaveGeneratorDefer();
-        waveGenerator.setTickDeferTimer(1);
+        waveGenerator.setTickDeferTimer(3);
         waveGenerator.setTickWaitTimer(60);
         waveGenerator.setCurrentWaitTimer(55);
         waveGenerator.setMinSpawn(1);
