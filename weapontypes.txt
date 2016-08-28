@@ -1,0 +1,12 @@
+Stone
+Bow
+Crossbow
+Speer
+Shuriken
+Catapult
+Balsiste
+Cannon
+Explosive Barrel
+Tomahawk
+Trident
+Ultimate Unicorn rage
