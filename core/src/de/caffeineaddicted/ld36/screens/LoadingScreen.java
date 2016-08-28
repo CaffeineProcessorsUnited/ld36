@@ -16,7 +16,7 @@ import static de.caffeineaddicted.sgl.SGL.provide;
 /**
  * @author Malte Heinzelmann
  */
-public class uLoadingScreen extends SGLStagedScreen<LD36> {
+public class LoadingScreen extends SGLStagedScreen<LD36> {
     private float time = 0;
     private float wait_time = 0.5f;
     private float min_time = 1.5f;
