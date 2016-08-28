@@ -51,6 +51,15 @@ public class Assets extends AssetManager {
         load("kenney/background.png", Texture.class);
         load("theme.ogg", Music.class);
         load("kenney/castle.png", Texture.class);
+        load("kenney/cloud1.png", Texture.class);
+        load("kenney/cloud2.png", Texture.class);
+        load("kenney/cloud3.png", Texture.class);
+        load("kenney/cloud4.png", Texture.class);
+        load("kenney/cloud5.png", Texture.class);
+        load("kenney/cloud6.png", Texture.class);
+        load("kenney/cloud7.png", Texture.class);
+        load("kenney/cloud8.png", Texture.class);
+        load("kenney/cloud9.png", Texture.class);
         load("Enemy_active.png", Texture.class);
         load("Enemy_frozen.png", Texture.class);
         load("sample.png", Texture.class);

@@ -73,6 +73,14 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         centerpoint.set(center.x + getX(), center.y + getY());
     }
 
+    public float getScaledWidth() {
+        return getWidth() * getScaleX();
+    }
+
+    public float getScaledHeight() {
+        return getHeight() * getScaleY();
+    }
+
     @Override
     protected void positionChanged() {
         updateCenterPoint();

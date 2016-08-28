@@ -12,6 +12,7 @@ import de.caffeineaddicted.ld36.input.GameInputProcessor;
 import de.caffeineaddicted.ld36.messages.GameOverMessage;
 import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.wave.WaveGenerator;
 import de.caffeineaddicted.ld36.wave.WaveGeneratorDefer;
 import de.caffeineaddicted.sgl.SGL;
@@ -27,6 +28,7 @@ import java.util.Iterator;
 public class GameScreen extends CustomStagedScreen {
     public static int groundHeight = 75;
     public static float gravity = 9.81f;
+    public static int cloudCount = 20;
     public static Vector2 spawnPosition;
     private final boolean demo;
     public int points;
@@ -179,6 +181,10 @@ public class GameScreen extends CustomStagedScreen {
     }
 
     public void reset() {
+        SGL.game().log(isCreated() + "");
+        if (!isCreated()) {
+            return;
+        }
         SGL.provide(DemoModeSaveState.class).set(demo);
         Iterator<Entity> iterator = Entity.entities.iterator();
         while (iterator.hasNext()) {
@@ -202,6 +208,21 @@ public class GameScreen extends CustomStagedScreen {
         stage().getActor(ACTOR_HUD).setPosition(0, 0);
         stage().getActor(ACTOR_HUD).init();
         stage().getActor(ACTOR_HUD).setVisible(!demo);
+
+        Cloud cloud;
+        for (int i = 0; i < cloudCount; i++) {
+            cloud = stage().getActor(stage().addActor(new Cloud()), Cloud.class);
+            cloud.setPosition(
+                    (MathUtils.random(
+                            - (int) cloud.getWidth(),
+                            (int) (cloud.target.x - cloud.getWidth())
+                    )),
+                    stage().getHeight() - MathUtils.random(
+                            (int) Math.ceil(cloud.getHeight()),
+                            (int) stage().getHeight() / 2
+                    )
+            );
+        }
 
         cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
         cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
