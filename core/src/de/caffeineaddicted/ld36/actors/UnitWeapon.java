@@ -33,7 +33,7 @@ public class UnitWeapon extends Entity {
     }
 
     public Actor getActor() {
-        return getActor(ACTOR_TEXTURE);
+        return (Actor) getActor(ACTOR_TEXTURE);
     }
 
     @Override

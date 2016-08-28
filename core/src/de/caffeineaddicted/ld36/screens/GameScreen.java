@@ -1,17 +1,19 @@
 package de.caffeineaddicted.ld36.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.caffeineaddicted.ld36.CustomStagedScreen;
-import de.caffeineaddicted.ld36.actors.Actor;
-import de.caffeineaddicted.ld36.actors.Entity;
-import de.caffeineaddicted.ld36.actors.UnitCastle;
-import de.caffeineaddicted.ld36.actors.UnitEnemy;
+import de.caffeineaddicted.ld36.actors.*;
 import de.caffeineaddicted.ld36.input.GameInputProcessor;
+import de.caffeineaddicted.ld36.messages.GameOverMessage;
 import de.caffeineaddicted.ld36.utils.Assets;
+import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.wave.WaveGenerator;
 import de.caffeineaddicted.ld36.wave.WaveGeneratorDefer;
 import de.caffeineaddicted.sgl.SGL;
@@ -29,17 +31,19 @@ public class GameScreen extends CustomStagedScreen {
     private Image cannon;
     private BitmapFont font;
 
+    private boolean shouldReset = false;
 
     public int points;
-    public static int groundHeight = 100;
+    public static int groundHeight = 75;
     public static float gravity = 9.81f;
     public static Vector2 spawnPosition;
 
-    public String ACTOR_CASTLE;
+    public String ACTOR_CASTLE, ACTOR_HUD;
     public ArrayList<Actor> deleteLater = new ArrayList<Actor>();
     private WaveGenerator waveGenerator;
 
     private final boolean demo;
+    private boolean hudAction;
 
     public GameScreen() {
         this(false);
@@ -53,11 +57,21 @@ public class GameScreen extends CustomStagedScreen {
     public void create() {
         super.create();
         SGL.game().debug("Creating GameScreen");
-        registerInputListener(new GameInputProcessor(this));
-        font = SGL.provide(Assets.class).get("uiskin.json", Skin.class).getFont("font-roboto-regular-16");
+        if (!demo) {
+            registerInputListener(new GameInputProcessor(this));
+        }
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
+        font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
 
-        spawnPosition = new Vector2(stage().getViewWidth()-100,groundHeight);
+        spawnPosition = new Vector2(stage().getViewWidth(), groundHeight);
         reset();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        SGL.provide(BackgroundScreen.class).setBackground("background.png");
     }
 
     public void addActor(Actor actor){
@@ -91,16 +105,23 @@ public class GameScreen extends CustomStagedScreen {
         if (alive == 0) {
             waveGenerator.skipToNextWave();
         }
+
+        if (shouldReset) {
+            reset();
+            shouldReset = false;
+        }
     }
 
     @Override
     public void draw() {
         super.draw();
-        stage().getBatch().begin();
-        font.draw(stage().getBatch(),"Score: "+points, 10, stage().getCamera().viewportHeight - 10);
-        font.draw(stage().getBatch(),"Current wave: "+waveGenerator.getWaveCount(), 10, stage().getCamera().viewportHeight - font.getCapHeight() - 20);
-        font.draw(stage().getBatch(),"Time to next wave: " + (int) waveGenerator.getRemainingTime(), 10, stage().getCamera().viewportHeight - 2 * font.getCapHeight() - 30);
-        stage().getBatch().end();
+        if (!demo) {
+            stage().getBatch().begin();
+            font.draw(stage().getBatch(), "Score: " + points, 10, stage().getCamera().viewportHeight - 10);
+            font.draw(stage().getBatch(), "Current wave: " + waveGenerator.getWaveCount(), 10, stage().getCamera().viewportHeight - font.getCapHeight() - 20);
+            font.draw(stage().getBatch(), "Time to next wave: " + (int) waveGenerator.getRemainingTime(), 10, stage().getCamera().viewportHeight - 2 * font.getCapHeight() - 30);
+            stage().getBatch().end();
+        }
     }
 
     @Override
@@ -141,7 +162,30 @@ public class GameScreen extends CustomStagedScreen {
         return stage().getActor(ACTOR_CASTLE, UnitCastle.class);
     }
 
+    public HUD getHUD() {
+        return stage().getActor(ACTOR_HUD, HUD.class);
+    }
+
+    public void setHudAction(boolean hudAction) {
+        this.hudAction = hudAction;
+    }
+
+    public boolean getHudAction() {
+        return hudAction;
+    }
+
+    public void loseGame() {
+        if (!demo) {
+            GameOverMessage message = new GameOverMessage();
+            message.put(GameOverMessage.POINTS, SGL.provide(GameScreen.class).points);
+            SGL.message(message);
+        } else {
+            shouldReset = true;
+        }
+    }
+
     public void reset(){
+        SGL.provide(DemoModeSaveState.class).set(demo);
         Iterator<Entity> iterator = Entity.entities.iterator();
         while (iterator.hasNext()){
             Actor actor = iterator.next();
@@ -153,9 +197,17 @@ public class GameScreen extends CustomStagedScreen {
         }
 
         castle = new UnitCastle(UnitCastle.Weapons.TEST);
-        castle.setPosition(0, groundHeight);
         ACTOR_CASTLE = stage().addActor(castle);
-        stage().getActor(ACTOR_CASTLE).setPosition(100, 100);
+        stage().getActor(ACTOR_CASTLE).setPosition(0, groundHeight);
+        hudAction = false;
+        ACTOR_HUD = stage().addActor(new HUD());
+        stage().getActor(ACTOR_HUD, HUD.class).setAutoWidth(false);
+        stage().getActor(ACTOR_HUD, HUD.class).setAutoHeight(false);
+        stage().getActor(ACTOR_HUD).setWidth(stage().getViewWidth());
+        stage().getActor(ACTOR_HUD).setHeight(stage().getViewHeight());
+        stage().getActor(ACTOR_HUD).setPosition(0, 0);
+        stage().getActor(ACTOR_HUD).init();
+        stage().getActor(ACTOR_HUD).setVisible(!demo);
 
         cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
         cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
@@ -168,7 +220,7 @@ public class GameScreen extends CustomStagedScreen {
         waveGenerator = new WaveGeneratorDefer();
         waveGenerator.setTickDeferTimer(1);
         waveGenerator.setTickWaitTimer(60);
-        waveGenerator.setCurrentWaitTimer(50);
+        waveGenerator.setCurrentWaitTimer(55);
         waveGenerator.setMinSpawn(1);
         waveGenerator.setMaxSpawn(1);
     }

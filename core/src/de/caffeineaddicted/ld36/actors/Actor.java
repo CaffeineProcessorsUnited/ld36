@@ -1,8 +1,13 @@
 package de.caffeineaddicted.ld36.actors;
 
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.caffeineaddicted.sgl.SGL;
+import de.caffeineaddicted.sgl.input.SGLInputProcessor;
 
 /**
  * @author Malte Heinzelmann
@@ -13,6 +18,12 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
     protected Vector2 center = new Vector2();
     protected Vector2 centerpoint = new Vector2();
+
+    public void init() {
+        sizeChanged();
+        positionChanged();
+        rotationChanged();
+    }
 
     public Group parent() {
         return parent;
@@ -40,7 +51,15 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return super.getY() + ((parent() != null) ? parent().getY() : 0);
     }
 
-    public void setRotation2 (float degrees) {
+    public float getTRX() {
+        return getX() + getWidth();
+    }
+
+    public float getTRY() {
+        return getY() + getHeight();
+    }
+
+    public void setRotation2(float degrees) {
 
     }
 
@@ -62,12 +81,12 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     @Override
-    protected void positionChanged () {
+    protected void positionChanged() {
         updateCenterPoint();
     }
 
     @Override
-    protected void sizeChanged () {
+    protected void sizeChanged() {
         updateCenter();
     }
 
@@ -76,7 +95,9 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return getClass().getSimpleName() + "//" + getName();
     }
 
-    public void setPosition(Vector2 pos){setPosition(pos.x,pos.y);}
+    public void setPosition(Vector2 pos) {
+        setPosition(pos.x, pos.y);
+    }
 
     public void setCenterPosition(float x, float y) {
         setX(x - getWidth() / 2);

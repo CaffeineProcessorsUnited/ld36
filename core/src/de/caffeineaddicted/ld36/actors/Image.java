@@ -37,6 +37,10 @@ public class Image extends Actor {
     }
 
     public void draw(Batch batch, float parentAlpha) {
+        draw(drawable, batch, parentAlpha);
+    }
+
+    public void draw(Drawable drawable, Batch batch, float parentAlpha) {
         Color color = getColor();
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         if (drawable instanceof TransformDrawable) {
@@ -65,5 +69,9 @@ public class Image extends Actor {
     @Override
     public String name() {
         return "Image";
+    }
+
+    public final static Drawable tex2draw(Texture texture) {
+        return new TextureRegionDrawable(new TextureRegion(texture));
     }
 }

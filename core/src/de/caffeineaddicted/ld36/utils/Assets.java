@@ -2,24 +2,56 @@ package de.caffeineaddicted.ld36.utils;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 /**
  * @author Malte Heinzelmann
  */
 public class Assets extends AssetManager {
 
+    public void setup() {
+        setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(getFileHandleResolver()));
+        setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(getFileHandleResolver()));
+    }
+
     public void preload() {
-        load("background.png", Texture.class);
+        load("splash.png", Texture.class);
         load("cpu.png", Texture.class);
         load("logo.png", Texture.class);
         load("uiskin.json", Skin.class);
     }
 
+    private Color fromRGB(int r, int g, int b) {
+        return new Color(r / 255.0f, g / 255.0f, b / 255.0f, 1);
+    }
+
+    private Color fromRGBA(int r, int g, int b, int a) {
+        return new Color(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+    }
+
+    private FreetypeFontLoader.FreeTypeFontLoaderParameter genFontParams(String file, int size, Color color) {
+        if (color == null) color = fromRGB(255, 80, 162);
+        FreetypeFontLoader.FreeTypeFontLoaderParameter params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        params.fontFileName = file;
+        params.fontParameters.size = size;
+        params.fontParameters.color = color;
+        return params;
+    }
+
     public void load() {
+        load("missing.png", Texture.class);
+        load("pause.png", Texture.class);
+        load("pause_active.png", Texture.class);
+        load("background.png", Texture.class);
         load("theme.ogg", Music.class);
-        load("TowerBase.png", Texture.class);
+        load("castle.png", Texture.class);
         load("Enemy_active.png", Texture.class);
         load("Enemy_frozen.png", Texture.class);
         load("sample.png", Texture.class);

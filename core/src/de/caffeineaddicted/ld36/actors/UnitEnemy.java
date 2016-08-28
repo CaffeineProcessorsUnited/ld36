@@ -1,6 +1,7 @@
 package de.caffeineaddicted.ld36.actors;
 
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLStage;
@@ -14,6 +15,7 @@ public class UnitEnemy extends UnitBase {
     private float speed;
 
     public UnitEnemy(UnitEnemy.Type type) {
+        SGL.game().log("Spawning enemy: " + type.name());
         this.type = type;
         update();
     }
@@ -53,15 +55,15 @@ public class UnitEnemy extends UnitBase {
 
     @Override
     protected void onDie() {
-        SGL.provide(GameScreen.class).deleteLater.add(this);
-        SGL.provide(GameScreen.class).points += type.points;
+        SGL.provide(DemoModeSaveState.class).provide().deleteLater.add(this);
+        SGL.provide(DemoModeSaveState.class).provide().points += type.points;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        UnitCastle castle = SGL.provide(GameScreen.class).getCastle();
+        UnitCastle castle = SGL.provide(DemoModeSaveState.class).provide().getCastle();
 
         if(MathUtils.intersectRect(getX(), getY(),
                 getX()+getWidth(),getY()+getHeight(),

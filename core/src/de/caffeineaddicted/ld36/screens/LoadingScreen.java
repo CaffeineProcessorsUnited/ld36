@@ -31,7 +31,7 @@ public class LoadingScreen extends SGLStagedScreen<LD36> {
         SGL.provide(Assets.class).finishLoading();
 
         super.create();
-        background = new Image(provide(Assets.class).get("background.png", Texture.class));
+        background = new Image(provide(Assets.class).get("splash.png", Texture.class));
         stage.addActor(background);
         logo = new Image(provide(Assets.class).get("logo.png", Texture.class));
         stage.addActor(logo);

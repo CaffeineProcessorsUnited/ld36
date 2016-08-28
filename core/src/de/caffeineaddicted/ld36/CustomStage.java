@@ -43,7 +43,7 @@ public class CustomStage extends SGLStage {
     }
 
     public Actor getActor(String name) {
-        return root.getActor(name);
+        return (Actor) root.getActor(name);
     }
 
     public <T> T getActor(String name, Class<T> type) {

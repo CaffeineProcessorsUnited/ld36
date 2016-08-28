@@ -2,6 +2,7 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.weapons.Damage;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -21,7 +22,7 @@ public class Projectile extends Entity {
     }
 
     public void onDie(){
-        SGL.provide(GameScreen.class).deleteLater.add(this);
+        SGL.provide(DemoModeSaveState.class).provide().deleteLater.add(this);
     }
 
     public void setAngle(float angle) {

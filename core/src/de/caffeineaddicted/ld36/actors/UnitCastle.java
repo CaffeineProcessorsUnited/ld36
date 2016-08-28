@@ -2,7 +2,9 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import de.caffeineaddicted.ld36.messages.GameOverMessage;
+import de.caffeineaddicted.ld36.screens.DemoGameScreen;
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -17,14 +19,13 @@ public class UnitCastle extends UnitBase {
     private float lastShot;
 
 
-    private String ACTOR_BASE = "base";
-    private String ACTOR_WEAPON = "weapon";
+    private String ACTOR_BASE, ACTOR_WEAPON;
 
 
     public UnitCastle(UnitCastle.Weapons weapons) {
         //setBounds(getX(), getY(), getWidth(), getHeight());
         this.weapons = weapons;
-        ACTOR_BASE = addTexture("TowerBase.png");
+        ACTOR_BASE = addTexture("castle.png");
         weapon = new UnitWeapon();
         ACTOR_WEAPON = addActor(weapon);
         setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
@@ -95,15 +96,13 @@ public class UnitCastle extends UnitBase {
 
     @Override
     protected void onDie() {
-        GameOverMessage message = new GameOverMessage();
-        message.put(GameOverMessage.POINTS, SGL.provide(GameScreen.class).points);
-        SGL.message(message);
+        SGL.provide(DemoModeSaveState.class).provide().loseGame();
     }
 
     @Override
     protected void positionChanged() {
         super.positionChanged();
-        Actor a = getActor(ACTOR_WEAPON);
+        com.badlogic.gdx.scenes.scene2d.Actor a = getActor(ACTOR_WEAPON);
         a.setPosition(getWidth() - a.getWidth(), getHeight() - a.getHeight());
     }
 
@@ -127,7 +126,6 @@ public class UnitCastle extends UnitBase {
     public void draw(Batch batch, float parentAlpha) {
         getActor(ACTOR_BASE).draw(batch, parentAlpha);
         getActor(ACTOR_WEAPON).draw(batch, parentAlpha);
-
     }
 
     public UnitWeapon getWeapon() {

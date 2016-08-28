@@ -14,6 +14,9 @@ public class Group extends Actor {
     private String name;
     private Map<String, Actor> children = new HashMap<String, Actor>();
 
+    private boolean autoWidth = true;
+    private boolean autoHeight = true;
+
     public String addActor(Actor a) {
         return addActor(a.getClass().getSimpleName(), a);
     }
@@ -56,6 +59,8 @@ public class Group extends Actor {
     }
 
     public void draw(Batch batch, float parentAlpha) {
+        if (!isVisible())
+            return;
         for (String n: children.keySet()) {
             children.get(n).draw(batch, parentAlpha);
         }
@@ -86,16 +91,18 @@ public class Group extends Actor {
 
     @Override
     public float getWidth(){
+        if (!autoWidth)
+            return super.getWidth();
         float minX = Float.MAX_VALUE;
         for(String n: children.keySet()){
             minX = Math.min(minX,children.get(n).getX());
         }
 
         float maxWidth = 0;
-        for(String n: children.keySet()){
+        for(String n: children.keySet()) {
             Actor child = children.get(n);
-            if(child.getX()+child.getWidth() > minX+maxWidth){
-                maxWidth = child.getX()+child.getWidth()-minX;
+            if(child.getX() + child.getWidth() > minX+maxWidth){
+                maxWidth = child.getX() + child.getWidth() - minX;
             }
         }
         return maxWidth;
@@ -103,6 +110,8 @@ public class Group extends Actor {
 
     @Override
     public float getHeight(){
+        if (!autoHeight)
+            return super.getHeight();
         float minY = Float.MAX_VALUE;
         for(String n: children.keySet()){
             minY = Math.min(minY,children.get(n).getY());
@@ -116,5 +125,15 @@ public class Group extends Actor {
             }
         }
         return maxHeight;
+    }
+
+    public Group setAutoWidth(boolean autoWidth) {
+        this.autoWidth = autoWidth;
+        return this;
+    }
+
+    public Group setAutoHeight(boolean autoHeight) {
+        this.autoHeight = autoHeight;
+        return this;
     }
 }
