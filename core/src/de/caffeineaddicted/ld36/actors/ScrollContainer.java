@@ -29,7 +29,7 @@ public class ScrollContainer extends Group {
     }
 
     public void scroll(float position) {
-        if (position > 0 && position != offset && position <= getContentWidth())
+        if (position > 0 && position != offset && position <= getContentWidth() - getOuterWidth() && getContentWidth() > getOuterWidth())
             offset = position;
         offsetChanged();
     }
@@ -56,12 +56,11 @@ public class ScrollContainer extends Group {
     }
 
     public float getContentWidth() {
-        float width = 0;
+        float width = margin;
         if (direction == Direction.HORIZONTAL) {
             for (Actor a : children) {
                 width += a.getWidth() + margin;
             }
-            width -= margin;
         } else {
             for (Actor a : children) {
                 if (a.getWidth() > width) {
@@ -97,7 +96,6 @@ public class ScrollContainer extends Group {
             for (Actor a : children) {
                 height += a.getHeight() + margin;
             }
-            height -= margin;
         }
         return height;
     }
@@ -115,9 +113,9 @@ public class ScrollContainer extends Group {
 
     public void offsetChanged() {
         if (direction == Direction.HORIZONTAL) {
-            float x = 0;
+            float x = margin;
             for (Actor a : children) {
-                a.setPosition(x - offset, 0);
+                a.setPosition(x - offset, -margin);
                 //SGL.game().log(x - offset + "," + a.getY());
                 x += a.getWidth() + margin;
             }

@@ -44,7 +44,7 @@ public class Cloud extends Image {
         init();
     }
 
-    public void setInitialPostion(float x, float y) {
+    public void setInitialPosition(float x, float y) {
         initial.set(x, y);
         setPosition(x, y);
     }

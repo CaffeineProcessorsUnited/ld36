@@ -30,10 +30,27 @@ public class GameInputProcessor extends SGLInputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         lastTouched.set(screenX, screenY);
-        if (screenY >= screen.getHUD().getButtons().getY()) {
-            screen.setHudAction(true);
+        if (screen.getHUD().isMenuOpen()) {
+            if (!MathUtils.pointInRect(
+                    screenX,
+                    screenY,
+                    screen.getHUD().getUpgradeFrame().getX(),
+                    screen.getHUD().getUpgradeFrame().getY(),
+                    screen.getHUD().getUpgradeFrame().getTRX(),
+                    screen.getHUD().getUpgradeFrame().getTRY()
+            ) && !MathUtils.pointInRect(
+                    screenX,
+                    screenY,
+                    screen.getHUD().getUpgradeFrame().getX(),
+                    screen.getHUD().getUpgradeFrame().getY(),
+                    screen.getHUD().getUpgradeFrame().getTRX(),
+                    screen.getHUD().getUpgradeFrame().getTRY())) {
+                screen.getHUD().menuClose();
+            }
+        } else if (screenY >= screen.getHUD().getButtons().getY()) {
+            screen.getHUD().startDrag();
         } else {
-            screen.setHudAction(false);
+            screen.getHUD().stopDrag();
             screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         }
         return false;
@@ -41,8 +58,29 @@ public class GameInputProcessor extends SGLInputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (screen.getHudAction()) {
-            screen.setHudAction(false);
+        if (screen.getHUD().isMenuOpen()) {
+            if (MathUtils.pointInRect(
+                    screenX,
+                    screenY,
+                    screen.getHUD().getUpgradeFrame().getX(),
+                    screen.getHUD().getUpgradeFrame().getY(),
+                    screen.getHUD().getUpgradeFrame().getTRX(),
+                    screen.getHUD().getUpgradeFrame().getTRY()
+            )) {
+                screen.getHUD().select();
+            } else if (MathUtils.pointInRect(
+                    screenX,
+                    screenY,
+                    screen.getHUD().getUpgradeFrame().getX(),
+                    screen.getHUD().getUpgradeFrame().getY(),
+                    screen.getHUD().getUpgradeFrame().getTRX(),
+                    screen.getHUD().getUpgradeFrame().getTRY()
+            )) {
+                screen.getHUD().upgrade();
+            } else {
+                screen.getHUD().menuClose();
+            }
+        } else if (screen.getHUD().isDragging()) {
             // Only handle click if not dragged
             if (!dragged) {
                 Actor clickedActor = screen.getHUD().getButtons().getActor(lastTouched);
@@ -66,13 +104,14 @@ public class GameInputProcessor extends SGLInputProcessor {
                 screen.getCastle().getWeapon().getActor().setRotation(angle);
             }
         }
+        screen.getHUD().stopDrag();
         dragged = false;
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (screen.getHudAction()) {
+        if (screen.getHUD().isDragging()) {
             float distance = lastTouched.x - screenX;
             SGL.game().log(distance + "");
             screen.getHUD().getButtons().scrollBy(distance);

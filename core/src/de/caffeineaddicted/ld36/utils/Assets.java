@@ -46,8 +46,8 @@ public class Assets extends AssetManager {
 
     public void load() {
         load("missing.png", Texture.class);
-        load("pause.png", Texture.class);
-        load("pause_active.png", Texture.class);
+        load("button_default.png", Texture.class);
+        load("button_active.png", Texture.class);
         load("kenney/background.png", Texture.class);
         load("theme.ogg", Music.class);
         load("kenney/castle.png", Texture.class);

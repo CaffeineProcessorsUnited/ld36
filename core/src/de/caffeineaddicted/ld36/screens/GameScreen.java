@@ -35,11 +35,9 @@ public class GameScreen extends CustomStagedScreen {
     public String ACTOR_CASTLE, ACTOR_HUD;
     public ArrayList<Actor> deleteLater = new ArrayList<Actor>();
     private UnitCastle castle;
-    private Image cannon;
     private BitmapFont font;
     private Runnable shouldReset;
     private WaveGenerator waveGenerator;
-    private boolean hudAction;
 
     public GameScreen() {
         this(false);
@@ -162,14 +160,6 @@ public class GameScreen extends CustomStagedScreen {
         return stage().getActor(ACTOR_HUD, HUD.class);
     }
 
-    public boolean getHudAction() {
-        return hudAction;
-    }
-
-    public void setHudAction(boolean hudAction) {
-        this.hudAction = hudAction;
-    }
-
     public void loseGame() {
         if (!demo) {
             shouldReset = new Runnable() {
@@ -211,15 +201,19 @@ public class GameScreen extends CustomStagedScreen {
         for (int i = 0; i < cloudCount; i++) {
             cloud = stage().getActor(stage().addActor(new Cloud()), Cloud.class);
             cloud.init();
-            cloud.setInitialPostion(
-                    (MathUtils.random(
-                            - (int) cloud.getWidth(),
-                            (int) (cloud.target.x - cloud.getWidth())
-                    )),
+            cloud.setZIndex(1);
+            cloud.setInitialPosition(-cloud.getWidth(),
                     stage().getHeight() - MathUtils.random(
                             (int) Math.ceil(cloud.getHeight()),
                             (int) stage().getHeight() / 2
                     )
+            );
+            cloud.setPosition(
+                    MathUtils.random(
+                            -(int) cloud.getWidth(),
+                            (int) (cloud.target.x - cloud.getWidth())
+                    ),
+                    cloud.initial.y
             );
             cloud.init();
         }
@@ -227,7 +221,6 @@ public class GameScreen extends CustomStagedScreen {
         castle = new UnitCastle(UnitCastle.Weapons.TEST);
         ACTOR_CASTLE = stage().addActor(castle);
         stage().getActor(ACTOR_CASTLE).setPosition(0, groundHeight);
-        hudAction = false;
         ACTOR_HUD = stage().addActor(new HUD());
         stage().getActor(ACTOR_HUD, HUD.class).setAutoWidth(false);
         stage().getActor(ACTOR_HUD, HUD.class).setAutoHeight(false);
@@ -236,12 +229,6 @@ public class GameScreen extends CustomStagedScreen {
         stage().getActor(ACTOR_HUD).setPosition(0, 0);
         stage().getActor(ACTOR_HUD).init();
         stage().getActor(ACTOR_HUD).setVisible(!demo);
-
-        cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
-        cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
-        cannon.setWidth(64);
-        cannon.setHeight(64);
-        cannon.setRotation(0);
 
         points = 0;
 

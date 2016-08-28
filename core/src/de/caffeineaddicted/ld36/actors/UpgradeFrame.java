@@ -1,9 +1,12 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -28,20 +31,22 @@ public class UpgradeFrame extends Entity {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        setVisible(SGL.provide(DemoModeSaveState.class).provide().getHudAction());
+        setVisible(SGL.provide(DemoModeSaveState.class).provide().getHUD().isMenuOpen());
         if (!isVisible()) {
             return;
-        }/*
+        }
+        batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        SGL.game().provide(ShapeRenderer.class).begin(ShapeRenderer.ShapeType.Filled);
-        SGL.game().provide(ShapeRenderer.class).setColor(0f, 0f, 0f, 0.2f);
-        SGL.game().provide(ShapeRenderer.class).rect(getX(), getY(), getWidth(), getHeight());
-        SGL.game().provide(ShapeRenderer.class).end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);*/
-        writeText(batch, "A", 0);
-        writeText(batch, "B", 1);
-        writeText(batch, "C", 2);
+        SGL.provide(ShapeRenderer.class).begin(ShapeRenderer.ShapeType.Filled);
+        SGL.provide(ShapeRenderer.class).setColor(0f, 0f, 0f, 0.6f);
+        SGL.provide(ShapeRenderer.class).rect(getX(), getY(), getWidth(), getHeight());
+        SGL.provide(ShapeRenderer.class).end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+        batch.begin();
+        writeText(batch, "AAAAAAAAAAAA", 0);
+        writeText(batch, SGL.provide(GameScreen.class).getHUD().getWeaponType().name(), 1);
+        writeText(batch, "CCCCCCCCCCCC", 2);
     }
 
     public void writeText(Batch batch, String text, int i) {
