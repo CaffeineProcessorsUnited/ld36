@@ -52,11 +52,9 @@ public class Animation extends Image {
     @Override
     public void act(float delta) {
         time += delta;
-        SGL.game().log("Current Frame " + getCurrentFrame());
         while (time >= animationDuration && animationDuration > 0) {
             time -= animationDuration;
         }
-        SGL.game().log("Current Frame " + getCurrentFrame());
     }
 
 
