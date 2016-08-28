@@ -49,6 +49,7 @@ public class UnitEnemy extends UnitBase {
 
     @Override
     public void update() {
+        setMaxhp(type.hp);
         setHp(type.hp);
         addTexture(type.fileActive);
     }
@@ -105,12 +106,13 @@ public class UnitEnemy extends UnitBase {
 
     @Override
     public String addTexture(String name, Texture texture) {
-        return addActor(name, new Animation(texture, 4, 100, 100));
+        return addActor(name, new Animation(texture, this.type.frameCount, this.type.width, this.type.height));
     }
 
     public static enum Type {
-        TEST(1, 20, 100, 0.5f, 200f, 1, 10, "raw/enemy_horse_rider/Combined.png");
-
+        Rider(100, 20, 300, 0.5f, 50f, 10, 10, "raw/enemy_horse_rider/Combined.png", 4, 100, 100),
+        Wiking(50f, 10f, 70f, 0.5f, 20f, 5, 10, "raw/enemy_viking/combined.png", 7, 70, 68),
+        Soldier(30f, 20f, 90f, 0.6f, 10f, 1, 5, "raw/enemy_soldier/combined.png", 4, 70, 68);
         public final float hp;
         public final float armor;
         public final float mass;
@@ -119,8 +121,11 @@ public class UnitEnemy extends UnitBase {
         public final int points;
         public final int damage;
         public final String fileActive;
+        public final int frameCount;
+        public final int width;
+        public final int height;
 
-        Type(float hp, float armor, float mass, float drag, float speed, int points, int damage, String file) {
+        Type(float hp, float armor, float mass, float drag, float speed, int points, int damage, String file, int frameCount, int width, int height) {
             this.hp = hp;
             this.armor = armor;
             this.mass = mass;
@@ -129,6 +134,10 @@ public class UnitEnemy extends UnitBase {
             this.points = points;
             this.damage = damage;
             this.fileActive = file;
+            this.frameCount = frameCount;
+            this.width = width;
+            this.height = height;
+
         }
 
         public static Type getRandom() {

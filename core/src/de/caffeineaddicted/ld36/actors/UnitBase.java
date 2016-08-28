@@ -2,6 +2,15 @@ package de.caffeineaddicted.ld36.actors;
 
 abstract public class UnitBase extends Entity {
     private float hp;
+    private float maxhp;
+
+    public float getMaxhp() {
+        return maxhp;
+    }
+
+    public void setMaxhp(float maxhp) {
+        this.maxhp = maxhp;
+    }
 
     abstract protected void onDie();
 
@@ -12,6 +21,7 @@ abstract public class UnitBase extends Entity {
     public void setHp(float hp) {
         this.hp = hp;
     }
+
 
     public void receiveDamage(float damage) {
         hp -= damage;
