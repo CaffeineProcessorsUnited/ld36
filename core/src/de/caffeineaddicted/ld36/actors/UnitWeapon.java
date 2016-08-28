@@ -16,7 +16,7 @@ public class UnitWeapon extends Entity {
 
     public UnitWeapon() {
         texture = new Image();
-        select(Weapon.Type.TestWeapon);
+        select(Weapon.Type.Stone);
     }
 
     public void select(Weapon.Type definition) {

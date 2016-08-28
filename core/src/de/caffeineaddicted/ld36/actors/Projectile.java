@@ -115,7 +115,13 @@ public class Projectile extends Entity {
     }
 
     public static enum Type{
-        TestProjectile(185f, 5f, "sample_projectile.png", 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, 5f);
+        StoneProjectile(200f, 50f, "sample_projectile.png", 5.0f, 0f, 0.05f, 20f, 0.1f, 0f),
+        BowArrow(400f, 2f, "bow_arrow.png", 10f, 0f, 0.1f, 5f, 0f, 0f),
+        CrossbowBolt(400f, 2f, "crossbow_bolt.png", 30f, 0.3f, 0.2f, 0f, 0.2f, 0f),
+        ThrowableSpeer(250f,  100f, "throwable_speer.png", 50f, 0.5f, 0.25f, 40f, 0.1f, 0f),
+        Shuriken(200f, 1f, "shuriken_ammo.png", 30f, 0f, 0.8f, 0f, 0f, 0f),
+        CatapultAmmo(100f, 200f, "catapult_ammo.png", 100f, 0.5f, 0.9f, 50f, 0.5f, 10f),
+        ballisteArrow(400f, 150f, "balliste_arrow.png", 120f, 0.7f, 0.7f, 400f, 0.8f, 0f);
 
         public final float speed;
         public final float weight;

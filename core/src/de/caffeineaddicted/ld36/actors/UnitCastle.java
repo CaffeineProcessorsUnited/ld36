@@ -136,7 +136,7 @@ public class UnitCastle extends UnitBase {
 
     public static enum Weapons {
         DUMMY(),
-        TEST(new Weapon(Weapon.Type.TestWeapon));
+        TEST(new Weapon(Weapon.Type.Stone));
         private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
 
         Weapons(Weapon... ws) {
