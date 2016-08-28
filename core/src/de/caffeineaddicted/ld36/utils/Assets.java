@@ -49,9 +49,9 @@ public class Assets extends AssetManager {
         load("missing.png", Texture.class);
         load("pause.png", Texture.class);
         load("pause_active.png", Texture.class);
-        load("background.png", Texture.class);
+        load("kenney/background.png", Texture.class);
         load("theme.ogg", Music.class);
-        load("castle.png", Texture.class);
+        load("kenney/castle.png", Texture.class);
         load("Enemy_active.png", Texture.class);
         load("Enemy_frozen.png", Texture.class);
         load("sample.png", Texture.class);

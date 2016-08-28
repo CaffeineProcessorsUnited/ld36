@@ -19,3 +19,6 @@ License (Creative Commons Zero, CC0)
 http://creativecommons.org/publicdomain/zero/1.0/
 
 You can find these and even more assets at http://kenney.nl
+
+## Roboto-Regular.ttf
+The Roboto font is licensed under Apache License Version 2.0 by Google
