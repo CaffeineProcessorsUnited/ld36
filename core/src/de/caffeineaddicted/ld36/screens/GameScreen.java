@@ -57,26 +57,7 @@ public class GameScreen extends CustomStagedScreen {
         font = SGL.provide(Assets.class).get("uiskin.json", Skin.class).getFont("font-roboto-regular-16");
 
         spawnPosition = new Vector2(stage().getViewWidth()-100,groundHeight);
-
-        castle = new UnitCastle(UnitCastle.Weapons.TEST);
-        castle.setPosition(0, groundHeight);
-        ACTOR_CASTLE = stage().addActor(castle);
-        stage().getActor(ACTOR_CASTLE).setPosition(100, 100);
-
-        cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
-        cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
-        cannon.setWidth(64);
-        cannon.setHeight(64);
-        cannon.setRotation(0);
-
-        points = 0;
-
-        waveGenerator = new WaveGeneratorDefer();
-        waveGenerator.setTickDeferTimer(1);
-        waveGenerator.setTickWaitTimer(60);
-        waveGenerator.setCurrentWaitTimer(50);
-        waveGenerator.setMinSpawn(1);
-        waveGenerator.setMaxSpawn(1);
+        reset();
     }
 
     public void addActor(Actor actor){
@@ -158,5 +139,37 @@ public class GameScreen extends CustomStagedScreen {
 
     public UnitCastle getCastle() {
         return stage().getActor(ACTOR_CASTLE, UnitCastle.class);
+    }
+
+    public void reset(){
+        Iterator<Entity> iterator = Entity.entities.iterator();
+        while (iterator.hasNext()){
+            Actor actor = iterator.next();
+            if(actor.parent() != null)
+                actor.parent().removeActor(actor);
+            else
+                actor.remove();
+            iterator.remove();
+        }
+
+        castle = new UnitCastle(UnitCastle.Weapons.TEST);
+        castle.setPosition(0, groundHeight);
+        ACTOR_CASTLE = stage().addActor(castle);
+        stage().getActor(ACTOR_CASTLE).setPosition(100, 100);
+
+        cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
+        cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
+        cannon.setWidth(64);
+        cannon.setHeight(64);
+        cannon.setRotation(0);
+
+        points = 0;
+
+        waveGenerator = new WaveGeneratorDefer();
+        waveGenerator.setTickDeferTimer(1);
+        waveGenerator.setTickWaitTimer(60);
+        waveGenerator.setCurrentWaitTimer(50);
+        waveGenerator.setMinSpawn(1);
+        waveGenerator.setMaxSpawn(1);
     }
 }
