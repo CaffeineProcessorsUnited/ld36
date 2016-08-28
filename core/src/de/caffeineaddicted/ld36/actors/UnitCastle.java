@@ -46,8 +46,8 @@ public class UnitCastle extends UnitBase {
     public void setActiveWeapon(int type) {
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
-            weapon.select(weapon(type).type);
-            lastShot = weapon(activeWeapon).type.reload_time;
+            weapon.select(weapon(type));
+            lastShot = weapon(activeWeapon).type.getLevel(weapon.getWeapon().getLevel()).reload_time;
         }
     }
 
@@ -55,7 +55,7 @@ public class UnitCastle extends UnitBase {
         if (wid < weapons.length()) {
             if (!weapon(wid).isAvailable()) {
                 activeResearch = wid;
-                researchTime = weapon(wid).type.research_time;
+                researchTime = weapon(wid).type.getLevel(weapon.getWeapon().getLevel()).research_time;
             }
         }
     }
@@ -81,7 +81,7 @@ public class UnitCastle extends UnitBase {
     public Projectile fire(float angle){
         if(lastShot > 0)
             return null;
-        lastShot = weapon(activeWeapon).type.reload_time;
+        lastShot = weapon(activeWeapon).type.getLevel(weapon.getWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
         //SGL.game().debug("xx:"+getWeapon().getActor().getCenterPoint().x+",yy:"+getWeapon().getActor().getCenterPoint().y);
 
