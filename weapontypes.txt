@@ -1,12 +1,12 @@
-Stone
+---Stone
 Bow
 Crossbow
-Speer
-Shuriken
+--Speer
+--Shuriken
 Catapult
 Balsiste
 Cannon
 Explosive Barrel
-Tomahawk
+--Tomahawk
 Trident
 Ultimate Unicorn rage
