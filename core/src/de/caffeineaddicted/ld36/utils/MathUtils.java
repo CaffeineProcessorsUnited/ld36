@@ -37,7 +37,7 @@ public class MathUtils {
         float distX = x1 - closestX;
         float distY = y1 - closestY;
         float dist = distX * distX + distY * distY;
-        return dist < (r * r);
+        return dist <= (r * r);
     }
 
     public static double angleToPoint(float x1, float y1, float x2, float y2) {
