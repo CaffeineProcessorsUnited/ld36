@@ -85,7 +85,7 @@ public class UnitCastle extends UnitBase {
         Projectile projectile = getActiveWeapon().fire(angle);
         //SGL.game().debug("xx:"+getWeapon().getActor().getCenterPoint().x+",yy:"+getWeapon().getActor().getCenterPoint().y);
 
-        projectile.setPosition(getWeapon().getActor().getCenterPoint().x, getWeapon().getActor().getCenterPoint().y);
+        projectile.setCenterPosition(getWeapon().getActor().getCenterPoint().x, getWeapon().getActor().getCenterPoint().y);
         return projectile;
     }
 

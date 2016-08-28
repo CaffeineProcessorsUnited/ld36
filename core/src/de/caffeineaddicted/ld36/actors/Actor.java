@@ -77,4 +77,9 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public void setPosition(Vector2 pos){setPosition(pos.x,pos.y);}
+
+    public void setCenterPosition(float x, float y) {
+        setX(x - getWidth() / 2);
+        setY(y - getHeight() / 2);
+    }
 }
