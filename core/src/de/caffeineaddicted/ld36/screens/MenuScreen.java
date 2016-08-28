@@ -144,7 +144,6 @@ public class MenuScreen extends SGLStagedScreen {
         } catch (ProvidedObjectIsNullException pone) {
             // don't register stage as InputProcessor
         }
-        SGL.provide(InputMultiplexer.class).addProcessor(stage);
         Skin skin = SGL.provide(Assets.class).get("uiskin.json", Skin.class);
         menus.put(Menu.Type.MAINMENU, new Menu(
                 new Options.Factory().title(new Label("Main Menu", skin)).background(new Image(SGL.provide(Assets.class).get("background.png", Texture.class))).build(),
@@ -211,7 +210,7 @@ public class MenuScreen extends SGLStagedScreen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         SGL.game().provide(ShapeRenderer.class).begin(ShapeRenderer.ShapeType.Filled);
         SGL.game().provide(ShapeRenderer.class).setColor(0f, 0f, 0f, 0.2f);
-        SGL.game().provide(ShapeRenderer.class).rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getWidth(), stage.getHeight());
+        SGL.game().provide(ShapeRenderer.class).rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
         SGL.game().provide(ShapeRenderer.class).end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
         super.draw();
@@ -285,5 +284,17 @@ public class MenuScreen extends SGLStagedScreen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        SGL.provide(InputMultiplexer.class).addProcessor(stage);
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        SGL.provide(InputMultiplexer.class).removeProcessor(stage);
     }
 }

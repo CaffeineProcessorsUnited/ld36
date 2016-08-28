@@ -4,14 +4,16 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.*;
 import de.caffeineaddicted.ld36.messages.*;
 import de.caffeineaddicted.ld36.screens.*;
 import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.utils.Highscore;
-import de.caffeineaddicted.ld36prep.input.GlobalInputProcessor;
+import de.caffeineaddicted.ld36.input.GlobalInputProcessor;
 import de.caffeineaddicted.sgl.ApplicationConfiguration;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.SGLGame;
@@ -33,11 +35,13 @@ public class LD36 extends SGLGame {
 
 	@Override
 	protected void initGame() {
+	    SGL.game().log(Gdx.graphics.getDensity() + "");
 	    Gdx.app.setLogLevel(Application.LOG_DEBUG);
         supply(Assets.class, new Assets());
         supply(GlobalInputProcessor.class, new GlobalInputProcessor(this));
         //supply(Viewport.class, new StretchViewport(config().get(AttributeList.WIDTH), config().get(AttributeList.HEIGHT)));
         supply(Viewport.class, new FitViewport(config().get(AttributeList.WIDTH), config().get(AttributeList.HEIGHT)));
+        //supply(Viewport.class, new ScalingViewport(Scaling.fit, config().get(AttributeList.WIDTH) / Gdx.graphics.getDensity(), config().get(AttributeList.HEIGHT) / Gdx.graphics.getDensity()));
         //supply(Viewport.class, new ExtendViewport(config().get(AttributeList.WIDTH), config().get(AttributeList.HEIGHT)));
         supply(SpriteBatch.class, new SpriteBatch());
         supply(ShapeRenderer.class, new ShapeRenderer());
@@ -66,6 +70,7 @@ public class LD36 extends SGLGame {
         SGL.registerMessageReceiver(FinishedLoadingMessage.class, new MessageReceiver() {
             @Override
             public void receiveMessage(Message message) {
+                provide(Assets.class);
                 supply(Music.class, provide(Assets.class).get("theme.ogg", Music.class));
                 provide(Music.class).setLooping(true);
                 if (!paused)

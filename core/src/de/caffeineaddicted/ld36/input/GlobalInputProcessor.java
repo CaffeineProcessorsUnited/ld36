@@ -1,4 +1,4 @@
-package de.caffeineaddicted.ld36prep.input;
+package de.caffeineaddicted.ld36.input;
 
 import com.badlogic.gdx.Input;
 import de.caffeineaddicted.ld36.LD36;
