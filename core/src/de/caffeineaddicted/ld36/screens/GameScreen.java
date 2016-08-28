@@ -39,6 +39,16 @@ public class GameScreen extends CustomStagedScreen {
     public ArrayList<Actor> deleteLater = new ArrayList<Actor>();
     private WaveGenerator waveGenerator;
 
+    private final boolean demo;
+
+    public GameScreen() {
+        this(false);
+    }
+
+    protected GameScreen(boolean demo) {
+        this.demo = demo;
+    }
+
     @Override
     public void create() {
         super.create();
