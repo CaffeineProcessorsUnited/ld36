@@ -78,7 +78,10 @@ public class GameScreen extends CustomStagedScreen {
         Iterator<Actor> iterator = deleteLater.iterator();
         while (iterator.hasNext()){
             Actor actor = iterator.next();
-            actor.parent().removeActor(actor);
+            if(actor.parent() != null)
+                actor.parent().removeActor(actor);
+            else
+                actor.remove();
             iterator.remove();
         }
 

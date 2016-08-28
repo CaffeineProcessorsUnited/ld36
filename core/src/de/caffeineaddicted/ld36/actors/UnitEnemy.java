@@ -102,7 +102,7 @@ public class UnitEnemy extends UnitBase {
     }
 
     public static enum Type {
-        TEST(100, 20, 100, 0.5f, 20f, 1, 10, "Enemy");
+        TEST(1, 20, 100, 0.5f, 20f, 1, 10, "Enemy");
 
         public final float hp;
         public final float armor;
