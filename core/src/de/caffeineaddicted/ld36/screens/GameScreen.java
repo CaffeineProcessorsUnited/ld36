@@ -37,7 +37,7 @@ public class GameScreen extends CustomStagedScreen {
     private UnitCastle castle;
     private Image cannon;
     private BitmapFont font;
-    private boolean shouldReset = false;
+    private Runnable shouldReset;
     private WaveGenerator waveGenerator;
     private boolean hudAction;
 
@@ -102,9 +102,9 @@ public class GameScreen extends CustomStagedScreen {
             waveGenerator.skipToNextWave();
         }
 
-        if (shouldReset) {
-            reset();
-            shouldReset = false;
+        if (shouldReset != null) {
+            shouldReset.run();
+            shouldReset = null;
         }
     }
 
@@ -172,11 +172,21 @@ public class GameScreen extends CustomStagedScreen {
 
     public void loseGame() {
         if (!demo) {
-            GameOverMessage message = new GameOverMessage();
-            message.put(GameOverMessage.POINTS, SGL.provide(GameScreen.class).points);
-            SGL.message(message);
+            shouldReset = new Runnable() {
+                @Override
+                public void run() {
+                    GameOverMessage message = new GameOverMessage();
+                    message.put(GameOverMessage.POINTS, SGL.provide(GameScreen.class).points);
+                    SGL.message(message);
+                }
+            };
         } else {
-            shouldReset = true;
+            shouldReset = new Runnable() {
+                @Override
+                public void run() {
+                    reset();
+                }
+            };
         }
     }
 
@@ -186,6 +196,7 @@ public class GameScreen extends CustomStagedScreen {
             return;
         }
         SGL.provide(DemoModeSaveState.class).set(demo);
+        stage().clear();
         Iterator<Entity> iterator = Entity.entities.iterator();
         while (iterator.hasNext()) {
             Actor actor = iterator.next();
@@ -194,6 +205,23 @@ public class GameScreen extends CustomStagedScreen {
             else
                 actor.remove();
             iterator.remove();
+        }
+
+        Cloud cloud;
+        for (int i = 0; i < cloudCount; i++) {
+            cloud = stage().getActor(stage().addActor(new Cloud()), Cloud.class);
+            cloud.init();
+            cloud.setInitialPostion(
+                    (MathUtils.random(
+                            - (int) cloud.getWidth(),
+                            (int) (cloud.target.x - cloud.getWidth())
+                    )),
+                    stage().getHeight() - MathUtils.random(
+                            (int) Math.ceil(cloud.getHeight()),
+                            (int) stage().getHeight() / 2
+                    )
+            );
+            cloud.init();
         }
 
         castle = new UnitCastle(UnitCastle.Weapons.TEST);
@@ -208,21 +236,6 @@ public class GameScreen extends CustomStagedScreen {
         stage().getActor(ACTOR_HUD).setPosition(0, 0);
         stage().getActor(ACTOR_HUD).init();
         stage().getActor(ACTOR_HUD).setVisible(!demo);
-
-        Cloud cloud;
-        for (int i = 0; i < cloudCount; i++) {
-            cloud = stage().getActor(stage().addActor(new Cloud()), Cloud.class);
-            cloud.setPosition(
-                    (MathUtils.random(
-                            - (int) cloud.getWidth(),
-                            (int) (cloud.target.x - cloud.getWidth())
-                    )),
-                    stage().getHeight() - MathUtils.random(
-                            (int) Math.ceil(cloud.getHeight()),
-                            (int) stage().getHeight() / 2
-                    )
-            );
-        }
 
         cannon = new Image(SGL.provide(Assets.class).get("cannon.png", Texture.class));
         cannon.setPosition(16, (stage().getViewHeight() / 2.f) + 16);
