@@ -54,7 +54,7 @@ public class Weapon {
 
 
     public static enum Type {
-        Stone(new Level("Stone", 0.2f, 0f, 0, 70f, "stone.png", false, Projectile.Type.StoneProjectile)),
+        Stone(new Level("Stone", 0.2f, 0f, 0, 70f, "raw/Stone/Stone1.png", false, Projectile.Type.StoneProjectile)),
         Bow(new Level("Bow", 0.1f, 60f, 1, 300f, "bow.png", false, Projectile.Type.BowArrow)),
         Crossbow(new Level("Crossbow", 0.5f, 90f, 2, 300f, "crossbow.png", false, Projectile.Type.CrossbowBolt)),
         Speer(new Level("Speer", 2f, 60f, 3, 100f, "speer.png", false, Projectile.Type.Javelin)),

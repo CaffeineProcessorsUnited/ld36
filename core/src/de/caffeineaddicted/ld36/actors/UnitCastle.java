@@ -25,7 +25,7 @@ public class UnitCastle extends UnitBase {
     public UnitCastle(UnitCastle.Weapons weapons) {
         //setBounds(getX(), getY(), getWidth(), getHeight());
         this.weapons = weapons;
-        ACTOR_BASE = addTexture("castle.png");
+        ACTOR_BASE = addTexture("kenney/castle.png");
         weapon = new UnitWeapon();
         ACTOR_WEAPON = addActor(weapon);
         setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());

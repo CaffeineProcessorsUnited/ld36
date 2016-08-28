@@ -78,5 +78,6 @@ public class Assets extends AssetManager {
         load("raw/axe/axe2.png", Texture.class);
         load("raw/axe/axe3.png", Texture.class);
         load("raw/trident/Trident.png", Texture.class);
+        load("raw/enemy_horse_rider/Combined.png", Texture.class);
     }
 }

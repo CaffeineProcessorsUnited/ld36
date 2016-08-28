@@ -1,5 +1,7 @@
 package de.caffeineaddicted.ld36.actors;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
@@ -22,7 +24,7 @@ public class UnitEnemy extends UnitBase {
 
     public void freeze(float freezeTime) {
         this.freezeTime = freezeTime;
-        addTexture(type.fileFreeze);
+        //addTexture(type.fileFreeze);
     }
 
     public void unfreeze() {
@@ -106,8 +108,13 @@ public class UnitEnemy extends UnitBase {
         return "UnitEnemy";
     }
 
+    @Override
+    public String addTexture(String name, Texture texture){
+        return addActor(name, new AnimationRenderer(texture, 4, 100, 100));
+    }
+
     public static enum Type {
-        TEST(1, 20, 100, 0.5f, 200f, 1, 10, "Enemy");
+        TEST(1, 20, 100, 0.5f, 200f, 1, 10, "raw/enemy_horse_rider/Combined.png");
 
         public final float hp;
         public final float armor;
@@ -117,7 +124,6 @@ public class UnitEnemy extends UnitBase {
         public final int points;
         public final int damage;
         public final String fileActive;
-        public final String fileFreeze;
 
         Type(float hp, float armor, float mass, float drag, float speed, int points, int damage, String file) {
             this.hp = hp;
@@ -127,8 +133,7 @@ public class UnitEnemy extends UnitBase {
             this.speed = speed;
             this.points = points;
             this.damage = damage;
-            this.fileActive = file + "_active.png";
-            this.fileFreeze = file + "_frozen.png";
+            this.fileActive = file;
         }
 
         public static Type getRandom(){

@@ -71,7 +71,7 @@ public class GameScreen extends CustomStagedScreen {
     @Override
     public void show() {
         super.show();
-        SGL.provide(BackgroundScreen.class).setBackground("background.png");
+        SGL.provide(BackgroundScreen.class).setBackground("kenney/background.png");
     }
 
     public void addActor(Actor actor){
