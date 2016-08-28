@@ -1,8 +1,7 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import de.caffeineaddicted.ld36.messages.GameOverMessage;
-import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -17,14 +16,13 @@ public class UnitCastle extends UnitBase {
     private float lastShot;
 
 
-    private String ACTOR_BASE = "base";
-    private String ACTOR_WEAPON = "weapon";
+    private String ACTOR_BASE, ACTOR_WEAPON;
 
 
     public UnitCastle(UnitCastle.Weapons weapons) {
         //setBounds(getX(), getY(), getWidth(), getHeight());
         this.weapons = weapons;
-        ACTOR_BASE = addTexture("TowerBase.png");
+        ACTOR_BASE = addTexture("kenney/castle.png");
         weapon = new UnitWeapon();
         ACTOR_WEAPON = addActor(weapon);
         setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
@@ -66,11 +64,11 @@ public class UnitCastle extends UnitBase {
         }
     }
 
-    public boolean isResearching(){
+    public boolean isResearching() {
         return getActiveResearch() >= 0 && getResearchTime() >= 0;
     }
 
-    public int getActiveResearch(){
+    public int getActiveResearch() {
         return activeResearch;
     }
 
@@ -78,8 +76,8 @@ public class UnitCastle extends UnitBase {
         return Math.max(researchTime, 0);
     }
 
-    public Projectile fire(float angle){
-        if(lastShot > 0)
+    public Projectile fire(float angle) {
+        if (lastShot > 0)
             return null;
         lastShot = weapon(activeWeapon).type.getLevel(weapon.getWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
@@ -95,9 +93,7 @@ public class UnitCastle extends UnitBase {
 
     @Override
     protected void onDie() {
-        GameOverMessage message = new GameOverMessage();
-        message.put(GameOverMessage.POINTS, SGL.provide(GameScreen.class).points);
-        SGL.message(message);
+        SGL.provide(DemoModeSaveState.class).provide().loseGame();
     }
 
     @Override
@@ -127,7 +123,6 @@ public class UnitCastle extends UnitBase {
     public void draw(Batch batch, float parentAlpha) {
         getActor(ACTOR_BASE).draw(batch, parentAlpha);
         getActor(ACTOR_WEAPON).draw(batch, parentAlpha);
-
     }
 
     public UnitWeapon getWeapon() {

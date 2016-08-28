@@ -1,7 +1,6 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.sgl.SGL;
@@ -11,6 +10,10 @@ import java.util.ArrayList;
 abstract public class Entity extends Group {
 
     public static ArrayList<Entity> entities = new ArrayList<Entity>();
+
+    public Entity() {
+        entities.add(this);
+    }
 
     public static ArrayList<Entity> GetEntitiesInRect(float x1, float y1, float x2, float y2) {
         ArrayList<Entity> list = new ArrayList<Entity>();
@@ -37,12 +40,7 @@ abstract public class Entity extends Group {
         return list;
     }
 
-
-    public Entity(){
-        entities.add(this);
-    }
-
-    public void destroy(){
+    public void destroy() {
         entities.remove(this);
     }
 

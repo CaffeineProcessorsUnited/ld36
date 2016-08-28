@@ -3,26 +3,24 @@ package de.caffeineaddicted.ld36.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.caffeineaddicted.ld36.messages.ExitGameMessage;
+import de.caffeineaddicted.ld36.messages.ShowAboutMessage;
 import de.caffeineaddicted.ld36.messages.ShowMenuScreenMessage;
 import de.caffeineaddicted.ld36.messages.StartGameMessage;
-import de.caffeineaddicted.ld36.ui.HighscoreList;
 import de.caffeineaddicted.ld36.ui.UIElement;
-import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.utils.Highscore;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.impl.exceptions.ProvidedObjectIsNullException;
 import de.caffeineaddicted.sgl.input.SGLScreenInputMultiplexer;
-import de.caffeineaddicted.sgl.messages.Bundle;
 import de.caffeineaddicted.sgl.messages.Message;
 import de.caffeineaddicted.sgl.messages.MessageReceiver;
 import de.caffeineaddicted.sgl.ui.screens.SGLRootScreen;
@@ -30,8 +28,6 @@ import de.caffeineaddicted.sgl.ui.screens.SGLScreen;
 import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,100 +36,21 @@ import java.util.Map;
  */
 public class MenuScreen extends SGLStagedScreen {
 
-    public static final class Options {
-        public final float marginTop;
-        public final float marginLeft;
-        public final float marginRight;
-        public final float marginBetween;
-        public final float marginTitle;
-        public final Actor title;
-        public final Actor background;
-
-        public Options(float marginTop, float marginLeft, float marginRight, float marginBetween, float marginTitle, Actor title, Actor background) {
-            this.marginTop = marginTop;
-            this.marginLeft = marginLeft;
-            this.marginRight = marginRight;
-            this.marginBetween = marginBetween;
-            this.marginTitle = marginTitle;
-            this.title = title;
-            this.background = background;
-        }
-
-        public static final class Factory {
-            private float marginTop = 0.05f;
-            private float marginLeft = 0.3f;
-            private float marginRight = 0.3f;
-            private float marginBetween = 10;
-            private float marginTitle = 20;
-            private Actor title;
-            private Actor background;
-
-            public Options build() {
-                return new Options(marginTop, marginLeft, marginRight, marginBetween, marginTitle, title, background);
-            }
-
-            public Factory marginTop(float marginTop) {
-                this.marginTop = marginTop;
-                return this;
-            }
-
-            public Factory marginLeft(float marginLeft) {
-                this.marginLeft = marginLeft;
-                return this;
-            }
-
-            public Factory marginRight(float marginRight) {
-                this.marginRight = marginRight;
-                return this;
-            }
-
-            public Factory marginBetween(float marginBetween) {
-                this.marginBetween = marginBetween;
-                return this;
-            }
-
-            public Factory marginTitle(float marginTitle) {
-                this.marginTitle = marginTitle;
-                return this;
-            }
-
-            public Factory title(Actor title) {
-                this.title = title;
-                return this;
-            }
-
-            public Factory background(Actor background) {
-                this.background = background;
-                return this;
-            }
-        }
-    }
-
-    public static final class Menu {
-        public final Options options;
-        public final com.badlogic.gdx.scenes.scene2d.Actor[] entries;
-
-        public Menu(Options options, com.badlogic.gdx.scenes.scene2d.Actor... entries) {
-            this.options = options;
-            this.entries = entries;
-        }
-
-        public com.badlogic.gdx.scenes.scene2d.Actor get(int i) {
-            return entries[i];
-        }
-
-        public <T> T get(int i, Class<T> type) {
-            return type.cast(get(i));
-        }
-
-        public enum Type {
-            NONE, MAINMENU, ABOUT, DEATH;
-        }
-    }
-
     public final static Map<Menu.Type, Menu> menus = new HashMap<Menu.Type, Menu>();
-
     private Menu.Type currentMenu = Menu.Type.NONE;
+    private BitmapFont font, titleFont;
+
+    private Label.LabelStyle labelFont(Skin skin, BitmapFont font) {
+        Label.LabelStyle style = skin.get(Label.LabelStyle.class);
+        style.font = font;
+        return style;
+    }
+
+    private TextButton.TextButtonStyle textButtonStyle(Skin skin, BitmapFont font) {
+        TextButton.TextButtonStyle style = skin.get(TextButton.TextButtonStyle.class);
+        style.font = font;
+        return style;
+    }
 
     @Override
     public void create() {
@@ -144,16 +61,33 @@ public class MenuScreen extends SGLStagedScreen {
         } catch (ProvidedObjectIsNullException pone) {
             // don't register stage as InputProcessor
         }
-        Skin skin = SGL.provide(Assets.class).get("uiskin.json", Skin.class);
+
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
+        font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
+        FreeTypeFontGenerator.FreeTypeFontParameter titleFontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        titleFontParams.size = Math.round(40 * Gdx.graphics.getDensity());
+        titleFont = SGL.provide(FreeTypeFontGenerator.class).generateFont(titleFontParams);
+
+
+        Label.LabelStyle labelStyle = labelFont(SGL.provide(Skin.class), font);
+        Label.LabelStyle titleLabelStyle = labelFont(SGL.provide(Skin.class), titleFont);
+        TextButton.TextButtonStyle textButtonStyle = textButtonStyle(SGL.provide(Skin.class), font);
         menus.put(Menu.Type.MAINMENU, new Menu(
-                new Options.Factory().title(new Label("Main Menu", skin)).background(new Image(SGL.provide(Assets.class).get("background.png", Texture.class))).build(),
-                new UIElement<TextButton>(new TextButton("Start Game", skin)).addListener(new ClickListener() {
+                new Options.Factory().title(new Label("Main Menu", titleLabelStyle)).build(),
+                new UIElement<TextButton>(new TextButton("Start Game", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SGL.message(new StartGameMessage());
                     }
-                }).setDisabled(false).build(),
-                new UIElement<TextButton>(new TextButton("Exit Game", skin)).addListener(new ClickListener() {
+                }).build(),
+                new UIElement<TextButton>(new TextButton("About", textButtonStyle)).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        SGL.message(new ShowAboutMessage());
+                    }
+                }).build(),
+                new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SGL.message(new ExitGameMessage());
@@ -161,14 +95,14 @@ public class MenuScreen extends SGLStagedScreen {
                 }).build()
         ));
         menus.put(Menu.Type.ABOUT, new Menu(
-                new Options.Factory().title(new Label("About", skin)).build(),
-                new UIElement<TextButton>(new TextButton("Start Game", skin)).addListener(new ClickListener() {
+                new Options.Factory().title(new Label("About", titleLabelStyle)).build(),
+                new UIElement<TextButton>(new TextButton("Start Game", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SGL.message(new StartGameMessage());
                     }
                 }).setDisabled(false).build(),
-                new UIElement<TextButton>(new TextButton("Exit Game", skin)).addListener(new ClickListener() {
+                new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SGL.message(new ExitGameMessage());
@@ -176,9 +110,9 @@ public class MenuScreen extends SGLStagedScreen {
                 }).build()
         ));
         menus.put(Menu.Type.DEATH, new Menu(
-                new Options.Factory().title(new Label("Game Over", skin)).build(),
-                new UIElement<Label>(new Label("Highscore unavailable", skin)).build(),
-                new UIElement<TextButton>(new TextButton("Back", skin)).addListener(new ClickListener() {
+                new Options.Factory().title(new Label("Game Over", titleLabelStyle)).build(),
+                new UIElement<Label>(new Label("Highscore unavailable", labelStyle)).build(),
+                new UIElement<TextButton>(new TextButton("Back", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
@@ -296,5 +230,96 @@ public class MenuScreen extends SGLStagedScreen {
     public void hide() {
         super.hide();
         SGL.provide(InputMultiplexer.class).removeProcessor(stage);
+    }
+
+    public static final class Options {
+        public final float marginTop;
+        public final float marginLeft;
+        public final float marginRight;
+        public final float marginBetween;
+        public final float marginTitle;
+        public final Actor title;
+        public final Actor background;
+
+        public Options(float marginTop, float marginLeft, float marginRight, float marginBetween, float marginTitle, Actor title, Actor background) {
+            this.marginTop = marginTop;
+            this.marginLeft = marginLeft;
+            this.marginRight = marginRight;
+            this.marginBetween = marginBetween;
+            this.marginTitle = marginTitle;
+            this.title = title;
+            this.background = background;
+        }
+
+        public static final class Factory {
+            private float marginTop = 0.05f;
+            private float marginLeft = 0.3f;
+            private float marginRight = 0.3f;
+            private float marginBetween = 10;
+            private float marginTitle = 20;
+            private Actor title;
+            private Actor background;
+
+            public Options build() {
+                return new Options(marginTop, marginLeft, marginRight, marginBetween, marginTitle, title, background);
+            }
+
+            public Factory marginTop(float marginTop) {
+                this.marginTop = marginTop;
+                return this;
+            }
+
+            public Factory marginLeft(float marginLeft) {
+                this.marginLeft = marginLeft;
+                return this;
+            }
+
+            public Factory marginRight(float marginRight) {
+                this.marginRight = marginRight;
+                return this;
+            }
+
+            public Factory marginBetween(float marginBetween) {
+                this.marginBetween = marginBetween;
+                return this;
+            }
+
+            public Factory marginTitle(float marginTitle) {
+                this.marginTitle = marginTitle;
+                return this;
+            }
+
+            public Factory title(Actor title) {
+                this.title = title;
+                return this;
+            }
+
+            public Factory background(Actor background) {
+                this.background = background;
+                return this;
+            }
+        }
+    }
+
+    public static final class Menu {
+        public final Options options;
+        public final com.badlogic.gdx.scenes.scene2d.Actor[] entries;
+
+        public Menu(Options options, com.badlogic.gdx.scenes.scene2d.Actor... entries) {
+            this.options = options;
+            this.entries = entries;
+        }
+
+        public com.badlogic.gdx.scenes.scene2d.Actor get(int i) {
+            return entries[i];
+        }
+
+        public <T> T get(int i, Class<T> type) {
+            return type.cast(get(i));
+        }
+
+        public enum Type {
+            NONE, MAINMENU, ABOUT, DEATH;
+        }
     }
 }

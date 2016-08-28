@@ -1,7 +1,6 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import de.caffeineaddicted.sgl.SGL;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +12,9 @@ public class Group extends Actor {
 
     private String name;
     private Map<String, Actor> children = new HashMap<String, Actor>();
+
+    private boolean autoWidth = true;
+    private boolean autoHeight = true;
 
     public String addActor(Actor a) {
         return addActor(a.getClass().getSimpleName(), a);
@@ -50,13 +52,15 @@ public class Group extends Actor {
 
     @Override
     public void act(float delta) {
-        for (String n: children.keySet()) {
+        for (String n : children.keySet()) {
             children.get(n).act(delta);
         }
     }
 
     public void draw(Batch batch, float parentAlpha) {
-        for (String n: children.keySet()) {
+        if (!isVisible())
+            return;
+        for (String n : children.keySet()) {
             children.get(n).draw(batch, parentAlpha);
         }
     }
@@ -77,44 +81,58 @@ public class Group extends Actor {
     }
 
     @Override
-    protected void positionChanged () {
+    protected void positionChanged() {
         super.positionChanged();
-        for (String n: children.keySet()) {
+        for (String n : children.keySet()) {
             children.get(n).positionChanged();
         }
     }
 
     @Override
-    public float getWidth(){
+    public float getWidth() {
+        if (!autoWidth)
+            return super.getWidth();
         float minX = Float.MAX_VALUE;
-        for(String n: children.keySet()){
-            minX = Math.min(minX,children.get(n).getX());
+        for (String n : children.keySet()) {
+            minX = Math.min(minX, children.get(n).getX());
         }
 
         float maxWidth = 0;
-        for(String n: children.keySet()){
+        for (String n : children.keySet()) {
             Actor child = children.get(n);
-            if(child.getX()+child.getWidth() > minX+maxWidth){
-                maxWidth = child.getX()+child.getWidth()-minX;
+            if (child.getX() + child.getWidth() > minX + maxWidth) {
+                maxWidth = child.getX() + child.getWidth() - minX;
             }
         }
         return maxWidth;
     }
 
     @Override
-    public float getHeight(){
+    public float getHeight() {
+        if (!autoHeight)
+            return super.getHeight();
         float minY = Float.MAX_VALUE;
-        for(String n: children.keySet()){
-            minY = Math.min(minY,children.get(n).getY());
+        for (String n : children.keySet()) {
+            minY = Math.min(minY, children.get(n).getY());
         }
 
         float maxHeight = 0;
-        for(String n: children.keySet()){
+        for (String n : children.keySet()) {
             Actor child = children.get(n);
-            if(child.getY()+child.getHeight() > minY+maxHeight){
-                maxHeight = child.getY()+child.getHeight()-minY;
+            if (child.getY() + child.getHeight() > minY + maxHeight) {
+                maxHeight = child.getY() + child.getHeight() - minY;
             }
         }
         return maxHeight;
+    }
+
+    public Group setAutoWidth(boolean autoWidth) {
+        this.autoWidth = autoWidth;
+        return this;
+    }
+
+    public Group setAutoHeight(boolean autoHeight) {
+        this.autoHeight = autoHeight;
+        return this;
     }
 }

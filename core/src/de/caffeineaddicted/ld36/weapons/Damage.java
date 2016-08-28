@@ -9,13 +9,13 @@ public class Damage {
     private float knockback;
     private float sleep;
 
-    public Damage(){
+    public Damage() {
         this.hp_damage = 0;
         this.knockback = 0;
         this.sleep = 0;
     }
 
-    public Damage(Damage damage){
+    public Damage(Damage damage) {
         this.hp_damage = damage.getHp_damage();
         this.knockback = damage.getKnockback();
         this.sleep = damage.getSleep();

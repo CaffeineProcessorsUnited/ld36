@@ -2,12 +2,11 @@ package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.caffeineaddicted.ld36.LD36;
-import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.messages.FinishedLoadingMessage;
+import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
 
@@ -31,7 +30,7 @@ public class LoadingScreen extends SGLStagedScreen<LD36> {
         SGL.provide(Assets.class).finishLoading();
 
         super.create();
-        background = new Image(provide(Assets.class).get("background.png", Texture.class));
+        background = new Image(provide(Assets.class).get("splash.png", Texture.class));
         stage.addActor(background);
         logo = new Image(provide(Assets.class).get("logo.png", Texture.class));
         stage.addActor(logo);

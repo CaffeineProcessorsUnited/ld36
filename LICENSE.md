@@ -12,3 +12,13 @@ This prject uses libGDX which is licensed under Apache 2.0 License
 ## core/assets/theme.ogg
 core/assets/theme.ogg uses parts of:
 Waking Me Softly by P7R7L5  (DJ Yegor) (c) copyright 2015 Licensed under a Creative Commons Attribution (3.0) license. http://dig.ccmixter.org/files/party_redlight/51666 Ft: snowflake
+
+## Assets
+All assets used for the castle and the background are licensed by Kenney Vleugels:
+License (Creative Commons Zero, CC0)
+http://creativecommons.org/publicdomain/zero/1.0/
+
+You can find these and even more assets at http://kenney.nl
+
+## Roboto-Regular.ttf
+The Roboto font is licensed under Apache License Version 2.0 by Google
