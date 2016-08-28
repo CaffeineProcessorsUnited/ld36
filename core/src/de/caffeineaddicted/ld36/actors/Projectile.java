@@ -102,10 +102,12 @@ public class Projectile extends Entity {
         for(Entity entity: entities){
             if(entity instanceof UnitEnemy){
                 UnitEnemy enemy = (UnitEnemy) entity;
+                finished = true;
+                if(!enemy.alive())
+                    return;
                 Damage damage = calculateDamage(enemy);
                 enemy.freeze(damage.getSleep());
                 enemy.receiveDamage(damage.getHp_damage(), damage.getKnockback());
-                finished = true;
             }
         }
 
