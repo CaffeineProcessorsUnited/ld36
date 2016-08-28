@@ -2,21 +2,20 @@ package de.caffeineaddicted.ld36;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.*;
-import de.caffeineaddicted.ld36.messages.ExitGameMessage;
-import de.caffeineaddicted.ld36.messages.FinishedLoadingMessage;
-import de.caffeineaddicted.ld36.messages.ToggleFullscreenMessage;
-import de.caffeineaddicted.ld36.screens.BackgroundScreen;
-import de.caffeineaddicted.ld36.screens.GameScreen;
-import de.caffeineaddicted.ld36.screens.LoadingScreen;
+import de.caffeineaddicted.ld36.messages.*;
+import de.caffeineaddicted.ld36.screens.*;
 import de.caffeineaddicted.ld36.utils.Assets;
+import de.caffeineaddicted.ld36.utils.Highscore;
 import de.caffeineaddicted.ld36prep.input.GlobalInputProcessor;
 import de.caffeineaddicted.sgl.ApplicationConfiguration;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.SGLGame;
+import de.caffeineaddicted.sgl.messages.Bundle;
 import de.caffeineaddicted.sgl.messages.Message;
 import de.caffeineaddicted.sgl.messages.MessageReceiver;
 import de.caffeineaddicted.sgl.ui.screens.SGLRootScreen;
@@ -41,7 +40,9 @@ public class LD36 extends SGLGame {
         //supply(Viewport.class, new ExtendViewport(config().get(AttributeList.WIDTH), config().get(AttributeList.HEIGHT)));
         supply(SpriteBatch.class, new SpriteBatch());
         supply(ShapeRenderer.class, new ShapeRenderer());
-        multiplexer.addProcessor(provide(GlobalInputProcessor.class));
+        supply(InputMultiplexer.class, multiplexer);
+        supply(Highscore.class, new Highscore());
+        provide(InputMultiplexer.class).addProcessor(provide(GlobalInputProcessor.class));
 		SGL.registerMessageReceiver(ExitGameMessage.class, new MessageReceiver() {
 			@Override
 			public void receiveMessage(Message message) {
@@ -69,18 +70,42 @@ public class LD36 extends SGLGame {
                 if (!paused)
                     provide(Music.class).play();
                 /*
-                    While the libryry calls SGLScreen#create() in SGLScreen#<init>()
+                    While the library calls SGLScreen#create() in SGLScreen#<init>()
                     we have to load the screens after all Assets are loaded
                  */
                 supply(GameScreen.class, new GameScreen());
                 provide(SGLRootScreen.class).loadScreen(provide(GameScreen.class));
+                supply(DemoGameScreen.class, new DemoGameScreen());
+                provide(SGLRootScreen.class).loadScreen(provide(DemoGameScreen.class));
+                supply(MenuScreen.class, new MenuScreen());
+                provide(SGLRootScreen.class).loadScreen(provide(MenuScreen.class));
                 /*
                     ... future versions of the library will fix that
                  */
                 provide(SGLRootScreen.class).hideScreen(LoadingScreen.class);
-                provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.NEAR);
+                SGL.message(new ShowMenuScreenMessage(new Bundle().put(ShowMenuScreenMessage.BUNDLE_MENUTYPE, MenuScreen.Menu.Type.MAINMENU)));
+                provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
+                provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
             }
         });
+        SGL.registerMessageReceiver(StartGameMessage.class, new MessageReceiver() {
+            @Override
+            public void receiveMessage(Message message) {
+                provide(SGLRootScreen.class).hideScreen(DemoGameScreen.class);
+                provide(SGLRootScreen.class).hideScreen(MenuScreen.class);
+                provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.MID);
+            }
+        });
+        SGL.registerMessageReceiver(GameOverMessage.class, new MessageReceiver() {
+            @Override
+            public void receiveMessage(Message message) {
+                provide(Highscore.class).set(message.get(GameOverMessage.POINTS, Integer.class, 0));
+                SGL.message(new ShowMenuScreenMessage(new Bundle().put(ShowMenuScreenMessage.BUNDLE_MENUTYPE, MenuScreen.Menu.Type.DEATH)));
+                provide(SGLRootScreen.class).hideScreen(GameScreen.class);
+                provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
+            }
+        });
+
 
     }
 
@@ -114,5 +139,21 @@ public class LD36 extends SGLGame {
         paused = false;
         if (provides(Music.class)) provide(Music.class).play();
         provide(SGLRootScreen.class).resume();
+    }
+
+    public static class CONSTANTS {
+
+        public final static String PREFERENCE_NAME = "profile";
+
+        /*
+        Preferences keys
+         */
+        public final static String PREF_KEY_HIGHSCORE = "highscore";
+        public final static int PREF_DEF_HIGHSCORE = 0;
+        /*
+        Bundle keys
+         */
+        public static final String BUNDLE_SCORE = "score";
+        public static final String BUNDLE_HARDCORE = "hardcore";
     }
 }
