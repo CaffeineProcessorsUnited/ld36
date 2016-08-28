@@ -78,7 +78,7 @@ public class Cloud extends Image {
     }
 
     private float speed() {
-        return MathUtils.random(2, 10);
+        return MathUtils.random(1, 100) / 10;
     }
 
     private float duration() {

@@ -54,6 +54,12 @@ public class CustomStage extends SGLStage {
         root.removeActor(a);
     }
 
+    @Override
+    public void clear() {
+        super.clear();
+        root.clear();
+    }
+
     public void act(float delta) {
         root.act(delta);
     }
