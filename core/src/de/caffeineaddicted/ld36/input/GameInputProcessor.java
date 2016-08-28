@@ -1,12 +1,12 @@
 package de.caffeineaddicted.ld36.input;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Pools;
 import de.caffeineaddicted.ld36.actors.Actor;
 import de.caffeineaddicted.ld36.actors.Projectile;
-import de.caffeineaddicted.ld36.utils.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.input.SGLInputProcessor;
 
@@ -74,7 +74,7 @@ public class GameInputProcessor extends SGLInputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (screen.getHudAction()) {
             float distance = lastTouched.x - screenX;
-            SGL.game().log(distance +"");
+            SGL.game().log(distance + "");
             screen.getHUD().getButtons().scrollBy(distance);
         } else {
             screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));

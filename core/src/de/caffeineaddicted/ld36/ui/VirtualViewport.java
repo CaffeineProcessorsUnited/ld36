@@ -10,14 +10,6 @@ public class VirtualViewport {
     float virtualWidth;
     float virtualHeight;
 
-    public float getVirtualWidth() {
-        return virtualWidth;
-    }
-
-    public float getVirtualHeight() {
-        return virtualHeight;
-    }
-
     public VirtualViewport(float virtualWidth, float virtualHeight) {
         this(virtualWidth, virtualHeight, false);
     }
@@ -25,6 +17,14 @@ public class VirtualViewport {
     public VirtualViewport(float virtualWidth, float virtualHeight, boolean shrink) {
         this.virtualWidth = virtualWidth;
         this.virtualHeight = virtualHeight;
+    }
+
+    public float getVirtualWidth() {
+        return virtualWidth;
+    }
+
+    public float getVirtualHeight() {
+        return virtualHeight;
     }
 
     public float getWidth() {
@@ -38,10 +38,8 @@ public class VirtualViewport {
     /**
      * Returns the view port width to let all the virtual view port to be shown on the screen.
      *
-     * @param screenWidth
-     *            The screen width.
-     * @param screenHeight
-     *            The screen Height.
+     * @param screenWidth  The screen width.
+     * @param screenHeight The screen Height.
      */
     public float getWidth(float screenWidth, float screenHeight) {
         float virtualAspect = virtualWidth / virtualHeight;
@@ -56,10 +54,8 @@ public class VirtualViewport {
     /**
      * Returns the view port height to let all the virtual view port to be shown on the screen.
      *
-     * @param screenWidth
-     *            The screen width.
-     * @param screenHeight
-     *            The screen Height.
+     * @param screenWidth  The screen width.
+     * @param screenHeight The screen Height.
      */
     public float getHeight(float screenWidth, float screenHeight) {
         float virtualAspect = virtualWidth / virtualHeight;

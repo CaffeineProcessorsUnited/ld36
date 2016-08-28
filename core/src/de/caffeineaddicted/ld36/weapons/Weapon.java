@@ -1,8 +1,6 @@
 package de.caffeineaddicted.ld36.weapons;
 
 import de.caffeineaddicted.ld36.actors.Projectile;
-import de.caffeineaddicted.ld36.screens.GameScreen;
-import de.caffeineaddicted.sgl.SGL;
 
 import java.util.ArrayList;
 
@@ -42,7 +40,7 @@ public class Weapon {
         this.available = available;
     }
 
-    public Projectile fire(float angle){
+    public Projectile fire(float angle) {
         Projectile p = new Projectile(type.getLevel(level).projectile);
         p.setAngle(angle);
         if (type.getLevel(level).singleUse) {
@@ -52,7 +50,6 @@ public class Weapon {
     }
 
 
-
     public static enum Type {
         Stone(new Level("Stone", 0.2f, 0f, 0, 70f, "raw/Stone/Stone1.png", false, Projectile.Type.StoneProjectile)),
         Bow(new Level("Bow", 0.1f, 60f, 1, 300f, "bow.png", false, Projectile.Type.BowArrow)),
@@ -60,7 +57,7 @@ public class Weapon {
         Speer(new Level("Speer", 2f, 60f, 3, 100f, "speer.png", false, Projectile.Type.Javelin)),
         Shuriken(new Level("Shuriken", 0.05f, 120f, 5, 90f, "shurkine.png", false, Projectile.Type.Shuriken)),
         Catapult(new Level("Catapult", 5f, 180f, 10, 500f, "catapult.png", false, Projectile.Type.CatapultAmmo)),
-        Balliste(new Level("Baliste",  7f, 210f, 10, 500f, "baliste.png", false, Projectile.Type.BallisteArrow)),
+        Balliste(new Level("Baliste", 7f, 210f, 10, 500f, "baliste.png", false, Projectile.Type.BallisteArrow)),
         Cannon(new Level("Cannon", 6f, 240f, 12, 500f, "cannon.png", false, Projectile.Type.CannonBall)),
         ExplosiveBarrel(new Level("Explosive Barrel", 10f, 270f, 15, 80f, "explosivebarrel.png", false, Projectile.Type.ExplosiveBarrel)),
         Tomahawk(new Level("Tomahawk", 3f, 60f, 4, 90f, "tomahawk.png", false, Projectile.Type.Tomahawk)),
@@ -69,22 +66,22 @@ public class Weapon {
 
         private ArrayList<Level> levels = new ArrayList<Level>();
 
-        Type(Level... levels){
-            for ( Level l: levels ){
+        Type(Level... levels) {
+            for (Level l : levels) {
                 this.levels.add(l);
             }
 
         }
 
-        public int maxlevel(){
+        public int maxlevel() {
             return this.levels.size() - 1;
         }
 
-        public Level getLevel(int level){
+        public Level getLevel(int level) {
             return this.levels.get(level);
         }
 
-        public static class Level{
+        public static class Level {
             public final String name;
             public final float reload_time;
             public final float research_time;
@@ -94,7 +91,7 @@ public class Weapon {
             public final boolean singleUse;
             public final Projectile.Type projectile;
 
-            Level(String name, float reload_time, float research_time, int unlockPrice, float range, String texture, boolean singleUse,Projectile.Type projectile) {
+            Level(String name, float reload_time, float research_time, int unlockPrice, float range, String texture, boolean singleUse, Projectile.Type projectile) {
                 this.name = name;
                 this.reload_time = reload_time;
                 this.research_time = research_time;

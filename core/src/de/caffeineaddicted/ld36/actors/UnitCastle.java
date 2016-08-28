@@ -1,9 +1,6 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import de.caffeineaddicted.ld36.messages.GameOverMessage;
-import de.caffeineaddicted.ld36.screens.DemoGameScreen;
-import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
@@ -67,11 +64,11 @@ public class UnitCastle extends UnitBase {
         }
     }
 
-    public boolean isResearching(){
+    public boolean isResearching() {
         return getActiveResearch() >= 0 && getResearchTime() >= 0;
     }
 
-    public int getActiveResearch(){
+    public int getActiveResearch() {
         return activeResearch;
     }
 
@@ -79,8 +76,8 @@ public class UnitCastle extends UnitBase {
         return Math.max(researchTime, 0);
     }
 
-    public Projectile fire(float angle){
-        if(lastShot > 0)
+    public Projectile fire(float angle) {
+        if (lastShot > 0)
             return null;
         lastShot = weapon(activeWeapon).type.getLevel(weapon.getWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
@@ -102,7 +99,7 @@ public class UnitCastle extends UnitBase {
     @Override
     protected void positionChanged() {
         super.positionChanged();
-        com.badlogic.gdx.scenes.scene2d.Actor a = getActor(ACTOR_WEAPON);
+        Actor a = getActor(ACTOR_WEAPON);
         a.setPosition(getWidth() - a.getWidth(), getHeight() - a.getHeight());
     }
 

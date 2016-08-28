@@ -1,12 +1,7 @@
 package de.caffeineaddicted.ld36.actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.weapons.Weapon;
-import de.caffeineaddicted.sgl.SGL;
 
 public class UnitWeapon extends Entity {
 

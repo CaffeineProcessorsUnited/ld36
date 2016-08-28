@@ -3,7 +3,6 @@ package de.caffeineaddicted.ld36.actors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.utils.MathUtils;
-import de.caffeineaddicted.sgl.SGL;
 
 import java.util.ArrayList;
 
@@ -11,17 +10,12 @@ import java.util.ArrayList;
  * @author Malte Heinzelmann
  */
 public class ScrollContainer extends Group {
-    public enum Direction{
-        HORIZONTAL, VERTICAL
-    }
-
     private final ArrayList<Actor> children = new ArrayList<Actor>();
     private final Direction direction;
     private float offset = 0;
     private float margin = 0;
     private float outerWidth;
     private float outerHeight;
-
     public ScrollContainer(Direction direction) {
         this.direction = direction;
         if (direction == Direction.VERTICAL) {
@@ -36,7 +30,7 @@ public class ScrollContainer extends Group {
 
     public void scroll(float position) {
         if (position > 0 && position != offset && position <= getContentWidth())
-        offset = position;
+            offset = position;
         offsetChanged();
     }
 
@@ -53,23 +47,23 @@ public class ScrollContainer extends Group {
         return getContentWidth();
     }
 
-    public void setOuterWidth(float width) {
-        outerWidth = width;
-    }
-
     public float getOuterWidth() {
         return outerWidth;
+    }
+
+    public void setOuterWidth(float width) {
+        outerWidth = width;
     }
 
     public float getContentWidth() {
         float width = 0;
         if (direction == Direction.HORIZONTAL) {
-            for (Actor a: children) {
+            for (Actor a : children) {
                 width += a.getWidth() + margin;
             }
             width -= margin;
         } else {
-            for (Actor a: children) {
+            for (Actor a : children) {
                 if (a.getWidth() > width) {
                     width = a.getWidth();
                 }
@@ -83,24 +77,24 @@ public class ScrollContainer extends Group {
         return getContentHeight();
     }
 
-    public void setOuterHeight(float height) {
-        outerHeight = height;
-    }
-
     public float getOuterHeight() {
         return outerHeight;
+    }
+
+    public void setOuterHeight(float height) {
+        outerHeight = height;
     }
 
     public float getContentHeight() {
         float height = 0;
         if (direction == Direction.HORIZONTAL) {
-            for (Actor a: children) {
+            for (Actor a : children) {
                 if (a.getHeight() > height) {
                     height = a.getHeight();
                 }
             }
         } else {
-            for (Actor a: children) {
+            for (Actor a : children) {
                 height += a.getHeight() + margin;
             }
             height -= margin;
@@ -137,24 +131,28 @@ public class ScrollContainer extends Group {
         }
     }
 
-    /* Maybe more ArrayList functions for sorting and putting elements at certain positions. */
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        for (Actor a: children) {
+        for (Actor a : children) {
             a.draw(batch, parentAlpha);
         }
     }
 
+    /* Maybe more ArrayList functions for sorting and putting elements at certain positions. */
+
     public Actor getActor(Vector2 lastTouched) {
         Actor actor = null;
-        for (Actor a: children) {
+        for (Actor a : children) {
             if (MathUtils.pointInRect(lastTouched.x, lastTouched.y, a.getX(), a.getY(), a.getTRX(), a.getTRY())) {
                 actor = a;
                 break;
             }
         }
         return actor;
+    }
+
+    public enum Direction {
+        HORIZONTAL, VERTICAL
     }
 
 }

@@ -1,23 +1,16 @@
 package de.caffeineaddicted.ld36.actors;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import de.caffeineaddicted.sgl.SGL;
-import de.caffeineaddicted.sgl.input.SGLInputProcessor;
 
 /**
  * @author Malte Heinzelmann
  */
 public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
-    private Group parent;
-    private Stage stage;
-
     protected Vector2 center = new Vector2();
     protected Vector2 centerpoint = new Vector2();
+    private Group parent;
+    private Stage stage;
 
     public void init() {
         sizeChanged();

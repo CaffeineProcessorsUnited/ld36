@@ -2,12 +2,11 @@ package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.caffeineaddicted.ld36.LD36;
-import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.messages.FinishedLoadingMessage;
+import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
 

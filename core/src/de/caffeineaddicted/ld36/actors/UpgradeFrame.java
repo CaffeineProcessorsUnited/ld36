@@ -1,13 +1,9 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.sgl.SGL;
 

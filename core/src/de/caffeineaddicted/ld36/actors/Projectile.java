@@ -21,7 +21,7 @@ public class Projectile extends Entity {
         update();
     }
 
-    public void onDie(){
+    public void onDie() {
         SGL.provide(DemoModeSaveState.class).provide().deleteLater.add(this);
     }
 
@@ -35,13 +35,13 @@ public class Projectile extends Entity {
         //Calculate Hp Damage
         float hpDamage = 0;
         //chanse to pierce armor -> full damage
-        if ( Math.random() < this.type.armor_piercing ){
+        if (Math.random() < this.type.armor_piercing) {
             hpDamage = this.type.damage;
         } else {
-            float damageReduction = (float)( 1 - (Math.sqrt(enemy.type.armor) / 20));
+            float damageReduction = (float) (1 - (Math.sqrt(enemy.type.armor) / 20));
             hpDamage = this.type.damage * damageReduction;
         }
-        if ( Math.random() < this.type.crit_hit_chance ){
+        if (Math.random() < this.type.crit_hit_chance) {
             hpDamage *= 2;
         }
         enemydamage.setHp_damage(hpDamage);
@@ -50,7 +50,7 @@ public class Projectile extends Entity {
         float distance = enemy.getX() - this.getX();
         float knockbackForce = this.type.knockback / (distance * distance + 1);
         float knockbackSpeed = knockbackForce / enemy.type.mass;
-        if ( distance < 0 ) {
+        if (distance < 0) {
             knockbackSpeed *= -1;
         }
         enemydamage.setKnockback(knockbackSpeed);
@@ -63,20 +63,20 @@ public class Projectile extends Entity {
             sleep = true;
         }
         if (sleep) {
-            enemydamage.setSleep((float)((maxsleeptime-minsleeptime) * Math.random() + minsleeptime));
+            enemydamage.setSleep((float) ((maxsleeptime - minsleeptime) * Math.random() + minsleeptime));
         } else {
             enemydamage.setSleep(0);
         }
         return enemydamage;
     }
 
-    public Vector2 nextPosition(Vector2 pos,float delta){
-        directionY -= GameScreen.gravity*delta*delta;
-        float newX = pos.x+type.speed*directionX*delta;
-        float newY = pos.y+type.speed*directionY*delta;
-        if(newY < GameScreen.groundHeight){
-            float percentage = (pos.y-GameScreen.groundHeight)/(pos.y-newY);
-            newX = pos.x + percentage*(newX - pos.x);
+    public Vector2 nextPosition(Vector2 pos, float delta) {
+        directionY -= GameScreen.gravity * delta * delta;
+        float newX = pos.x + type.speed * directionX * delta;
+        float newY = pos.y + type.speed * directionY * delta;
+        if (newY < GameScreen.groundHeight) {
+            float percentage = (pos.y - GameScreen.groundHeight) / (pos.y - newY);
+            newX = pos.x + percentage * (newX - pos.x);
             newY = GameScreen.groundHeight;
         }
         return new Vector2(newX, newY);
@@ -89,22 +89,22 @@ public class Projectile extends Entity {
 
     @Override
     public void act(float delta) {
-        if(finished) {
+        if (finished) {
             onDie();
             return;
         }
         super.act(delta);
 
-        Vector2 pos = nextPosition(getCenterPoint(),delta);
+        Vector2 pos = nextPosition(getCenterPoint(), delta);
         setX(pos.x);
         setY(pos.y);
 
-        ArrayList<Entity> entities = Entity.getEntitiesInRange(pos.x,pos.y,type.range);
-        for(Entity entity: entities){
-            if(entity instanceof UnitEnemy){
+        ArrayList<Entity> entities = Entity.getEntitiesInRange(pos.x, pos.y, type.range);
+        for (Entity entity : entities) {
+            if (entity instanceof UnitEnemy) {
                 UnitEnemy enemy = (UnitEnemy) entity;
                 finished = true;
-                if(!enemy.alive())
+                if (!enemy.alive())
                     return;
                 Damage damage = calculateDamage(enemy);
                 enemy.freeze(damage.getSleep());
@@ -112,16 +112,16 @@ public class Projectile extends Entity {
             }
         }
 
-        if(pos.y <= GameScreen.groundHeight){
+        if (pos.y <= GameScreen.groundHeight) {
             finished = true;
         }
     }
 
-    public static enum Type{
+    public static enum Type {
         StoneProjectile(200f, 50f, "raw/Stone/Stone1.png", 5.0f, 0f, 0.05f, 20f, 0.1f, 0f),
         BowArrow(400f, 2f, "raw/arrow/arrow1.png", 10f, 0f, 0.1f, 5f, 0f, 0f),
         CrossbowBolt(400f, 2f, "raw/crossbow/bolt.png", 30f, 0.3f, 0.2f, 0f, 0.2f, 0f),
-        Javelin(250f,  100f, "raw/Javelin/Javelin1.png", 50f, 0.5f, 0.25f, 40f, 0.1f, 0f),
+        Javelin(250f, 100f, "raw/Javelin/Javelin1.png", 50f, 0.5f, 0.25f, 40f, 0.1f, 0f),
         Shuriken(200f, 1f, "raw/shuriken/Shuriken1.png", 30f, 0f, 0.8f, 0f, 0f, 0f),
         CatapultAmmo(100f, 200f, "raw/Stone/Stone3.png", 100f, 0.5f, 0.9f, 50f, 0.5f, 10f),
         BallisteArrow(400f, 150f, "raw/Javelin/Javelin3.png", 120f, 0.7f, 0.7f, 400f, 0.8f, 0f),
@@ -143,7 +143,7 @@ public class Projectile extends Entity {
         public final float range;
 
 
-        Type(float speed, float weight, String texture, float damage, float armor_piercing, float crit_hit_chance,float knockback, float freeze_chance, float range){
+        Type(float speed, float weight, String texture, float damage, float armor_piercing, float crit_hit_chance, float knockback, float freeze_chance, float range) {
             this.speed = speed;
             this.weight = weight;
             this.texture = texture;

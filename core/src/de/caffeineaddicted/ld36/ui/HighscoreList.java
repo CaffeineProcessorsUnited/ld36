@@ -1,13 +1,8 @@
 package de.caffeineaddicted.ld36.ui;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import de.caffeineaddicted.ld36.screens.MenuScreen;
-import de.caffeineaddicted.sgl.SGL;
 
 /**
  * @author Malte Heinzelmann
@@ -36,7 +31,7 @@ public class HighscoreList extends Group {
         dirty = true;
     }
 
-    public void act (float delta) {
+    public void act(float delta) {
         super.act(delta);
         if (dirty) {
             clear();

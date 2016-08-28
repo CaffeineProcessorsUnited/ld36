@@ -2,11 +2,9 @@ package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.caffeineaddicted.ld36.CustomStagedScreen;
 import de.caffeineaddicted.ld36.actors.*;
@@ -27,22 +25,18 @@ import java.util.Iterator;
  * @author Malte Heinzelmann
  */
 public class GameScreen extends CustomStagedScreen {
-    private UnitCastle castle;
-    private Image cannon;
-    private BitmapFont font;
-
-    private boolean shouldReset = false;
-
-    public int points;
     public static int groundHeight = 75;
     public static float gravity = 9.81f;
     public static Vector2 spawnPosition;
-
+    private final boolean demo;
+    public int points;
     public String ACTOR_CASTLE, ACTOR_HUD;
     public ArrayList<Actor> deleteLater = new ArrayList<Actor>();
+    private UnitCastle castle;
+    private Image cannon;
+    private BitmapFont font;
+    private boolean shouldReset = false;
     private WaveGenerator waveGenerator;
-
-    private final boolean demo;
     private boolean hudAction;
 
     public GameScreen() {
@@ -74,16 +68,16 @@ public class GameScreen extends CustomStagedScreen {
         SGL.provide(BackgroundScreen.class).setBackground("kenney/background.png");
     }
 
-    public void addActor(Actor actor){
+    public void addActor(Actor actor) {
         stage().addActor(actor);
     }
 
     @Override
     public void act(float delta) {
         Iterator<Actor> iterator = deleteLater.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Actor actor = iterator.next();
-            if(actor.parent() != null)
+            if (actor.parent() != null)
                 actor.parent().removeActor(actor);
             else
                 actor.remove();
@@ -97,7 +91,7 @@ public class GameScreen extends CustomStagedScreen {
         int alive = 0;
         for (Entity entity : Entity.entities) {
             if (entity instanceof UnitEnemy) {
-                UnitEnemy enemy = (UnitEnemy)entity;
+                UnitEnemy enemy = (UnitEnemy) entity;
                 if (enemy.alive())
                     alive++;
             }
@@ -166,12 +160,12 @@ public class GameScreen extends CustomStagedScreen {
         return stage().getActor(ACTOR_HUD, HUD.class);
     }
 
-    public void setHudAction(boolean hudAction) {
-        this.hudAction = hudAction;
-    }
-
     public boolean getHudAction() {
         return hudAction;
+    }
+
+    public void setHudAction(boolean hudAction) {
+        this.hudAction = hudAction;
     }
 
     public void loseGame() {
@@ -184,12 +178,12 @@ public class GameScreen extends CustomStagedScreen {
         }
     }
 
-    public void reset(){
+    public void reset() {
         SGL.provide(DemoModeSaveState.class).set(demo);
         Iterator<Entity> iterator = Entity.entities.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Actor actor = iterator.next();
-            if(actor.parent() != null)
+            if (actor.parent() != null)
                 actor.parent().removeActor(actor);
             else
                 actor.remove();

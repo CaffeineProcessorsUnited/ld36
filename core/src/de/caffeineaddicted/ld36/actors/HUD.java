@@ -2,8 +2,6 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.sgl.SGL;
 

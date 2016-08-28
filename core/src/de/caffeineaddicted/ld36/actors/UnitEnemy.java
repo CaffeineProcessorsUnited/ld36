@@ -1,14 +1,10 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.sgl.SGL;
-import de.caffeineaddicted.sgl.ui.screens.SGLStage;
-
-import java.util.ArrayList;
 
 public class UnitEnemy extends UnitBase {
     public UnitEnemy.Type type;
@@ -34,19 +30,19 @@ public class UnitEnemy extends UnitBase {
 
     @Override
     public void receiveDamage(float damage) {
-        if(getHp() < 0)
+        if (getHp() < 0)
             return;
         super.receiveDamage(damage);
         knockbackTime = 0;
     }
 
     public void receiveDamage(float damage, float knockback) {
-        SGL.game().debug("RECEIVED DAMAGE:d:"+damage+",k:"+knockback);
+        SGL.game().debug("RECEIVED DAMAGE:d:" + damage + ",k:" + knockback);
         receiveDamage(damage);
         speed -= knockback;
         knockbackTime = 0;
 
-        if(getHp() < 0)
+        if (getHp() < 0)
             onDie();
 
     }
@@ -69,11 +65,10 @@ public class UnitEnemy extends UnitBase {
 
         UnitCastle castle = SGL.provide(DemoModeSaveState.class).provide().getCastle();
 
-        if(MathUtils.intersectRect(getX(), getY(),
-                getX()+getWidth(),getY()+getHeight(),
-                castle.getX(),castle.getY(),
-                castle.getX()+castle.getWidth(),castle.getY()+castle.getHeight()))
-        {
+        if (MathUtils.intersectRect(getX(), getY(),
+                getX() + getWidth(), getY() + getHeight(),
+                castle.getX(), castle.getY(),
+                castle.getX() + castle.getWidth(), castle.getY() + castle.getHeight())) {
             castle.receiveDamage(type.damage);
             SGL.game().log("----UNICORN-----");
             SGL.provide(GameScreen.class).points -= type.points;
@@ -81,8 +76,8 @@ public class UnitEnemy extends UnitBase {
             return;
         }
 
-        if(getY() > GameScreen.groundHeight){
-            setY(Math.max(GameScreen.groundHeight, getY()-GameScreen.gravity*delta));
+        if (getY() > GameScreen.groundHeight) {
+            setY(Math.max(GameScreen.groundHeight, getY() - GameScreen.gravity * delta));
         }
 
         float speedDiff = speed - type.speed;
@@ -100,7 +95,7 @@ public class UnitEnemy extends UnitBase {
         if (freezeTime > 0)
             return;
 
-        setX(getX() - speed*delta);
+        setX(getX() - speed * delta);
     }
 
     @Override
@@ -109,8 +104,8 @@ public class UnitEnemy extends UnitBase {
     }
 
     @Override
-    public String addTexture(String name, Texture texture){
-        return addActor(name, new AnimationRenderer(texture, 4, 100, 100));
+    public String addTexture(String name, Texture texture) {
+        return addActor(name, new Animation(texture, 4, 100, 100));
     }
 
     public static enum Type {
@@ -136,8 +131,8 @@ public class UnitEnemy extends UnitBase {
             this.fileActive = file;
         }
 
-        public static Type getRandom(){
-            return values()[MathUtils.random(0,values().length-1)];
+        public static Type getRandom() {
+            return values()[MathUtils.random(0, values().length - 1)];
         }
     }
 }

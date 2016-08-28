@@ -1,16 +1,10 @@
 package de.caffeineaddicted.ld36;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import de.caffeineaddicted.ld36.actors.Group;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.impl.exceptions.ProvidedObjectIsNullException;
 import de.caffeineaddicted.sgl.input.SGLScreenInputMultiplexer;
-import de.caffeineaddicted.sgl.ui.screens.SGLStage;
 import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
 
 /**
