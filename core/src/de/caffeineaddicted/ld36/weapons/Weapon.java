@@ -32,7 +32,13 @@ public class Weapon {
 
 
     public static enum Type {
-        TestWeapon("Sample Weapon", 1f, 10f, 200f, "cannon.png", Projectile.Type.TestProjectile);
+        Stone("Stone", 0.2f, 0f, 70f, "cannon.png", Projectile.Type.StoneProjectile),
+        Bow("Bow", 0.1f, 60f, 300f, "bow.png", Projectile.Type.BowArrow),
+        Crossbow("Crossbow", 0.5f, 90f, 300f, "crossbow.png", Projectile.Type.CrossbowBolt),
+        Speer("Speer", 2f, 60f, 100f, "speer.png", Projectile.Type.ThrowableSpeer),
+        Shuriken("Shuriken", 0.05f, 120f, 90f, "shurkine.png", Projectile.Type.Shuriken),
+        Catapult("Catapult", 5f, 300f, 2f, "catapult.png", Projectile.Type.CatapultAmmo),
+        Baliste("Baliste",  7f, 400f, 2f, "baliste.png", Projectile.Type.ballisteArrow);
 
         public final String name;
         public final float reload_time;
