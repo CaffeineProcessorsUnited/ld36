@@ -101,6 +101,7 @@ public class LD36 extends SGLGame {
             public void receiveMessage(Message message) {
                 provide(SGLRootScreen.class).hideScreen(MenuScreen.class);
                 provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.MID);
+                ((GameScreen)provide(SGLRootScreen.class).get(GameScreen.class)).reset();
             }
         });
         SGL.registerMessageReceiver(GameOverMessage.class, new MessageReceiver() {
