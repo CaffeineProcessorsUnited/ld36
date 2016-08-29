@@ -128,10 +128,12 @@ public class HUD extends Entity {
 
     public void upgrade() {
         SGL.game().log("UPGRADE");
+        SGL.provide(GameScreen.class).getCastle().startResearch(currentWeaponType);
     }
 
     public void select() {
         SGL.game().log("SELECT");
+        SGL.provide(GameScreen.class).getCastle().setActiveWeapon(currentWeaponType);
     }
 
     public Weapon.Type getWeaponType() {
