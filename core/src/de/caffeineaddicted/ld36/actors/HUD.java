@@ -61,7 +61,7 @@ public class HUD extends Entity {
         ((UpgradeFrame) a).setAutoWidth(false);
         ((UpgradeFrame) a).setAutoHeight(false);
         a.setWidth(getWidth() * 0.3f);
-        a.setHeight(getHeight() * 0.4f);
+        a.setHeight(getHeight() * 0.5f);
         a.setPosition(getWidth() * 0.6f, getHeight() * 0.3f);
         a = getActor(ACTOR_SELECTFRAME);
         ((SelectFrame) a).setAutoWidth(false);
