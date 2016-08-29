@@ -108,6 +108,10 @@ public class Assets extends AssetManager {
         load("raw/Javelin/Javelin1.png", Texture.class);
         load("raw/Javelin/Javelin2.png", Texture.class);
         load("raw/Javelin/Javelin3.png", Texture.class);
+        load("raw/Javelin/Soldier1.png", Texture.class);
+        load("raw/Javelin/Soldier2.png", Texture.class);
+        load("raw/Javelin/Soldier3.png", Texture.class);
+        load("raw/Javelin/Combined.png", Texture.class);
         load("raw/shuriken/Shuriken1.png", Texture.class);
         load("raw/shuriken/Shuriken2.png", Texture.class);
         load("raw/shuriken/Shuriken3.png", Texture.class);
