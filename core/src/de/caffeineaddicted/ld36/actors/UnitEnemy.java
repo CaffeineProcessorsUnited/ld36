@@ -78,11 +78,14 @@ public class UnitEnemy extends UnitBase {
                 getX() + getWidth(), getY() + getHeight(),
                 castle.getX(), castle.getY(),
                 castle.getX() + castle.getWidth(), castle.getY() + castle.getHeight())) {
-            castle.receiveDamage(type.damage);
-            SGL.game().log("----UNICORN-----");
-            SGL.provide(GameScreen.class).points -= type.points;
-            onDie();
-            return;
+            if(alive()) {
+                castle.receiveDamage(type.damage);
+                SGL.game().log("----UNICORN-----");
+                SGL.provide(GameScreen.class).points -= type.points;
+                setHp(-1);
+                onDie();
+                return;
+            }
         }
         float nexty = getY();
         if (getY() > GameScreen.groundHeight) {

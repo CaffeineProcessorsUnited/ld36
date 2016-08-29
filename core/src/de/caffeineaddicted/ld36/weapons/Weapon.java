@@ -1,5 +1,6 @@
 package de.caffeineaddicted.ld36.weapons;
 
+import de.caffeineaddicted.ld36.actors.Image;
 import de.caffeineaddicted.ld36.actors.Projectile;
 
 import java.util.ArrayList;
@@ -52,18 +53,18 @@ public class Weapon {
 
     public static enum Type {
         // TODO: adjust textures
-        Stone(new Level("Stone", 0.2f, 0f, 0, 70f, "raw/Stone/Stone1.png", false, Projectile.Type.StoneProjectile)),
-        Bow(new Level("Bow", 0.1f, 60f, 1, 300f, "raw/arrow/arrow3.png", false, Projectile.Type.BowArrow)),
-        Crossbow(new Level("Crossbow", 0.5f, 90f, 2, 300f, "raw/crossbow/bolt.png", false, Projectile.Type.CrossbowBolt)),
-        Speer(new Level("Speer", 2f, 60f, 3, 100f, "raw/Javelin/Javelin3.png", false, Projectile.Type.Javelin)),
-        Shuriken(new Level("Shuriken", 0.05f, 120f, 5, 90f, "raw/shuriken/Shuriken2.png", false, Projectile.Type.Shuriken)),
-        Catapult(new Level("Catapult", 5f, 180f, 10, 500f, "cannon.png", false, Projectile.Type.CatapultAmmo)),
-        Balliste(new Level("Baliste", 7f, 210f, 10, 500f, "cannon.png", false, Projectile.Type.BallisteArrow)),
-        Cannon(new Level("Cannon", 6f, 240f, 12, 500f, "raw/cannon/step1.png", false, Projectile.Type.CannonBall)),
-        ExplosiveBarrel(new Level("Explosive Barrel", 10f, 270f, 15, 80f, "raw/barrel/Barrel.png", false, Projectile.Type.ExplosiveBarrel)),
-        Tomahawk(new Level("Tomahawk", 3f, 60f, 4, 90f, "raw/axe/axe3.png", false, Projectile.Type.Tomahawk)),
-        Trident(new Level("Trident", 4f, 90f, 7, 100f, "raw/trident/Trident.png", false, Projectile.Type.Trident)),
-        UnicornUlt(new Level("Unicorn Ult", 240f, 600f, 20, 1000f, "cannon.png", true, Projectile.Type.Unicorn));
+        Stone(new Level("Stone", 0.2f, 0f, 0, 70f, false, Projectile.Type.StoneProjectile,"raw/Stone/Stone1.png",false,0,0,0)),
+        Bow(new Level("Bow", 0.1f, 60f, 1, 300f, false, Projectile.Type.BowArrow,"raw/arrow/ArchersCombined.png",true,4,128,128)),
+        Crossbow(new Level("Crossbow", 0.5f, 90f, 2, 300f, false, Projectile.Type.CrossbowBolt, "raw/crossbow/bolt.png", false, 0,0,0)),
+        Speer(new Level("Speer", 2f, 60f, 3, 100f, false, Projectile.Type.Javelin,"raw/Javelin/Javelin3.png",false,0,0,0)),
+        Shuriken(new Level("Shuriken", 0.05f, 120f, 5, 90f, false, Projectile.Type.Shuriken,"raw/shuriken/Shuriken2.png",false,0,0,0)),
+        Catapult(new Level("Catapult", 5f, 180f, 10, 500f, false, Projectile.Type.CatapultAmmo,"raw/catapult/Combined.png",true,4,128,128)),
+        Balliste(new Level("Baliste", 7f, 210f, 10, 500f, false, Projectile.Type.BallisteArrow,"raw/balliste/Combined.png",true,3,128,128)),
+        Cannon(new Level("Cannon", 6f, 240f, 12, 500f, false, Projectile.Type.CannonBall,"raw/cannon/Combined.png",true,8,128,128)),
+        ExplosiveBarrel(new Level("Explosive Barrel", 10f, 270f, 15, 80f, false, Projectile.Type.ExplosiveBarrel,"raw/barrel/Barrel.png",false,0,0,0)),
+        Tomahawk(new Level("Tomahawk", 3f, 60f, 4, 90f, false, Projectile.Type.Tomahawk,"raw/axe/axe3.png",false,0,0,0)),
+        Trident(new Level("Trident", 4f, 90f, 7, 100f, false, Projectile.Type.Trident,"raw/trident/Trident.png",false,0,0,0)),
+        UnicornUlt(new Level("Unicorn Ult", 240f, 600f, 20, 1000f, true, Projectile.Type.Unicorn, "cannon.png", false, 0,0,0));
 
         private ArrayList<Level> levels = new ArrayList<Level>();
 
@@ -88,19 +89,29 @@ public class Weapon {
             public final float research_time;
             public final int unlockPrice;
             public final float range;
-            public final String texture;
             public final boolean singleUse;
             public final Projectile.Type projectile;
 
-            Level(String name, float reload_time, float research_time, int unlockPrice, float range, String texture, boolean singleUse, Projectile.Type projectile) {
+            public final String texture;
+            public final boolean isAnimated;
+            public final int animationCount;
+            public final int animationWidth;
+            public final int animationHeight;
+
+            Level(String name, float reload_time, float research_time, int unlockPrice, float range, boolean singleUse, Projectile.Type projectile, String texture, boolean isAnimated, int animationCount, int animationWidth, int animationHeight) {
                 this.name = name;
                 this.reload_time = reload_time;
                 this.research_time = research_time;
                 this.unlockPrice = unlockPrice;
                 this.range = range;
-                this.texture = texture;
                 this.singleUse = singleUse;
                 this.projectile = projectile;
+
+                this.texture = texture;
+                this.isAnimated = isAnimated;
+                this.animationCount = animationCount;
+                this.animationWidth = animationWidth;
+                this.animationHeight = animationHeight;
             }
         }
 

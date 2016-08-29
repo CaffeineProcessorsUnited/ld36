@@ -58,15 +58,17 @@ public class UnitCastle extends UnitBase {
         return weapon(activeWeapon);
     }
 
-    public void setActiveWeapon(Weapon.Type type) {
+    public boolean setActiveWeapon(Weapon.Type type) {
         if(weapon(type) == null)
-            return;
+            return false;
 
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
             unitWeapon.select(weapon(type));
             lastShot = weapon(activeWeapon).type.getLevel(unitWeapon.getWeapon().getLevel()).reload_time;
+            return true;
         }
+        return false;
     }
 
     public void startResearch(Weapon.Type type) {
@@ -81,6 +83,7 @@ public class UnitCastle extends UnitBase {
     public void completeResearch() {
         if (activeResearch != null && researchTime < 0) {
             weapon(activeResearch).setAvailable(true);
+            weapon(activeResearch).levelUp();
             activeResearch = null;
         }
     }

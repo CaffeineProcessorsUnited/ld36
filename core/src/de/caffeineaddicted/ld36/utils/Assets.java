@@ -73,7 +73,11 @@ public class Assets extends AssetManager {
         load("raw/arrow/arrow1.png", Texture.class);
         load("raw/arrow/arrow2.png", Texture.class);
         load("raw/arrow/arrow3.png", Texture.class);
-        load("raw/crossbow/bolt.png", Texture.class);
+        load("raw/arrow/ArchersCombined.png", Texture.class);
+        load("raw/balliste/step1.png", Texture.class);
+        load("raw/balliste/step2.png", Texture.class);
+        load("raw/balliste/step3.png", Texture.class);
+        load("raw/balliste/Combined.png", Texture.class);
         load("raw/cannon/cannonball.png", Texture.class);
         load("raw/cannon/step1.png", Texture.class);
         load("raw/cannon/step2.png", Texture.class);
@@ -82,6 +86,12 @@ public class Assets extends AssetManager {
         load("raw/cannon/step5.png", Texture.class);
         load("raw/cannon/step6.png", Texture.class);
         load("raw/cannon/Combined.png", Texture.class);
+        load("raw/catapult/Combined.png", Texture.class);
+        load("raw/catapult/step1.png", Texture.class);
+        load("raw/catapult/step2.png", Texture.class);
+        load("raw/catapult/step3.png", Texture.class);
+        load("raw/catapult/step4.png", Texture.class);
+        load("raw/crossbow/bolt.png", Texture.class);
         load("raw/Javelin/Javelin1.png", Texture.class);
         load("raw/Javelin/Javelin2.png", Texture.class);
         load("raw/Javelin/Javelin3.png", Texture.class);
