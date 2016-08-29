@@ -31,8 +31,8 @@ public class UnitCastle extends UnitBase {
         }
 
         unitWeapon = new UnitWeapon();
-        weapon(Weapon.Type.Tomahawk).setAvailable(true);
-        setActiveWeapon(Weapon.Type.Tomahawk);
+        weapon(Weapon.Type.Bow).setAvailable(true);
+        setActiveWeapon(Weapon.Type.Bow);
         SGL.game().log("------"+getActiveWeapon().toString());
         unitWeapon.select(getActiveWeapon());
 
@@ -109,6 +109,10 @@ public class UnitCastle extends UnitBase {
             return null;
         lastShot = getActiveWeapon().type.getLevel(getActiveWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
+        Animation fireAnimation = unitWeapon.getAnimation();
+        if(fireAnimation != null) {
+            fireAnimation.triggerAnimation();
+        }
         //SGL.game().debug("xx:"+getUnitWeapon().getActor().getCenterPoint().x+",yy:"+getUnitWeapon().getActor().getCenterPoint().y);
 
         projectile.setCenterPosition(getUnitWeapon().getActor().getCenterPoint().x, getUnitWeapon().getActor().getCenterPoint().y);

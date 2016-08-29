@@ -23,7 +23,6 @@ public class UnitEnemy extends UnitBase {
         setHp(type.hp);
         ACTOR_UNIT = addTexture(type.fileActive);
         healthBar = new ProgressBar(this);
-        healthBar.setWidth(type.width-10);
         ACTOR_HEALTHBAR = addActor(healthBar);
     }
 
@@ -63,9 +62,9 @@ public class UnitEnemy extends UnitBase {
 
     @Override
     protected void positionChanged(){
-        super.positionChanged();
-        Actor b = getActor(ACTOR_HEALTHBAR);
-        b.setPosition(0, 0);
+        //super.positionChanged();
+        //Actor b = getActor(ACTOR_HEALTHBAR);
+        //b.setPosition(0, 0);
     }
 
     @Override

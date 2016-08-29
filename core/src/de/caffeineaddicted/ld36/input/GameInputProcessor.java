@@ -51,7 +51,6 @@ public class GameInputProcessor extends SGLInputProcessor {
             screen.getHUD().startDrag();
         } else {
             screen.getHUD().stopDrag();
-            screen.getCastle().getUnitWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         }
         return false;
     }
@@ -101,7 +100,6 @@ public class GameInputProcessor extends SGLInputProcessor {
             Projectile projectile = screen.getCastle().fire(angle);
             if (projectile != null) {
                 screen.stage().addActor(projectile);
-                screen.getCastle().getUnitWeapon().getActor().setRotation(angle);
             }
         }
         screen.getHUD().stopDrag();
@@ -116,7 +114,6 @@ public class GameInputProcessor extends SGLInputProcessor {
             SGL.game().log(distance + "");
             screen.getHUD().getButtons().scrollBy(distance);
         } else {
-            screen.getCastle().getUnitWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         }
         /*
         float dist = (lastTouch.x - screenX);
@@ -160,7 +157,6 @@ public class GameInputProcessor extends SGLInputProcessor {
             event.setStageY(screenY);
             lastOver.fire(event);
         }
-        screen.getCastle().getUnitWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         return false;
     }
 
