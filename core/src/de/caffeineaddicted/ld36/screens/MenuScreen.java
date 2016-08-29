@@ -125,6 +125,26 @@ public class MenuScreen extends SGLStagedScreen {
         menus.put(Menu.Type.ABOUT, new Menu(
                 new Options.Factory().build()
         ));
+        menus.put(Menu.Type.PAUSE, new Menu(
+                new Options.Factory().title(new Label("Pause", titleLabelStyle)).build(),
+                new UIElement<TextButton>(new TextButton("Continue", textButtonStyle)).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        SGL.message(new ContinueGameMessage());
+                    }
+                }).build(),
+                new UIElement<TextButton>(new TextButton("Return to main menu", textButtonStyle)).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        SGL.provide(GameScreen.class).reset();
+                        SGL.provide(DemoGameScreen.class).reset();
+                        SGL.provide(SGLRootScreen.class).hideScreen(GameScreen.class);
+                        SGL.provide(DemoGameScreen.class).reset();
+                        SGL.provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
+                        SGL.message(new ShowMenuScreenMessage(Menu.Type.MAINMENU));
+                    }
+                }).build()
+        ));
         menus.put(Menu.Type.DEATH, new Menu(
                 new Options.Factory().title(new Label("Game Over", titleLabelStyle)).build(),
                 new UIElement<Label>(new Label("Highscore unavailable", labelStyle)).build(),
@@ -355,7 +375,7 @@ public class MenuScreen extends SGLStagedScreen {
         }
 
         public enum Type {
-            NONE, MAINMENU, ABOUT, DEATH, HOWTOPLAY;
+            NONE, MAINMENU, ABOUT, DEATH, HOWTOPLAY, PAUSE;
         }
     }
 }

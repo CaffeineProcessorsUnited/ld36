@@ -28,9 +28,32 @@ public class UpgradeFrame extends Entity {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RobotoMono-Medium.ttf"));
         font = generator.generateFont(fontParams);
         ACTOR_BUTTON = addActor(ImageButton.createImageButton(
+                new String[]{"buy_default.png"},
+                new String[]{"buy_active.png"},
                 new String[]{"upgrade_default.png"},
-                new String[]{"upgrade_active.png"}
+                new String[]{"upgrade_active.png"},
+                new String[]{"upgrade_disabled.png"}
         ));
+        getActor(ACTOR_BUTTON, ImageButton.class).setSelection(new ImageButton.DrawableSelection() {
+            @Override
+            public int select(ImageButton button) {
+                Weapon weapon = SGL.provide(GameScreen.class).getCastle().weapon(getSelectedWeaponType());
+                if (weapon.getLevel() == 0 && !weapon.isAvailable()) {
+                    if (button.isHovered()) {
+                        return 1;
+                    }
+                    return 0;
+                } else {
+                    if (!weapon.levelUpAvailable()) {
+                        return 4;
+                    }
+                    if (button.isHovered()) {
+                        return 3;
+                    }
+                    return 2;
+                }
+            }
+        });
     }
 
     public Actor getButton() {
@@ -89,7 +112,7 @@ public class UpgradeFrame extends Entity {
         getActor(ACTOR_BUTTON).draw(batch, parentAlpha);
     }
 
-    private Weapon.Type getSelectedWeaponType () {
+    private Weapon.Type getSelectedWeaponType() {
         return SGL.provide(GameScreen.class).getHUD().getWeaponType();
     }
 

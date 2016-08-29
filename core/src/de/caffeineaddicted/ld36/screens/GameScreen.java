@@ -14,6 +14,7 @@ import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.wave.WaveGenerator;
 import de.caffeineaddicted.ld36.wave.WaveGeneratorDefer;
 import de.caffeineaddicted.sgl.SGL;
+import de.caffeineaddicted.sgl.input.SGLScreenInputMultiplexer;
 import de.caffeineaddicted.sgl.ui.screens.SGLScreen;
 
 import java.lang.reflect.Field;
@@ -68,6 +69,19 @@ public class GameScreen extends CustomStagedScreen {
         super.show();
         SGL.provide(BackgroundScreen.class).setBackground("kenney/background.png");
         if (stage().getActor(ACTOR_HUD) != null) stage().getActor(ACTOR_HUD).setVisible(drawHud);
+        if (!demo) {
+            registerInputListener(new GameInputProcessor(this));
+        }
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        SGL.provide(BackgroundScreen.class).setBackground("kenney/background.png");
+        if (stage().getActor(ACTOR_HUD) != null) stage().getActor(ACTOR_HUD).setVisible(drawHud);
+        if (!demo) {
+            SGL.game().provide(SGLScreenInputMultiplexer.class).removeProcessor(this);
+        }
     }
 
     public void addActor(Actor actor) {

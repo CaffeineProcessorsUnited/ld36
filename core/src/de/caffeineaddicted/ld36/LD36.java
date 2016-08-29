@@ -107,17 +107,16 @@ public class LD36 extends SGLGame {
                     ... future versions of the library will fix that
                  */
                 provide(SGLRootScreen.class).hideScreen(LoadingScreen.class);
+                provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
                 SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
             }
         });
         SGL.registerMessageReceiver(ShowMenuScreenMessage.class, new MessageReceiver() {
             @Override
             public void receiveMessage(Message message) {
-                provide(SGLRootScreen.class).hideScreen(GameScreen.class);
                 provide(SGLRootScreen.class).hideScreen(HowToPlayScreen.class);
                 provide(SGLRootScreen.class).hideScreen(AboutScreen.class);
                 provide(DemoGameScreen.class).setDrawHud(false);
-                provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
                 provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
             }
         });
@@ -131,12 +130,28 @@ public class LD36 extends SGLGame {
                 provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.MID);
             }
         });
+        SGL.registerMessageReceiver(PauseGameMessage.class, new MessageReceiver() {
+            @Override
+            public void receiveMessage(Message message) {
+                provide(DemoGameScreen.class).setDrawHud(true);
+                provide(GameScreen.class).pause();
+                SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.PAUSE));
+            }
+        });
+        SGL.registerMessageReceiver(ContinueGameMessage.class, new MessageReceiver() {
+            @Override
+            public void receiveMessage(Message message) {
+                provide(SGLRootScreen.class).hideScreen(MenuScreen.class);
+                provide(SGLRootScreen.class).get(GameScreen.class).resume();
+            }
+        });
         SGL.registerMessageReceiver(GameOverMessage.class, new MessageReceiver() {
             @Override
             public void receiveMessage(Message message) {
-                provide(Highscore.class).set(message.get(GameOverMessage.POINTS, Integer.class, 0));
-                SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.DEATH));
+                SGL.provide(DemoModeSaveState.class).provide().setDrawHud(true);
                 provide(SGLRootScreen.class).get(GameScreen.class).pause();
+                provide(Highscore.class).set(message.get(GameOverMessage.POINTS, Integer.class, 0));
+                provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAREST);
             }
         });
         SGL.registerMessageReceiver(ShowHowToPlayMessage.class, new MessageReceiver() {

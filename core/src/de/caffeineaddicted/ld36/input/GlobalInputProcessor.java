@@ -2,12 +2,14 @@ package de.caffeineaddicted.ld36.input;
 
 import com.badlogic.gdx.Input;
 import de.caffeineaddicted.ld36.LD36;
-import de.caffeineaddicted.ld36.messages.ExitGameMessage;
-import de.caffeineaddicted.ld36.messages.ShowMenuScreenMessage;
-import de.caffeineaddicted.ld36.messages.ToggleFullscreenMessage;
+import de.caffeineaddicted.ld36.messages.*;
+import de.caffeineaddicted.ld36.screens.AboutScreen;
+import de.caffeineaddicted.ld36.screens.DemoGameScreen;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.screens.MenuScreen;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.input.SGLInputProcessor;
+import de.caffeineaddicted.sgl.ui.screens.SGLRootScreen;
 
 /**
  * @author Malte Heinzelmann
@@ -23,7 +25,11 @@ public class GlobalInputProcessor extends SGLInputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.ESCAPE:
-                SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
+                if (SGL.provide(SGLRootScreen.class).get(GameScreen.class).isVisible()) {
+                    SGL.message(new PauseGameMessage());
+                } else {
+                    SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
+                }
                 break;
             case Input.Keys.F11:
                 SGL.message(new ToggleFullscreenMessage());
