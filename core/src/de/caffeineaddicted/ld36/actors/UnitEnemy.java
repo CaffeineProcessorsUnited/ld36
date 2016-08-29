@@ -62,11 +62,6 @@ public class UnitEnemy extends UnitBase {
     }
 
     @Override
-    protected void positionChanged() {
-        super.positionChanged();
-    }
-
-    @Override
     public void act(float delta) {
         super.act(delta);
 

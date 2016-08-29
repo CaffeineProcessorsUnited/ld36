@@ -40,9 +40,9 @@
      inkscape:window-height="1056"
      id="namedview3904"
      showgrid="false"
-     inkscape:zoom="2"
-     inkscape:cx="445.97108"
-     inkscape:cy="185.10307"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="511.00272"
+     inkscape:cy="231.70863"
      inkscape:window-x="3840"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -446,39 +446,37 @@
      inkscape:connector-curvature="0"
      inkscape:export-xdpi="250.81"
      inkscape:export-ydpi="250.81" />
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:16.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#2f2930;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     x="480.80255"
-     y="163.48627"
-     id="text4191"
-     sodipodi:linespacing="125%"
-     inkscape:export-xdpi="300"
-     inkscape:export-ydpi="300"><tspan
-       sodipodi:role="line"
-       id="tspan4193"
-       x="480.80255"
-       y="163.48627"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#2f2930;fill-opacity:1">Select</tspan><tspan
-       sodipodi:role="line"
-       x="480.80255"
-       y="200.98627"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#2f2930;fill-opacity:1"
-       id="tspan4195" /></text>
-  <text
-     inkscape:export-ydpi="300"
-     inkscape:export-xdpi="300"
-     sodipodi:linespacing="125%"
-     id="text4197"
-     y="225.48627"
-     x="478.80255"
-     style="font-style:normal;font-weight:normal;font-size:16.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#2f2930;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     xml:space="preserve"><tspan
-       id="tspan4201"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#2f2930;fill-opacity:1"
-       y="225.48627"
-       x="478.80255"
-       sodipodi:role="line">Upgrade</tspan></text>
+  <g
+     id="g4318"
+     inkscape:export-xdpi="128"
+     inkscape:export-ydpi="128">
+    <g
+       inkscape:export-ydpi="300"
+       inkscape:export-xdpi="300"
+       transform="translate(-111.67915,-32.613907)"
+       id="g4314">
+      <path
+         sodipodi:nodetypes="sssssssss"
+         style="fill:#2f2930;stroke:none;stroke-width:2.7019999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:13.65400028"
+         id="path4316"
+         d="m 597.05636,223.84825 140.673,0 c 3.1186,0 5.6294,2.2456 5.6294,5.0351 l 0,35.862 c 0,2.7894 -2.5107,5.0351 -5.6294,5.0351 l -140.673,0 c -3.1186,0 -5.6294,-2.2457 -5.6294,-5.0351 l 0,-35.862 c 0,-2.7895 2.5107,-5.0351 5.6294,-5.0351 z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:16.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#2f2930;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="482.74573"
+       y="225.22545"
+       id="text4197"
+       sodipodi:linespacing="125%"
+       inkscape:export-xdpi="128.36"
+       inkscape:export-ydpi="128.36"><tspan
+         sodipodi:role="line"
+         x="482.74573"
+         y="225.22545"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#ffffff;fill-opacity:1"
+         id="tspan4201">Upgrade</tspan></text>
+  </g>
   <g
      id="g4214"
      transform="translate(-55.450601,-67.924665)"
@@ -552,5 +550,35 @@
        id="path4298"
        d="m 521.84518,336.30423 c -5e-5,10.54409 -8.5477,19.09175 -19.09179,19.0918 -5.71074,-0.005 -11.11944,-2.56592 -14.74219,-6.98047 l 2.28565,-1.90625 -8.96436,-1.03125 0.004,8.5 2.56689,-2.1875 c 6.53992,7.96009 17.37529,10.95385 27.07422,7.48047 9.69864,-3.47346 16.16996,-12.66493 16.16992,-22.9668 z"
        style="opacity:1;fill:#ff50a2;fill-opacity:1" />
+  </g>
+  <g
+     id="g4324"
+     transform="translate(0,-60)">
+    <g
+       id="g4326"
+       transform="translate(-111.67915,-32.613907)"
+       inkscape:export-xdpi="128"
+       inkscape:export-ydpi="128">
+      <path
+         inkscape:connector-curvature="0"
+         d="m 597.05636,223.84825 140.673,0 c 3.1186,0 5.6294,2.2456 5.6294,5.0351 l 0,35.862 c 0,2.7894 -2.5107,5.0351 -5.6294,5.0351 l -140.673,0 c -3.1186,0 -5.6294,-2.2457 -5.6294,-5.0351 l 0,-35.862 c 0,-2.7895 2.5107,-5.0351 5.6294,-5.0351 z"
+         id="path4328"
+         style="fill:#2f2930;stroke:none;stroke-width:2.7019999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:13.65400028"
+         sodipodi:nodetypes="sssssssss" />
+    </g>
+    <text
+       inkscape:export-ydpi="128.36"
+       inkscape:export-xdpi="128.36"
+       sodipodi:linespacing="125%"
+       id="text4330"
+       y="225.22545"
+       x="482.74573"
+       style="font-style:normal;font-weight:normal;font-size:16.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ff50a2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       xml:space="preserve"><tspan
+         id="tspan4332"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#ff50a2;fill-opacity:1;"
+         y="225.22545"
+         x="482.74573"
+         sodipodi:role="line">Upgrade</tspan></text>
   </g>
 </svg>

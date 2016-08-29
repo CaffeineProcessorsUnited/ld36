@@ -31,8 +31,16 @@ public class GameInputProcessor extends SGLInputProcessor {
         return screen.getHUD().getUpgradeFrame().isInMe(new Vector2(screenX, screenY));
     }
 
+    private boolean inUpgradButton(int screenX, int screenY) {
+        return screen.getHUD().getUpgradeFrame().getButton().isInMe(new Vector2(screenX, screenY));
+    }
+
     private boolean inSelectFrame(int screenX, int screenY) {
         return screen.getHUD().getSelectFrame().isInMe(new Vector2(screenX, screenY));
+    }
+
+    private boolean inSelectButton(int screenX, int screenY) {
+        return screen.getHUD().getSelectFrame().getButton().isInMe(new Vector2(screenX, screenY));
     }
 
     private boolean inTopBar(int screenX, int screenY) {
@@ -61,11 +69,11 @@ public class GameInputProcessor extends SGLInputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (screen.getHUD().isMenuOpen() && !screen.getHUD().isDragging()) {
-            if (inUpgradeFrame(screenX, screenY)) {
+            if (inUpgradButton(screenX, screenY)) {
                 screen.getHUD().upgrade();
-            } else if (inSelectFrame(screenX, screenY)) {
+            } else if (inSelectButton(screenX, screenY)) {
                 screen.getHUD().select();
-            } else {
+            } else if (!inUpgradeFrame(screenX, screenY) && !inSelectFrame(screenX, screenY)) {
                 screen.getHUD().menuClose();
             }
         } else if (screen.getHUD().isDragging()) {
