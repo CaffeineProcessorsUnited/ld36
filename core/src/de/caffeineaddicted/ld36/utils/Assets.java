@@ -48,6 +48,11 @@ public class Assets extends AssetManager {
         load("missing.png", Texture.class);
         load("button_default.png", Texture.class);
         load("button_active.png", Texture.class);
+        load("switch_default.png", Texture.class);
+        load("switch_active.png", Texture.class);
+        load("disabled_default.png", Texture.class);
+        load("disabled_active.png", Texture.class);
+        load("upgrade.png", Texture.class);
         load("kenney/background.png", Texture.class);
         load("theme.ogg", Music.class);
         load("kenney/castle.png", Texture.class);

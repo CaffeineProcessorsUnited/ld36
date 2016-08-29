@@ -12,7 +12,6 @@ public class UnitEnemy extends UnitBase {
     private float freezeTime;
     private float knockbackTime;
     private float speed;
-    private ProgressBar healthBar;
 
     private String ACTOR_HEALTHBAR, ACTOR_UNIT;
 
@@ -22,9 +21,11 @@ public class UnitEnemy extends UnitBase {
         setMaxhp(type.hp);
         setHp(type.hp);
         ACTOR_UNIT = addTexture(type.fileActive);
-        healthBar = new ProgressBar(this);
-        healthBar.setWidth(type.width-10);
-        ACTOR_HEALTHBAR = addActor(healthBar);
+        SGL.game().log(getActor(ACTOR_UNIT).getHeight() + " height for unit");
+        ACTOR_HEALTHBAR = addActor(new ProgressBar(6));
+        getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_UNIT).getWidth() * 0.6f);
+        getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_UNIT).getWidth() * 0.2f, getActor(ACTOR_UNIT).getHeight() + 5);
+
     }
 
     public void freeze(float freezeTime) {
@@ -64,13 +65,13 @@ public class UnitEnemy extends UnitBase {
     @Override
     protected void positionChanged(){
         super.positionChanged();
-        Actor b = getActor(ACTOR_HEALTHBAR);
-        b.setPosition(0, 0);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxhp());
 
         UnitCastle castle = SGL.provide(DemoModeSaveState.class).provide().getCastle();
 

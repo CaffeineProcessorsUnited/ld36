@@ -2,11 +2,13 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -17,11 +19,24 @@ public class UpgradeFrame extends Entity {
 
     private BitmapFont font;
     private float margin = 10;
+    private String ACTOR_BUTTON;
 
     public UpgradeFrame() {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
         font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
+        ACTOR_BUTTON = addActor(ImageButton.createImageButton(
+                new String[]{"button_default.png", "upgrade.png" },
+                new String[]{"button_active.png", "upgrade.png" }
+        ));
+        Image image = new Image(SGL.provide(Assets.class).get("upgrade.png", Texture.class));
+        getActor(ACTOR_BUTTON).setWidth(image.getWidth());
+        getActor(ACTOR_BUTTON).setHeight(image.getHeight());
+        getActor(ACTOR_BUTTON).setPosition(getWidth() / 2 - image.getWidth() / 2, 10);
+    }
+
+    public Actor getButton() {
+        return getActor(ACTOR_BUTTON);
     }
 
     @Override
@@ -47,6 +62,7 @@ public class UpgradeFrame extends Entity {
         writeText(batch, "AAAAAAAAAAAA", 0);
         writeText(batch, SGL.provide(GameScreen.class).getHUD().getWeaponType().name(), 1);
         writeText(batch, "CCCCCCCCCCCC", 2);
+        getActor(ACTOR_BUTTON).draw(batch, parentAlpha);
     }
 
     public void writeText(Batch batch, String text, int i) {

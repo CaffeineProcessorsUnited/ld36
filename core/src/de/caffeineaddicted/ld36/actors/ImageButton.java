@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.sgl.SGL;
 
 /**
@@ -53,11 +54,28 @@ public class ImageButton extends Image {
         });
     }
 
-    public final static Texture[] texArray(Texture... textures) {
+
+    public static ImageButton createImageButton(String[]... names) {
+        Assets assets = SGL.game().provide(Assets.class);
+        Texture[][] textures = new Texture[names.length][];
+        for (int i = 0; i < names.length; i++) {
+            textures[i] = new Texture[names[i].length];
+            for (int j = 0; j < names[i].length; j++) {
+                textures[i][j] = assets.get(names[i][j], Texture.class);
+            }
+        }
+        return createImageButton(textures);
+    }
+
+    public static ImageButton createImageButton(Texture[]... textures) {
+        return new ImageButton(textures);
+    }
+
+    public static Texture[] texArray(Texture... textures) {
         return textures;
     }
 
-    public final static Drawable[][] texA2drawA(Texture[]... texture) {
+    public static Drawable[][] texA2drawA(Texture[]... texture) {
         if (texture == null)
             return null;
         Drawable[][] drawables = new Drawable[texture.length][];

@@ -2,6 +2,7 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -17,18 +18,18 @@ import java.util.ArrayList;
  */
 public class HUD extends Entity {
 
-    private ArrayList<String> weaponSelectors = new ArrayList<String>();
-    private String ACTOR_BUTTONS, ACTOR_UPGRADEFRAME, ACTOR_NOTSELECTABLE, ACTOR_PAUSE;
+    private String ACTOR_BUTTONS, ACTOR_UPGRADEFRAME, ACTOR_SELECTFRAME, ACTOR_PAUSE;
 
     private boolean menuOpen, dragging;
     private Weapon.Type currentWeaponType;
 
     public HUD() {
         ACTOR_UPGRADEFRAME = addActor(new UpgradeFrame());
+        ACTOR_SELECTFRAME = addActor(new SelectFrame());
         ACTOR_BUTTONS = addActor(new ScrollContainer(ScrollContainer.Direction.HORIZONTAL));
         getButtons().setMargin(10);
         for (Weapon.Type weapon: Weapon.Type.values()) {
-            ImageButton button = createImageButton(
+            ImageButton button = ImageButton.createImageButton(
                     new String[]{"button_default.png", weapon.getLevel(0).texture },
                     new String[]{"button_active.png", weapon.getLevel(0).texture }
             );
@@ -49,26 +50,6 @@ public class HUD extends Entity {
             });
             getButtons().add(button);
         }
-        /*getButtons().add(createImageButton(
-                new String[]{"button_default.png" },
-                new String[]{"button_active.png" }
-        ));*/
-    }
-
-    private ImageButton createImageButton(String[]... names) {
-        Assets assets = SGL.game().provide(Assets.class);
-        Texture[][] textures = new Texture[names.length][];
-        for (int i = 0; i < names.length; i++) {
-            textures[i] = new Texture[names[i].length];
-            for (int j = 0; j < names[i].length; j++) {
-                textures[i][j] = assets.get(names[i][j], Texture.class);
-            }
-        }
-        return createImageButton(textures);
-    }
-
-    private ImageButton createImageButton(Texture[]... textures) {
-        return new ImageButton(textures);
     }
 
     @Override
@@ -82,6 +63,12 @@ public class HUD extends Entity {
         a.setWidth(getWidth() * 0.3f);
         a.setHeight(getHeight() * 0.4f);
         a.setPosition(getWidth() * 0.6f, getHeight() * 0.3f);
+        a = getActor(ACTOR_SELECTFRAME);
+        ((SelectFrame) a).setAutoWidth(false);
+        ((SelectFrame) a).setAutoHeight(false);
+        a.setWidth(getWidth() * 0.2f);
+        a.setHeight(getHeight() * 0.2f);
+        a.setPosition(getWidth() * 0.15f, getHeight() * 0.4f);
         SGL.game().log("positionChanged() =>" + a.getWidth() + "," + a.getHeight() + "," + a.getX() + "," + a.getY());
         a = getButtons();
         getButtons().setOuterWidth(getWidth());
@@ -100,10 +87,15 @@ public class HUD extends Entity {
             return;
         getActor(ACTOR_BUTTONS).draw(batch, parentAlpha);
         getActor(ACTOR_UPGRADEFRAME).draw(batch, parentAlpha);
+        getActor(ACTOR_SELECTFRAME).draw(batch, parentAlpha);
     }
 
-    public Actor getUpgradeFrame() {
-        return getActor(ACTOR_UPGRADEFRAME);
+    public UpgradeFrame getUpgradeFrame() {
+        return getActor(ACTOR_UPGRADEFRAME, UpgradeFrame.class);
+    }
+
+    public SelectFrame getSelectFrame() {
+        return getActor(ACTOR_SELECTFRAME, SelectFrame.class);
     }
 
     public ScrollContainer getButtons() {
@@ -140,11 +132,11 @@ public class HUD extends Entity {
     }
 
     public void upgrade() {
-
+        SGL.game().log("UPGRADE");
     }
 
     public void select() {
-
+        SGL.game().log("SELECT");
     }
 
     public void setWeaponType(Weapon.Type type) {
@@ -155,4 +147,21 @@ public class HUD extends Entity {
         return currentWeaponType;
     }
 
+    public boolean weaponAvailable() {
+        return false;
+    }
+
+    public Actor getActor(Vector2 touched) {
+        Actor actor = getButtons().getActor(touched);
+        if (actor != null) {
+            return actor;
+        }
+        if (getUpgradeFrame().getButton().isInMe(touched)) {
+            return getUpgradeFrame().getButton();
+        }
+        if (getSelectFrame().getButton().isInMe(touched)) {
+            return getSelectFrame().getButton();
+        }
+        return null;
+    }
 }

@@ -2,6 +2,7 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 
 /**
  * @author Malte Heinzelmann
@@ -50,10 +51,6 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
     public float getTRY() {
         return getY() + getHeight();
-    }
-
-    public void setRotation2(float degrees) {
-
     }
 
     public Vector2 getCenter() {
@@ -108,5 +105,9 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     /** Removes all actions and listeners on this actor. */
     public void clear () {
         super.clear();
+    }
+
+    public boolean isInMe(Vector2 coords) {
+        return MathUtils.pointInRect(coords.x, coords.y, getX(), getY(), getTRX(), getTRY());
     }
 }

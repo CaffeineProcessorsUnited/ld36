@@ -16,7 +16,6 @@ public class UnitCastle extends UnitBase {
     private float researchTime;
     private UnitWeapon unitWeapon;
     private float lastShot;
-    private ProgressBar healthbar;
     private final static int baseHP = 100;
 
     private String ACTOR_BASE, ACTOR_WEAPON, ACTOR_HEALTHBAR;
@@ -39,8 +38,9 @@ public class UnitCastle extends UnitBase {
         ACTOR_WEAPON = addActor(unitWeapon);
         setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
 
-        healthbar = new ProgressBar(this);
-        ACTOR_HEALTHBAR = addActor(healthbar);
+        ACTOR_HEALTHBAR = addActor(new ProgressBar());
+        getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
+        getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_BASE).getWidth() * 0.2f, getActor(ACTOR_BASE).getHeight());
         setMaxhp(baseHP);
         setHp(baseHP);
         activeResearch = null;
@@ -126,8 +126,6 @@ public class UnitCastle extends UnitBase {
         super.positionChanged();
         Actor a = getActor(ACTOR_WEAPON);
         a.setPosition(getWidth() - a.getWidth(), getHeight() - a.getHeight());
-        a = getActor(ACTOR_HEALTHBAR);
-        a.setPosition(getX() + ((getWidth() - a.getWidth())/2), getHeight() + 10);
     }
 
     @Override
@@ -141,6 +139,7 @@ public class UnitCastle extends UnitBase {
         if (isResearchReadyToComplete()) {
             completeResearch();
         }
+        getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxhp());
         researchTime -= delta;
         lastShot -= delta;
     }
