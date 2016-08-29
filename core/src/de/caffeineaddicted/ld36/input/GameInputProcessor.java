@@ -24,7 +24,7 @@ public class GameInputProcessor extends SGLInputProcessor {
     }
 
     private float angleTouchCastle(int screenX, int screenY) {
-        return 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getWeapon().getActor().getCenterPoint().x, screen.getCastle().getWeapon().getCenterPoint().y);
+        return 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getUnitWeapon().getActor().getCenterPoint().x, screen.getCastle().getUnitWeapon().getCenterPoint().y);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GameInputProcessor extends SGLInputProcessor {
             screen.getHUD().startDrag();
         } else {
             screen.getHUD().stopDrag();
-            screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
+            screen.getCastle().getUnitWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         }
         return false;
     }
@@ -101,7 +101,7 @@ public class GameInputProcessor extends SGLInputProcessor {
             Projectile projectile = screen.getCastle().fire(angle);
             if (projectile != null) {
                 screen.stage().addActor(projectile);
-                screen.getCastle().getWeapon().getActor().setRotation(angle);
+                screen.getCastle().getUnitWeapon().getActor().setRotation(angle);
             }
         }
         screen.getHUD().stopDrag();
@@ -116,7 +116,7 @@ public class GameInputProcessor extends SGLInputProcessor {
             SGL.game().log(distance + "");
             screen.getHUD().getButtons().scrollBy(distance);
         } else {
-            screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
+            screen.getCastle().getUnitWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         }
         /*
         float dist = (lastTouch.x - screenX);
@@ -134,7 +134,7 @@ public class GameInputProcessor extends SGLInputProcessor {
         }
         SGL.game().log("touchDragged: " + lastTouch.toString());
         */
-        //SGL.game().log(screen.getCastle().getWeapon().getActor().getCenterPoint().toString() + ", " + angle);
+        //SGL.game().log(screen.getCastle().getUnitWeapon().getActor().getCenterPoint().toString() + ", " + angle);
         dragged = true;
         lastTouched.set(screenX, screenY);
         return false;
@@ -160,7 +160,7 @@ public class GameInputProcessor extends SGLInputProcessor {
             event.setStageY(screenY);
             lastOver.fire(event);
         }
-        screen.getCastle().getWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
+        screen.getCastle().getUnitWeapon().getActor().setRotation(angleTouchCastle(screenX, screenY));
         return false;
     }
 

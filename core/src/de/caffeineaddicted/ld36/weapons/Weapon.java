@@ -53,16 +53,16 @@ public class Weapon {
     public static enum Type {
         // TODO: adjust textures
         Stone(new Level("Stone", 0.2f, 0f, 0, 70f, "raw/Stone/Stone1.png", false, Projectile.Type.StoneProjectile)),
-        Bow(new Level("Bow", 0.1f, 60f, 1, 300f, "cannon.png", false, Projectile.Type.BowArrow)),
-        Crossbow(new Level("Crossbow", 0.5f, 90f, 2, 300f, "cannon.png", false, Projectile.Type.CrossbowBolt)),
-        Speer(new Level("Speer", 2f, 60f, 3, 100f, "cannon.png", false, Projectile.Type.Javelin)),
-        Shuriken(new Level("Shuriken", 0.05f, 120f, 5, 90f, "cannon.png", false, Projectile.Type.Shuriken)),
+        Bow(new Level("Bow", 0.1f, 60f, 1, 300f, "raw/arrow/arrow3.png", false, Projectile.Type.BowArrow)),
+        Crossbow(new Level("Crossbow", 0.5f, 90f, 2, 300f, "raw/crossbow/bolt.png", false, Projectile.Type.CrossbowBolt)),
+        Speer(new Level("Speer", 2f, 60f, 3, 100f, "raw/Javelin/Javelin3.png", false, Projectile.Type.Javelin)),
+        Shuriken(new Level("Shuriken", 0.05f, 120f, 5, 90f, "raw/shuriken/Shuriken2.png", false, Projectile.Type.Shuriken)),
         Catapult(new Level("Catapult", 5f, 180f, 10, 500f, "cannon.png", false, Projectile.Type.CatapultAmmo)),
         Balliste(new Level("Baliste", 7f, 210f, 10, 500f, "cannon.png", false, Projectile.Type.BallisteArrow)),
-        Cannon(new Level("Cannon", 6f, 240f, 12, 500f, "cannon.png", false, Projectile.Type.CannonBall)),
-        ExplosiveBarrel(new Level("Explosive Barrel", 10f, 270f, 15, 80f, "cannon.png", false, Projectile.Type.ExplosiveBarrel)),
-        Tomahawk(new Level("Tomahawk", 3f, 60f, 4, 90f, "cannon.png", false, Projectile.Type.Tomahawk)),
-        Trident(new Level("Trident", 4f, 90f, 7, 100f, "cannon.png", false, Projectile.Type.Trident)),
+        Cannon(new Level("Cannon", 6f, 240f, 12, 500f, "raw/cannon/step1.png", false, Projectile.Type.CannonBall)),
+        ExplosiveBarrel(new Level("Explosive Barrel", 10f, 270f, 15, 80f, "raw/barrel/Barrel.png", false, Projectile.Type.ExplosiveBarrel)),
+        Tomahawk(new Level("Tomahawk", 3f, 60f, 4, 90f, "raw/axe/axe3.png", false, Projectile.Type.Tomahawk)),
+        Trident(new Level("Trident", 4f, 90f, 7, 100f, "raw/trident/Trident.png", false, Projectile.Type.Trident)),
         UnicornUlt(new Level("Unicorn Ult", 240f, 600f, 20, 1000f, "cannon.png", true, Projectile.Type.Unicorn));
 
         private ArrayList<Level> levels = new ArrayList<Level>();

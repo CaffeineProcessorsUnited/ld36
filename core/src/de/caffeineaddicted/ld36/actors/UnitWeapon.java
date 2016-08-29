@@ -11,13 +11,13 @@ public class UnitWeapon extends Entity {
 
     public UnitWeapon() {
         texture = new Image();
-        select(new Weapon(Weapon.Type.Stone));
     }
 
-    public void select(Weapon definition) {
-        this.weapon = definition;
+    public void select(Weapon weapon) {
+        this.weapon = weapon;
         removeActor(getActor(ACTOR_TEXTURE));
-        ACTOR_TEXTURE = addTexture(definition.type.getLevel(weapon.getLevel()).texture);
+        Weapon.Type.Level weaponLevel = weapon.type.getLevel(weapon.getLevel());
+        ACTOR_TEXTURE = addTexture(weaponLevel.texture);
         getActor().setRotation(-90);
         update();
     }

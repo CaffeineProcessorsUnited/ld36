@@ -28,7 +28,7 @@ import java.util.Iterator;
  */
 public class GameScreen extends CustomStagedScreen {
     public static int groundHeight = 75;
-    public static float gravity = 9.81f;
+    public static float gravity = 19.81f;
     public static int cloudCount = 20;
     public static Vector2 spawnPosition;
     private final boolean demo;
@@ -219,7 +219,7 @@ public class GameScreen extends CustomStagedScreen {
             cloud.init();
         }
 
-        castle = new UnitCastle(new Weapon(Weapon.Type.Stone));
+        castle = new UnitCastle();
         ACTOR_CASTLE = stage().addActor(castle);
         stage().getActor(ACTOR_CASTLE).setPosition(0, groundHeight);
         ACTOR_HUD = stage().addActor(new HUD());
@@ -229,6 +229,7 @@ public class GameScreen extends CustomStagedScreen {
         stage().getActor(ACTOR_HUD).setHeight(stage().getViewHeight());
         stage().getActor(ACTOR_HUD).setPosition(0, 0);
         stage().getActor(ACTOR_HUD).init();
+        stage().getActor(ACTOR_HUD).setZIndex(999);
         stage().getActor(ACTOR_HUD).setVisible(!demo);
 
         points = 0;

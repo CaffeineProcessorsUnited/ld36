@@ -5,75 +5,95 @@ import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UnitCastle extends UnitBase {
-    private Weapon weapons;
-    private int activeWeapon;
-    private int activeResearch;
-    private float researchTime;
-    private UnitWeapon weapon;
-    private ProgressBar healthbar;
-    private float lastShot;
 
+    private HashMap<Weapon.Type,Weapon> weapons = new HashMap<Weapon.Type, Weapon>();
+
+    private Weapon.Type activeWeapon;
+    private Weapon.Type activeResearch;
+    private float researchTime;
+    private UnitWeapon unitWeapon;
+    private float lastShot;
+    private ProgressBar healthbar;
+    private final static int baseHP = 100;
 
     private String ACTOR_BASE, ACTOR_WEAPON, ACTOR_HEALTHBAR;
 
 
-    public UnitCastle(Weapon weapons) {
-        //setBounds(getX(), getY(), getWidth(), getHeight());
-        this.weapons = weapons;
+    public UnitCastle() {
         ACTOR_BASE = addTexture("kenney/castle.png");
-        weapon = new UnitWeapon();
-        ACTOR_WEAPON = addActor(weapon);
+
+        for(Weapon.Type weaponType: Weapon.Type.values()){
+            weapons.put(weaponType, new Weapon(weaponType));
+            SGL.game().log("+++"+weaponType+"//"+weapon(weaponType));
+        }
+
+        unitWeapon = new UnitWeapon();
+        weapon(Weapon.Type.Tomahawk).setAvailable(true);
+        setActiveWeapon(Weapon.Type.Tomahawk);
+        SGL.game().log("------"+getActiveWeapon().toString());
+        unitWeapon.select(getActiveWeapon());
+
+        ACTOR_WEAPON = addActor(unitWeapon);
         setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
-        activeWeapon = 0;
+
         healthbar = new ProgressBar(this);
         ACTOR_HEALTHBAR = addActor(healthbar);
-        int hp = 100;
-        setMaxhp(hp);
-        setHp(hp);
-        activeResearch = -1;
+        setMaxhp(baseHP);
+        setHp(baseHP);
+        activeResearch = null;
 
         update();
     }
 
-    public Weapon weapon(int type) {
-        return weapons;
+    public Weapon weapon(Weapon.Type type) {
+        if(type == null)
+            return null;
+        return weapons.get(type);
     }
 
     public Weapon getActiveWeapon() {
         return weapon(activeWeapon);
     }
 
-    public void setActiveWeapon(int type) {
+    public void setActiveWeapon(Weapon.Type type) {
+        if(weapon(type) == null)
+            return;
+
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
-            weapon.select(weapon(type));
-            lastShot = weapon(activeWeapon).type.getLevel(weapon.getWeapon().getLevel()).reload_time;
+            unitWeapon.select(weapon(type));
+            lastShot = weapon(activeWeapon).type.getLevel(unitWeapon.getWeapon().getLevel()).reload_time;
         }
     }
 
-    public void startResearch(int wid) {
-        //if (wid < weapons.length()) {
-        //   if (!weapon(wid).isAvailable()) {
-        //        activeResearch = wid;
-        //        researchTime = weapon(wid).type.getLevel(weapon.getWeapon().getLevel()).research_time;
-        //    }
-        //}
+    public void startResearch(Weapon.Type type) {
+        if(type == null)
+            return;
+        if(weapon(type).isAvailable()) {
+            activeResearch = type;
+            researchTime = type.getLevel(weapon(type).getLevel()).research_time;
+        }
     }
 
     public void completeResearch() {
-        if (activeResearch >= 0 && researchTime < 0) {
+        if (activeResearch != null && researchTime < 0) {
             weapon(activeResearch).setAvailable(true);
+            activeResearch = null;
         }
     }
 
     public boolean isResearching() {
-        return getActiveResearch() >= 0 && getResearchTime() >= 0;
+        return getActiveResearch() != null && getResearchTime() >= 0;
     }
 
-    public int getActiveResearch() {
+    public boolean isResearchReadyToComplete(){
+        return getActiveResearch() != null && getResearchTime() < 0;
+    }
+
+    public Weapon.Type getActiveResearch() {
         return activeResearch;
     }
 
@@ -84,11 +104,11 @@ public class UnitCastle extends UnitBase {
     public Projectile fire(float angle) {
         if (lastShot > 0)
             return null;
-        lastShot = weapon(activeWeapon).type.getLevel(weapon.getWeapon().getLevel()).reload_time;
+        lastShot = getActiveWeapon().type.getLevel(getActiveWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
-        //SGL.game().debug("xx:"+getWeapon().getActor().getCenterPoint().x+",yy:"+getWeapon().getActor().getCenterPoint().y);
+        //SGL.game().debug("xx:"+getUnitWeapon().getActor().getCenterPoint().x+",yy:"+getUnitWeapon().getActor().getCenterPoint().y);
 
-        projectile.setCenterPosition(getWeapon().getActor().getCenterPoint().x, getWeapon().getActor().getCenterPoint().y);
+        projectile.setCenterPosition(getUnitWeapon().getActor().getCenterPoint().x, getUnitWeapon().getActor().getCenterPoint().y);
         return projectile;
     }
 
@@ -118,11 +138,10 @@ public class UnitCastle extends UnitBase {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (activeResearch >= 0 && researchTime < 0) {
+        if (isResearchReadyToComplete()) {
             completeResearch();
         }
-        activeResearch -= delta;
-
+        researchTime -= delta;
         lastShot -= delta;
     }
 
@@ -133,7 +152,7 @@ public class UnitCastle extends UnitBase {
         getActor(ACTOR_HEALTHBAR).draw(batch, parentAlpha);
     }
 
-    public UnitWeapon getWeapon() {
+    public UnitWeapon getUnitWeapon() {
         return getActor(ACTOR_WEAPON, UnitWeapon.class);
     }
 }

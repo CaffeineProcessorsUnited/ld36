@@ -92,7 +92,6 @@ public class HUD extends Entity {
 
     @Override
     public void update() {
-
     }
 
     @Override
