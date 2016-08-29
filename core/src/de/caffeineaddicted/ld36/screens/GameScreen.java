@@ -97,6 +97,8 @@ public class GameScreen extends CustomStagedScreen {
             waveGenerator.skipToNextWave();
         }
 
+        getHUD().spawnProjectiles();
+
         if (shouldReset != null) {
             shouldReset.run();
             shouldReset = null;

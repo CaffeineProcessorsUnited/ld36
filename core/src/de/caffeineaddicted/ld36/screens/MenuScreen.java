@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.caffeineaddicted.ld36.messages.ExitGameMessage;
 import de.caffeineaddicted.ld36.messages.ShowAboutMessage;
 import de.caffeineaddicted.ld36.messages.ShowMenuScreenMessage;
@@ -140,12 +141,14 @@ public class MenuScreen extends SGLStagedScreen {
 
     @Override
     public void draw() {
+        ShapeRenderer shapeRenderer = SGL.game().provide(ShapeRenderer.class);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        SGL.game().provide(ShapeRenderer.class).begin(ShapeRenderer.ShapeType.Filled);
-        SGL.game().provide(ShapeRenderer.class).setColor(0f, 0f, 0f, 0.2f);
-        SGL.game().provide(ShapeRenderer.class).rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
-        SGL.game().provide(ShapeRenderer.class).end();
+        shapeRenderer.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0f, 0f, 0f, 0.2f);
+        shapeRenderer.rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
+        shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
         super.draw();
     }

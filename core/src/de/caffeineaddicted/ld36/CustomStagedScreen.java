@@ -1,6 +1,8 @@
 package de.caffeineaddicted.ld36;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.impl.exceptions.ProvidedObjectIsNullException;
@@ -42,6 +44,10 @@ public class CustomStagedScreen extends SGLStagedScreen<LD36> {
             }
         }
         camera = stage.getCamera();
+        SGL.game().log(camera.project(new Vector3(0, 0, 0)).toString());
+        SGL.game().log(camera.project(new Vector3(100, 0, 0)).toString());
+        SGL.game().log(viewport.project(new Vector2(0, 0)).toString());
+        SGL.game().log(viewport.project(new Vector2(100, 0)).toString());
         try {
             SGL.provide(SGLScreenInputMultiplexer.class).addProcessor(this, stage);
         } catch (ProvidedObjectIsNullException pone) {

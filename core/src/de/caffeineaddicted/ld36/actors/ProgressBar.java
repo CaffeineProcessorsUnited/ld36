@@ -1,8 +1,10 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.caffeineaddicted.sgl.SGL;
 
 /**
@@ -61,6 +63,7 @@ public class ProgressBar extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         ShapeRenderer shaperender = SGL.provide(ShapeRenderer.class);
+        shaperender.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
 
         batch.end();
         shaperender.setColor(0, 0, 0, 1 * parentAlpha);

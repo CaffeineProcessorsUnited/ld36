@@ -4,9 +4,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.Array;
 import de.caffeineaddicted.ld36.screens.GameScreen;
+import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
+
+import java.util.ArrayList;
 
 /**
  * @author Malte Heinzelmann
@@ -16,7 +21,10 @@ public class HUD extends Entity {
     private String ACTOR_BUTTONS, ACTOR_UPGRADEFRAME, ACTOR_SELECTFRAME, ACTOR_PAUSE;
 
     private boolean menuOpen, dragging;
+    private Vector2 autoFire = Vector2.Zero;
     private Weapon.Type currentWeaponType;
+
+    private ArrayList<Float> projectilesToSpawn = new ArrayList<Float>();
 
     public HUD() {
         ACTOR_UPGRADEFRAME = addActor(new UpgradeFrame());
@@ -74,6 +82,17 @@ public class HUD extends Entity {
 
     @Override
     public void update() {
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        if (autoFire.x != 0 && autoFire.y != 0) {
+            SGL.game().log(autoFire.toString());
+            SGL.game().log("FIRE!!!");
+            fireProjectile(autoFire.x, autoFire.y);
+        }
     }
 
     @Override
@@ -158,5 +177,26 @@ public class HUD extends Entity {
             return getSelectFrame().getButton();
         }
         return null;
+    }
+
+    public void autoFire(int screenX, int screenY) {
+        SGL.game().log("AUTOFIRE INIT");
+        autoFire.set(screenX, screenY);
+    }
+
+    public void stopAutoFire() {
+        SGL.game().log("AUTOFIRE STOP");
+        autoFire.set(0, 0);
+    }
+
+    public void fireProjectile(float screenX, float screenY) {
+        projectilesToSpawn.add(SGL.provide(DemoModeSaveState.class).provide().getCastle().angleTouchCastle(screenX, screenY));
+    }
+
+    public void spawnProjectiles() {
+        for (Float angle: projectilesToSpawn) {
+            SGL.provide(DemoModeSaveState.class).provide().getCastle().fire(angle);
+        }
+        projectilesToSpawn.clear();
     }
 }

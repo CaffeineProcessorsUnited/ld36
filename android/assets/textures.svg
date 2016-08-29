@@ -553,7 +553,7 @@
   </g>
   <g
      id="g4324"
-     transform="translate(0,-60)">
+     transform="translate(0,-100)">
     <g
        id="g4326"
        transform="translate(-111.67915,-32.613907)"
@@ -573,10 +573,42 @@
        id="text4330"
        y="225.22545"
        x="482.74573"
-       style="font-style:normal;font-weight:normal;font-size:16.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ff50a2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       style="font-style:normal;font-weight:normal;font-size:16.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ff50a2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          id="tspan4332"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#ff50a2;fill-opacity:1;"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#ff50a2;fill-opacity:1"
+         y="225.22545"
+         x="482.74573"
+         sodipodi:role="line">Upgrade</tspan></text>
+  </g>
+  <g
+     inkscape:export-ydpi="128"
+     inkscape:export-xdpi="128"
+     id="g4334"
+     transform="translate(0,-50)">
+    <g
+       id="g4336"
+       transform="translate(-111.67915,-32.613907)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         inkscape:connector-curvature="0"
+         d="m 597.05636,223.84825 140.673,0 c 3.1186,0 5.6294,2.2456 5.6294,5.0351 l 0,35.862 c 0,2.7894 -2.5107,5.0351 -5.6294,5.0351 l -140.673,0 c -3.1186,0 -5.6294,-2.2457 -5.6294,-5.0351 l 0,-35.862 c 0,-2.7895 2.5107,-5.0351 5.6294,-5.0351 z"
+         id="path4338"
+         style="fill:#2f2930;stroke:none;stroke-width:2.7019999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:13.65400028"
+         sodipodi:nodetypes="sssssssss" />
+    </g>
+    <text
+       inkscape:export-ydpi="128.36"
+       inkscape:export-xdpi="128.36"
+       sodipodi:linespacing="125%"
+       id="text4340"
+       y="225.22545"
+       x="482.74573"
+       style="font-style:normal;font-weight:normal;font-size:16.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#6e6e6e;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       xml:space="preserve"><tspan
+         id="tspan4342"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:30px;font-family:Purisa;-inkscape-font-specification:'Purisa Bold';fill:#6e6e6e;fill-opacity:1;"
          y="225.22545"
          x="482.74573"
          sodipodi:role="line">Upgrade</tspan></text>

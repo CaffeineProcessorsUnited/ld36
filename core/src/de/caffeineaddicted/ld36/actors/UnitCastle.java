@@ -3,6 +3,7 @@ package de.caffeineaddicted.ld36.actors;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -112,9 +113,9 @@ public class UnitCastle extends UnitBase {
         return Math.max(researchTime, 0);
     }
 
-    public Projectile fire(float angle) {
+    public void fire(float angle) {
         if (lastShot > 0)
-            return null;
+            return;
         lastShot = getActiveWeapon().type.getLevel(getActiveWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
         Animation fireAnimation = unitWeapon.getAnimation();
@@ -124,7 +125,7 @@ public class UnitCastle extends UnitBase {
         //SGL.game().debug("xx:"+getUnitWeapon().getActor().getCenterPoint().x+",yy:"+getUnitWeapon().getActor().getCenterPoint().y);
 
         projectile.setCenterPosition(getUnitWeapon().getActor().getCenterPoint().x, getUnitWeapon().getActor().getCenterPoint().y);
-        return projectile;
+        SGL.provide(DemoModeSaveState.class).provide().addActor(projectile);
     }
 
     @Override
@@ -171,5 +172,9 @@ public class UnitCastle extends UnitBase {
 
     public UnitWeapon getUnitWeapon() {
         return getActor(ACTOR_WEAPON, UnitWeapon.class);
+    }
+
+    public float angleTouchCastle(float screenX, float screenY) {
+        return 180 - (float) MathUtils.angleToPoint(screenX, screenY, getUnitWeapon().getActor().getCenterPoint().x, getUnitWeapon().getCenterPoint().y);
     }
 }

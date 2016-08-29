@@ -23,10 +23,6 @@ public class GameInputProcessor extends SGLInputProcessor {
         this.screen = screen;
     }
 
-    private float angleTouchCastle(int screenX, int screenY) {
-        return 180 - (float) MathUtils.angleToPoint(screenX, screenY, screen.getCastle().getUnitWeapon().getActor().getCenterPoint().x, screen.getCastle().getUnitWeapon().getCenterPoint().y);
-    }
-
     private boolean inUpgradeFrame(int screenX, int screenY) {
         return screen.getHUD().getUpgradeFrame().isInMe(new Vector2(screenX, screenY));
     }
@@ -54,14 +50,10 @@ public class GameInputProcessor extends SGLInputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         lastTouched.set(screenX, screenY);
-        if (screen.getHUD().isMenuOpen()) {
-            if (!inHUD(screenX, screenY)) {
-                screen.getHUD().menuClose();
-            }
-        } else if (inTopBar(screenX, screenY)) {
+        if (inTopBar(screenX, screenY)) {
             screen.getHUD().startDrag();
-        } else {
-            screen.getHUD().stopDrag();
+        } else if (!screen.getHUD().isMenuOpen() || !inHUD(screenX, screenY)) {
+            screen.getHUD().autoFire(screenX, screenY);
         }
         return false;
     }
@@ -91,14 +83,11 @@ public class GameInputProcessor extends SGLInputProcessor {
                 }
             }
         } else {
-            float angle = angleTouchCastle(screenX, screenY);
-            Projectile projectile = screen.getCastle().fire(angle);
-            if (projectile != null) {
-                screen.stage().addActor(projectile);
-            }
+            screen.getHUD().fireProjectile(screenX, screenY);
         }
         screen.getHUD().stopDrag();
         dragged = false;
+        screen.getHUD().stopAutoFire();
         return false;
     }
 
@@ -109,6 +98,7 @@ public class GameInputProcessor extends SGLInputProcessor {
             SGL.game().log(distance + "");
             screen.getHUD().getButtons().scrollBy(distance);
         } else {
+            screen.getHUD().autoFire(screenX, screenY);
         }
         dragged = true;
         lastTouched.set(screenX, screenY);

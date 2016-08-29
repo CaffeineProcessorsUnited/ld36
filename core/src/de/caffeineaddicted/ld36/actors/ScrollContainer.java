@@ -3,6 +3,7 @@ package de.caffeineaddicted.ld36.actors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.utils.MathUtils;
+import de.caffeineaddicted.sgl.SGL;
 
 import java.util.ArrayList;
 
@@ -142,6 +143,7 @@ public class ScrollContainer extends Group {
     public Actor getActor(Vector2 lastTouched) {
         Actor actor = null;
         for (Actor a : children) {
+            //SGL.game().log(lastTouched.x + "," + lastTouched.y + "," + a.getX() + "," + a.getY() + "," + a.getTRX() + "," + a.getTRY());
             if (MathUtils.pointInRect(lastTouched.x, lastTouched.y, a.getX(), a.getY(), a.getTRX(), a.getTRY())) {
                 actor = a;
                 break;
