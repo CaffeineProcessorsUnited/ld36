@@ -21,6 +21,14 @@ public class Weapon {
         return this.level;
     }
 
+    public float getReloadPercentage() {
+        return Math.max(0, waitForShot / type.getLevel(getLevel()).reload_time);
+    }
+
+    public boolean worthAReloadbar() {
+        return type.getLevel(getLevel()).reload_time >= 0.5f;
+    }
+
     public void levelUp() {
         if (level < type.maxlevel()) {
             level++;
@@ -89,7 +97,6 @@ public class Weapon {
         Trident(new Level("Trident", 1f, 30f, 7, 100f, false, Projectile.Type.Trident, "raw/trident/Trident.png", "raw/trident/Trident.png", false, 0, 0, 0),
                 new Level("Trident", 0.5f, 30f, 7, 100f, false, Projectile.Type.Trident1, "raw/trident/Trident.png", "raw/trident/Trident.png", false, 0, 0, 0)),
         UnicornUlt(new Level("Unicorn Ult", 0f, 300f, 20, 1000f, true, Projectile.Type.Unicorn, "cannon.png", "cannon.png", false, 0, 0, 0));
-
         private ArrayList<Level> levels = new ArrayList<Level>();
 
         Type(Level... levels) {

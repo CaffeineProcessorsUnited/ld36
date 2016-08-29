@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.caffeineaddicted.ld36.input.GameInputProcessor;
+import de.caffeineaddicted.ld36.input.MenuInputProcessor;
 import de.caffeineaddicted.ld36.messages.ExitGameMessage;
 import de.caffeineaddicted.ld36.messages.ShowHowToPlayMessage;
 import de.caffeineaddicted.ld36.messages.ShowMenuScreenMessage;
@@ -53,6 +55,10 @@ public class MenuScreen extends SGLStagedScreen {
         return style;
     }
 
+    public Menu.Type getMenuType() {
+        return currentMenu;
+    }
+
     @Override
     public void create() {
         super.create();
@@ -62,12 +68,13 @@ public class MenuScreen extends SGLStagedScreen {
         } catch (ProvidedObjectIsNullException pone) {
             // don't register stage as InputProcessor
         }
+        registerInputListener(new MenuInputProcessor(this));
 
         FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParams.size = Math.round(28 * Gdx.graphics.getDensity());
         font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
         FreeTypeFontGenerator.FreeTypeFontParameter titleFontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        titleFontParams.size = Math.round(44 * Gdx.graphics.getDensity());
+        titleFontParams.size = Math.round(50 * Gdx.graphics.getDensity());
         titleFont = SGL.provide(FreeTypeFontGenerator.class).generateFont(titleFontParams);
 
 
@@ -103,16 +110,23 @@ public class MenuScreen extends SGLStagedScreen {
                 }).build()
         ));
         menus.put(Menu.Type.HOWTOPLAY, new Menu(
-                new Options.Factory().dim(false).margin(0).title(new Label("How To Play", titleLabelStyle)).build(),
-                new UIElement<TextButton>(new TextButton("Ok, I got it", textButtonStyle)).addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ShowMenuScreenMessage(Menu.Type.MAINMENU));
-                    }
-                }).build()
+                new Options.Factory().margin(0).build()
         ));
         menus.put(Menu.Type.ABOUT, new Menu(
-                new Options.Factory().title(new Label("About", titleLabelStyle)).build(),
+                new Options.Factory().marginLeft(0.2f).title(new Label("About", titleLabelStyle)).build(),
+                new UIElement<Label>(new Label("The MINISTRY OF SILLY WALKS proudly presents", labelStyle)).build(),
+                new UIElement<Label>(new Label("a COFFEINE PROCESSORS UNITED production:", labelStyle)).build(),
+                new UIElement<Label>(new Label("", labelStyle)).build(),
+                new UIElement<Label>(new Label("PINK FLUFFY DEFENSE", labelStyle)).build(),
+                new UIElement<Label>(new Label("", labelStyle)).build(),
+                new UIElement<Label>(new Label("A game where you need to utilize the full technological strength", labelStyle)).build(),
+                new UIElement<Label>(new Label("of ancient civilications to defend the precious last unicorn", labelStyle)).build(),
+                new UIElement<Label>(new Label("against the invading barbaric hordes.", labelStyle)).build(),
+                new UIElement<Label>(new Label("Credits:", labelStyle)).build(),
+                new UIElement<Label>(new Label("\t\tFelix Richter(@felix5721): Game logic stuff", labelStyle)).build(),
+                new UIElement<Label>(new Label("\t\tNiels Bernlöhr(@k0rmarun): Textures and Game logic", labelStyle)).build(),
+                new UIElement<Label>(new Label("\t\tMalte Heinzelmann(@hnzlmnn): Framework, GUI and fluffy clouds", labelStyle)).build(),
+                
                 new UIElement<TextButton>(new TextButton("Return to main menu", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
@@ -157,7 +171,7 @@ public class MenuScreen extends SGLStagedScreen {
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0f, 0f, 0f, 0.2f);
+            shapeRenderer.setColor(0f, 0f, 0f, 0.4f);
             shapeRenderer.rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -222,7 +236,6 @@ public class MenuScreen extends SGLStagedScreen {
             }
             for (int i = 0; i < menu.entries.length; i++) {
                 a = menu.get(i);
-                SGL.game().log(top + ", " + (((i == 0) ? top : (menu.get(i - 1).getY() - m)) - a.getHeight()));
                 a.setWidth(width);
                 a.setPosition(mL, ((i == 0) ? top : (menu.get(i - 1).getY() - m)) - a.getHeight());
                 stage.addActor(a);

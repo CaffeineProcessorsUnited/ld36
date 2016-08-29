@@ -18,7 +18,7 @@ public class UnitCastle extends UnitBase {
     private float researchTime;
     private UnitWeapon unitWeapon;
     private float lastShot;
-    private String ACTOR_BASE, ACTOR_WEAPON, ACTOR_HEALTHBAR, ACTOR_RESEARCHBAR;
+    private String ACTOR_BASE, ACTOR_WEAPON, ACTOR_HEALTHBAR, ACTOR_RESEARCHBAR, ACTOR_COOLDOWNBAR;
 
 
     public UnitCastle() {
@@ -38,18 +38,27 @@ public class UnitCastle extends UnitBase {
 
         getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() - getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
 
-        ACTOR_HEALTHBAR = addActor(new ProgressBar());
+        ACTOR_HEALTHBAR = addActor(new ProgressBar(ProgressBar.Direction.HORIZONTAL, 10));
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
         getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_BASE).getWidth() * 0.2f, getActor(ACTOR_BASE).getHeight());
         setMaxhp(baseHP);
         setHp(baseHP);
         activeResearch = null;
 
-        ACTOR_RESEARCHBAR = addActor(new ProgressBar());
+        ACTOR_RESEARCHBAR = addActor(new ProgressBar(ProgressBar.Direction.HORIZONTAL, 10));
         getActor(ACTOR_RESEARCHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
         getActor(ACTOR_RESEARCHBAR).setPosition(getActor(ACTOR_BASE).getWidth() * 0.2f, getActor(ACTOR_BASE).getHeight() + 20);
         getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setStaticColor(new Color(0.f, 0.f, 1.f, 1.f));
         getActor(ACTOR_RESEARCHBAR).setVisible(false);
+
+        ACTOR_COOLDOWNBAR = addActor(new ProgressBar(ProgressBar.Direction.VERTICAL, 10));
+        getActor(ACTOR_COOLDOWNBAR).setHeight(getActor(ACTOR_BASE).getHeight() / 4);
+        getActor(ACTOR_COOLDOWNBAR).setPosition(getActor(
+                ACTOR_BASE).getWidth() / 2 - getActor(ACTOR_COOLDOWNBAR).getWidth(),
+                getActor(ACTOR_BASE).getHeight() / 2 + getActor(ACTOR_COOLDOWNBAR).getHeight() / 2
+        );
+        getActor(ACTOR_COOLDOWNBAR, ProgressBar.class).setStaticColor(new Color(0.f, 0.f, 1.f, 1.f));
+        getActor(ACTOR_COOLDOWNBAR).setVisible(true);
 
         update();
     }
@@ -84,7 +93,6 @@ public class UnitCastle extends UnitBase {
         if (weapon(type).levelUpAvailable() || !weapon(type).isAvailable()) {
             activeResearch = type;
             researchTime = type.getLevel(weapon(type).getLevel()).research_time;
-            SGL.game().log("Researching " + type.name() + " for " + researchTime);
             getActor(ACTOR_RESEARCHBAR).setVisible(true);
             getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(1);
             return true;
@@ -155,6 +163,8 @@ public class UnitCastle extends UnitBase {
         for (Weapon weapon : weapons.values()) {
             weapon.act(delta);
         }
+        getActor(ACTOR_COOLDOWNBAR).setVisible(unitWeapon.getWeapon().worthAReloadbar() && (unitWeapon.getWeapon().getReloadPercentage() > 0));
+        getActor(ACTOR_COOLDOWNBAR, ProgressBar.class).setPercentage(unitWeapon.getWeapon().getReloadPercentage());
     }
 
     @Override
@@ -163,6 +173,7 @@ public class UnitCastle extends UnitBase {
         getActor(ACTOR_WEAPON).draw(batch, parentAlpha);
         getActor(ACTOR_HEALTHBAR).draw(batch, parentAlpha);
         getActor(ACTOR_RESEARCHBAR).draw(batch, parentAlpha);
+        getActor(ACTOR_COOLDOWNBAR).draw(batch, parentAlpha);
     }
 
     public UnitWeapon getUnitWeapon() {

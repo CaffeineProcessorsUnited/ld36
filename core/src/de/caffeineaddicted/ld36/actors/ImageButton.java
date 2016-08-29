@@ -36,7 +36,6 @@ public class ImageButton extends Image {
      */
     public ImageButton(Drawable[]... drawables) {
         super();
-        SGL.game().log(drawables.length + " -> " + drawables[0].length);
         this.drawables = drawables;
         if (drawables != null && drawables.length > 0) {
             if (drawables[0] != null && drawables[0].length > 0) {

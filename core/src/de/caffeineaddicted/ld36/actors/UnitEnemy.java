@@ -16,13 +16,11 @@ public class UnitEnemy extends UnitBase {
     private String ACTOR_HEALTHBAR, ACTOR_UNIT;
 
     public UnitEnemy(UnitEnemy.Type type, float waveMultiplier) {
-        SGL.game().log("Spawning enemy: " + type.name());
         this.type = type;
         setMaxhp(type.hp * waveMultiplier);
         setHp(type.hp * waveMultiplier);
         ACTOR_UNIT = addTexture(type.fileActive);
-        SGL.game().log(getActor(ACTOR_UNIT).getHeight() + " height for unit");
-        ACTOR_HEALTHBAR = addActor(new ProgressBar(6));
+        ACTOR_HEALTHBAR = addActor(new ProgressBar(ProgressBar.Direction.HORIZONTAL, 6));
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_UNIT).getWidth() * 0.6f);
         getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_UNIT).getWidth() * 0.2f, getActor(ACTOR_UNIT).getHeight() + 5);
 

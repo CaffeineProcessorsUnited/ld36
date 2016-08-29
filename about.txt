@@ -1,0 +1,13 @@
+The ministry of silly walks
+proudly presenty a
+coffeine processors united
+production.
+
+Pink Fluffy Defense.
+
+A game where you need to utilize the full technological strength of ancient civilications to defend the precious last unicorn against the invading barbaric hordes.
+
+Credits:
+    Felix Richter(@felix5721): Game logic stuff
+    Niels Bernlöhr(@k0rmarun): Textures and Game logic
+    Malte Heinzelmann(@hnzlmnn): Framework, GUI and fluffy clouds

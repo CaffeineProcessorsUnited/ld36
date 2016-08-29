@@ -44,10 +44,6 @@ public class CustomStagedScreen extends SGLStagedScreen<LD36> {
             }
         }
         camera = stage.getCamera();
-        SGL.game().log(camera.project(new Vector3(0, 0, 0)).toString());
-        SGL.game().log(camera.project(new Vector3(100, 0, 0)).toString());
-        SGL.game().log(viewport.project(new Vector2(0, 0)).toString());
-        SGL.game().log(viewport.project(new Vector2(100, 0)).toString());
         try {
             SGL.provide(SGLScreenInputMultiplexer.class).addProcessor(this, stage);
         } catch (ProvidedObjectIsNullException pone) {
