@@ -8,11 +8,13 @@ public class Weapon {
     public final Weapon.Type type;
     private int level;
     private boolean available;
+    private float waitForShot;
 
     public Weapon(Weapon.Type type) {
         this.type = type;
         this.level = 0;
         this.available = false;
+        waitForShot = type.getLevel(0).reload_time;
     }
 
     public int getLevel() {
@@ -32,6 +34,10 @@ public class Weapon {
         return false;
     }
 
+    public boolean canFire(){
+        return isAvailable() && waitForShot < 0;
+    }
+
     public boolean isAvailable() {
         return available;
     }
@@ -41,12 +47,20 @@ public class Weapon {
     }
 
     public Projectile fire(float angle) {
+        if(waitForShot >= 0)
+            return null;
+
         Projectile p = new Projectile(type.getLevel(level).projectile);
         p.setAngle(angle);
         if (type.getLevel(level).singleUse) {
             this.setAvailable(false);
         }
+        waitForShot = type.getLevel(getLevel()).reload_time;
         return p;
+    }
+
+    public void act(float delta){
+        waitForShot-=delta;
     }
 
 

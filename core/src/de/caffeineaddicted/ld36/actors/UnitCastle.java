@@ -72,7 +72,6 @@ public class UnitCastle extends UnitBase {
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
             unitWeapon.select(weapon(type));
-            lastShot = weapon(activeWeapon).type.getLevel(unitWeapon.getWeapon().getLevel()).reload_time;
             return true;
         }
         return false;
@@ -120,10 +119,9 @@ public class UnitCastle extends UnitBase {
     }
 
     public void fire(float angle) {
-        if (lastShot > 0)
-            return;
-        lastShot = getActiveWeapon().type.getLevel(getActiveWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
+        if(projectile == null)
+            return;
         Animation fireAnimation = unitWeapon.getAnimation();
         if (fireAnimation != null) {
             fireAnimation.triggerAnimation();
@@ -158,7 +156,9 @@ public class UnitCastle extends UnitBase {
             getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(progress);
         }
         researchTime -= delta;
-        lastShot -= delta;
+        for(Weapon weapon: weapons.values()){
+            weapon.act(delta);
+        }
     }
 
     @Override

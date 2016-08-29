@@ -91,7 +91,6 @@ public class Projectile extends Entity {
 
     @Override
     public void act(float delta) {
-        SGL.game().log("ACT"+getX()+",,"+getY());
         if (finished) {
             onDie();
             return;
