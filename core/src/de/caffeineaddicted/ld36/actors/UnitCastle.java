@@ -2,7 +2,6 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.weapons.Weapon;
@@ -37,7 +36,8 @@ public class UnitCastle extends UnitBase {
         unitWeapon.select(getActiveWeapon());
 
         ACTOR_WEAPON = addActor(unitWeapon);
-        getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() / 2, getActor(ACTOR_BASE).getWidth() / 2);
+        SGL.game().log("LEEEEEEEEEEEL" + getActor(ACTOR_WEAPON).getWidth() + "");
+        getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() - getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
 
         ACTOR_HEALTHBAR = addActor(new ProgressBar());
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
@@ -141,10 +141,6 @@ public class UnitCastle extends UnitBase {
         SGL.provide(DemoModeSaveState.class).provide().loseGame();
     }
 
-    @Override
-    protected void sizeChanged() {
-        super.sizeChanged();
-    }
 
     @Override
     public void act(float delta) {
@@ -152,7 +148,7 @@ public class UnitCastle extends UnitBase {
         if (isResearchReadyToComplete()) {
             completeResearch();
         }
-        getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxhp());
+        getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxHP());
         if(isResearching()){
             float progress = getResearchTime() / getActiveResearch().getLevel(weapon(getActiveResearch()).getLevel()).research_time;
             getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(progress);

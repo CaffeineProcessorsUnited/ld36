@@ -98,6 +98,8 @@ public class LD36 extends SGLGame {
                 loadScreen(provide(DemoGameScreen.class));
                 supply(MenuScreen.class, new MenuScreen());
                 loadScreen(provide(MenuScreen.class));
+                supply(HowToPlayScreen.class, new HowToPlayScreen());
+                loadScreen(provide(HowToPlayScreen.class));
                 /*
                     ... future versions of the library will fix that
                  */
@@ -109,6 +111,7 @@ public class LD36 extends SGLGame {
             @Override
             public void receiveMessage(Message message) {
                 provide(SGLRootScreen.class).hideScreen(GameScreen.class);
+                provide(SGLRootScreen.class).hideScreen(HowToPlayScreen.class);
                 provide(DemoGameScreen.class).reset();
                 provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
                 provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
@@ -131,13 +134,24 @@ public class LD36 extends SGLGame {
                 provide(SGLRootScreen.class).get(GameScreen.class).pause();
             }
         });
+        SGL.registerMessageReceiver(ShowHowToPlayMessage.class, new MessageReceiver() {
+            @Override
+            public void receiveMessage(Message message) {
+                provide(DemoGameScreen.class).reset();
+                SGL.provide(DemoModeSaveState.class).provide().setDrawHood(true);
+                provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
+                provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
+                provide(SGLRootScreen.class).showScreen(HowToPlayScreen.class, SGLRootScreen.ZINDEX.NEAREST);
+            }
+        });
     }
 
     @Override
     protected void initScreens() {
         supply(BackgroundScreen.class, new BackgroundScreen());
         loadScreen(provide(BackgroundScreen.class));
-        loadScreen(new LoadingScreen());
+        supply(LoadingScreen.class, new LoadingScreen());
+        loadScreen(provide(LoadingScreen.class));
     }
 
     public void loadScreen(SGLScreen screen) {
@@ -148,7 +162,6 @@ public class LD36 extends SGLGame {
 
     @Override
     protected void startGame() {
-        System.out.println("Test");
         provide(SGLRootScreen.class).showScreen(BackgroundScreen.class, SGLRootScreen.ZINDEX.FAREST);
         provide(SGLRootScreen.class).showScreen(LoadingScreen.class, SGLRootScreen.ZINDEX.MID);
     }

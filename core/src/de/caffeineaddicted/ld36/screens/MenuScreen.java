@@ -13,10 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import de.caffeineaddicted.ld36.messages.ExitGameMessage;
-import de.caffeineaddicted.ld36.messages.ShowAboutMessage;
-import de.caffeineaddicted.ld36.messages.ShowMenuScreenMessage;
-import de.caffeineaddicted.ld36.messages.StartGameMessage;
+import de.caffeineaddicted.ld36.actors.Image;
+import de.caffeineaddicted.ld36.messages.*;
 import de.caffeineaddicted.ld36.ui.UIElement;
 import de.caffeineaddicted.ld36.utils.Highscore;
 import de.caffeineaddicted.sgl.SGL;
@@ -85,13 +83,14 @@ public class MenuScreen extends SGLStagedScreen {
                 new UIElement<TextButton>(new TextButton("How To Play", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ShowAboutMessage());
+                        SGL.message(new ShowMenuScreenMessage(Menu.Type.HOWTOPLAY));
+                        SGL.message(new ShowHowToPlayMessage());
                     }
                 }).build(),
                 new UIElement<TextButton>(new TextButton("About", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ShowAboutMessage());
+                        SGL.message(new ShowMenuScreenMessage(Menu.Type.ABOUT));
                     }
                 }).build(),
                 new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
@@ -102,34 +101,22 @@ public class MenuScreen extends SGLStagedScreen {
                 }).build()
         ));
         menus.put(Menu.Type.HOWTOPLAY, new Menu(
-                new Options.Factory().title(new Label("How To Play", titleLabelStyle)).build(),
-                new UIElement<TextButton>(new TextButton("Start Game", textButtonStyle)).addListener(new ClickListener() {
+                new Options.Factory().dim(false).margin(0).title(new Label("How To Play", titleLabelStyle)).build(),
+                new UIElement<TextButton>(new TextButton("Ok, I got it", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new StartGameMessage());
-                    }
-                }).setDisabled(false).build(),
-                new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ExitGameMessage());
+                        SGL.message(new ShowMenuScreenMessage(Menu.Type.MAINMENU));
                     }
                 }).build()
         ));
         menus.put(Menu.Type.ABOUT, new Menu(
                 new Options.Factory().title(new Label("About", titleLabelStyle)).build(),
-                new UIElement<TextButton>(new TextButton("Start Game", textButtonStyle)).addListener(new ClickListener() {
+                new UIElement<TextButton>(new TextButton("Return to main menu", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new StartGameMessage());
+                        SGL.message(new ShowMenuScreenMessage(Menu.Type.MAINMENU));
                     }
-                }).setDisabled(false).build(),
-                new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ExitGameMessage());
-                    }
-                }).build()
+                }).setDisabled(false).build()
         ));
         menus.put(Menu.Type.DEATH, new Menu(
                 new Options.Factory().title(new Label("Game Over", titleLabelStyle)).build(),
@@ -137,7 +124,7 @@ public class MenuScreen extends SGLStagedScreen {
                 new UIElement<TextButton>(new TextButton("Back", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
+                        SGL.message(new ShowMenuScreenMessage(Menu.Type.MAINMENU));
                     }
                 }).build()
         ));
@@ -162,15 +149,17 @@ public class MenuScreen extends SGLStagedScreen {
 
     @Override
     public void draw() {
-        ShapeRenderer shapeRenderer = SGL.game().provide(ShapeRenderer.class);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0f, 0f, 0f, 0.2f);
-        shapeRenderer.rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
-        shapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        if (menus.get(currentMenu).options.dim) {
+            ShapeRenderer shapeRenderer = SGL.game().provide(ShapeRenderer.class);
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(0f, 0f, 0f, 0.2f);
+            shapeRenderer.rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
         super.draw();
     }
 
@@ -264,8 +253,9 @@ public class MenuScreen extends SGLStagedScreen {
         public final float marginTitle;
         public final Actor title;
         public final Actor background;
+        public final boolean dim;
 
-        public Options(float marginTop, float marginLeft, float marginRight, float marginBetween, float marginTitle, Actor title, Actor background) {
+        public Options(float marginTop, float marginLeft, float marginRight, float marginBetween, float marginTitle, Actor title, Actor background, boolean dim) {
             this.marginTop = marginTop;
             this.marginLeft = marginLeft;
             this.marginRight = marginRight;
@@ -273,6 +263,7 @@ public class MenuScreen extends SGLStagedScreen {
             this.marginTitle = marginTitle;
             this.title = title;
             this.background = background;
+            this.dim = dim;
         }
 
         public static final class Factory {
@@ -283,9 +274,10 @@ public class MenuScreen extends SGLStagedScreen {
             private float marginTitle = 20;
             private Actor title;
             private Actor background;
+            private boolean dim = true;
 
             public Options build() {
-                return new Options(marginTop, marginLeft, marginRight, marginBetween, marginTitle, title, background);
+                return new Options(marginTop, marginLeft, marginRight, marginBetween, marginTitle, title, background, dim);
             }
 
             public Factory marginTop(float marginTop) {
@@ -313,6 +305,15 @@ public class MenuScreen extends SGLStagedScreen {
                 return this;
             }
 
+            public Factory margin(float margin) {
+                marginTop(margin);
+                marginLeft(margin);
+                marginRight(margin);
+                marginBetween(margin);
+                marginTitle(margin);
+                return this;
+            }
+
             public Factory title(Actor title) {
                 this.title = title;
                 return this;
@@ -320,6 +321,11 @@ public class MenuScreen extends SGLStagedScreen {
 
             public Factory background(Actor background) {
                 this.background = background;
+                return this;
+            }
+
+            public Factory dim(boolean dim) {
+                this.dim = dim;
                 return this;
             }
         }

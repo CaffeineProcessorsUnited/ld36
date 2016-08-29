@@ -65,7 +65,7 @@ public class UnitEnemy extends UnitBase {
     public void act(float delta) {
         super.act(delta);
 
-        getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxhp());
+        getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxHP());
 
         UnitCastle castle = SGL.provide(DemoModeSaveState.class).provide().getCastle();
 

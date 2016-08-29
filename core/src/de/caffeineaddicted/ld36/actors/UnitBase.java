@@ -4,7 +4,7 @@ abstract public class UnitBase extends Entity {
     private float hp;
     private float maxhp;
 
-    public float getMaxhp() {
+    public float getMaxHP() {
         return maxhp;
     }
 

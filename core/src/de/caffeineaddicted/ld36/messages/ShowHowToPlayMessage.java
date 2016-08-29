@@ -5,5 +5,5 @@ import de.caffeineaddicted.sgl.messages.Message;
 /**
  * @author Malte Heinzelmann
  */
-public class ShowAboutMessage extends Message {
+public class ShowHowToPlayMessage extends Message {
 }

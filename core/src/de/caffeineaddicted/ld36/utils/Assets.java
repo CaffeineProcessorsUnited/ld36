@@ -46,6 +46,7 @@ public class Assets extends AssetManager {
 
     public void load() {
         load("missing.png", Texture.class);
+        load("howtoplay.png", Texture.class);
         load("button_default.png", Texture.class);
         load("button_active.png", Texture.class);
         load("switch_default.png", Texture.class);

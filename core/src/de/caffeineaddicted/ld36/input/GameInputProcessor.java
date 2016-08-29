@@ -82,8 +82,6 @@ public class GameInputProcessor extends SGLInputProcessor {
                     clickedActor.fire(event);
                 }
             }
-        } else {
-            screen.getHUD().fireProjectile(screenX, screenY);
         }
         screen.getHUD().stopDrag();
         dragged = false;

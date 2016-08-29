@@ -227,7 +227,7 @@ public class GameScreen extends CustomStagedScreen {
         stage().getActor(ACTOR_HUD).setPosition(0, 0);
         stage().getActor(ACTOR_HUD).init();
         stage().getActor(ACTOR_HUD).zindex(999);
-        stage().getActor(ACTOR_HUD).setVisible(!demo);
+        setDrawHood(!demo);
 
         points = 0;
 
@@ -237,5 +237,9 @@ public class GameScreen extends CustomStagedScreen {
         waveGenerator.setCurrentWaitTimer(55);
         waveGenerator.setMinSpawn(1);
         waveGenerator.setMaxSpawn(1);
+    }
+
+    public void setDrawHood(boolean b) {
+        stage().getActor(ACTOR_HUD).setVisible(b);
     }
 }
