@@ -134,7 +134,7 @@ public class LD36 extends SGLGame {
             @Override
             public void receiveMessage(Message message) {
                 provide(DemoGameScreen.class).setDrawHud(true);
-                provide(GameScreen.class).pause();
+                if (message.get("pausescreen", Boolean.class, true)) provide(GameScreen.class).pause();
                 SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.PAUSE));
             }
         });
@@ -142,7 +142,7 @@ public class LD36 extends SGLGame {
             @Override
             public void receiveMessage(Message message) {
                 provide(SGLRootScreen.class).hideScreen(MenuScreen.class);
-                provide(SGLRootScreen.class).get(GameScreen.class).resume();
+                provide(GameScreen.class).resume();
             }
         });
         SGL.registerMessageReceiver(GameOverMessage.class, new MessageReceiver() {
