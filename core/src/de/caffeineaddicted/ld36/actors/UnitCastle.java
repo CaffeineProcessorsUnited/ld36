@@ -32,10 +32,10 @@ public class UnitCastle extends UnitBase {
         }
 
         unitWeapon = new UnitWeapon();
+        ACTOR_WEAPON = addActor(unitWeapon);
         weapon(Weapon.Type.Stone).setAvailable(true);
         setActiveWeapon(Weapon.Type.Stone);
-        ACTOR_WEAPON = addActor(unitWeapon);
-        unitWeapon.select(getActiveWeapon());
+
 
         getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth()-getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
 
