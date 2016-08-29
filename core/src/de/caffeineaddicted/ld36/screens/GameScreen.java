@@ -69,18 +69,21 @@ public class GameScreen extends CustomStagedScreen {
         super.show();
         SGL.provide(BackgroundScreen.class).setBackground("kenney/background.png");
         if (stage().getActor(ACTOR_HUD) != null) stage().getActor(ACTOR_HUD).setVisible(drawHud);
-        if (!demo) {
-            registerInputListener(new GameInputProcessor(this));
-        }
     }
 
     @Override
     public void pause() {
         super.pause();
-        SGL.provide(BackgroundScreen.class).setBackground("kenney/background.png");
-        if (stage().getActor(ACTOR_HUD) != null) stage().getActor(ACTOR_HUD).setVisible(drawHud);
         if (!demo) {
             SGL.game().provide(SGLScreenInputMultiplexer.class).removeProcessor(this);
+        }
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+        if (!demo) {
+            registerInputListener(new GameInputProcessor(this));
         }
     }
 

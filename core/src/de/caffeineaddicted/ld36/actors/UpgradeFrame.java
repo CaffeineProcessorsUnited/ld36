@@ -24,7 +24,7 @@ public class UpgradeFrame extends Entity {
 
     public UpgradeFrame() {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
+        fontParams.size = Math.round(24);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RobotoMono-Medium.ttf"));
         font = generator.generateFont(fontParams);
         ACTOR_BUTTON = addActor(ImageButton.createImageButton(
