@@ -20,7 +20,7 @@ public class LoadingScreen extends SGLStagedScreen<LD36> {
     private float wait_time = 0.5f;
     private float min_time = 1.5f;
 
-    private Image background, logo;
+    private Image background, logo, cpu;
     private ProgressBar progress;
 
     @Override
@@ -32,6 +32,11 @@ public class LoadingScreen extends SGLStagedScreen<LD36> {
         super.create();
         background = new Image(provide(Assets.class).get("splash.png", Texture.class));
         stage.addActor(background);
+        cpu = new Image(provide(Assets.class).get("cpu.png", Texture.class));
+        cpu.setWidth(300);
+        cpu.setHeight(300);
+        //cpu.setScale(0.4f);
+        stage.addActor(cpu);
         logo = new Image(provide(Assets.class).get("logo.png", Texture.class));
         stage.addActor(logo);
         progress = new ProgressBar(0, 100, 1, false, SGL.provide(Assets.class).get("uiskin.json", Skin.class), "default");
@@ -65,12 +70,11 @@ public class LoadingScreen extends SGLStagedScreen<LD36> {
         background.setWidth(stage.getViewWidth());
         background.setHeight(stage.getViewHeight());
         background.setPosition(stage.getViewOrigX(), stage.getViewOrigY());
-        logo.setWidth(stage.getViewWidth() / 4);
-        logo.setHeight(stage.getViewWidth() / 4);
-        logo.setPosition(stage.getViewOrigX() + ((stage.getViewWidth() / 2) - (logo.getWidth() / 2)), stage.getViewOrigY() + ((stage.getViewHeight() / 2) - (logo.getHeight() / 2)));
+        cpu.setPosition((stage.getViewWidth() / 2) - (cpu.getWidth() / 2), stage.getViewHeight() - 350);
+        logo.setPosition((stage.getViewWidth() / 2) - (logo.getWidth() / 2), stage.getViewHeight() / 2 - logo.getHeight());
         progress.setWidth((stage.getViewWidth() / 10) * 8);
         progress.setHeight(20);
-        progress.setPosition((stage.getViewWidth() / 10), (stage.getViewWidth() / 10));
+        progress.setPosition((stage.getViewWidth() / 10), 100);
     }
 
     @Override

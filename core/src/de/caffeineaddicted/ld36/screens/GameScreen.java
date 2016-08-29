@@ -240,7 +240,7 @@ public class GameScreen extends CustomStagedScreen {
         waveGenerator.setMaxSpawn(1);
     }
 
-    public void setDrawHud(boolean b) {
-        stage().getActor(ACTOR_HUD).setVisible(b);
+    public void setDrawHud(boolean drawHud) {
+        stage().getActor(ACTOR_HUD).setVisible(drawHud);
     }
 }

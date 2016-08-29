@@ -22,7 +22,7 @@ public class MenuInputProcessor extends SGLInputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screen.getMenuType() == MenuScreen.Menu.Type.HOWTOPLAY) {
+        if (screen.getMenuType() == MenuScreen.Menu.Type.HOWTOPLAY || screen.getMenuType() == MenuScreen.Menu.Type.ABOUT) {
             SGL.message(new ShowMenuScreenMessage(MenuScreen.Menu.Type.MAINMENU));
         }
         return false;

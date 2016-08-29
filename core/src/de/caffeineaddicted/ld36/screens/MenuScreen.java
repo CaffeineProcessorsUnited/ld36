@@ -120,16 +120,10 @@ public class MenuScreen extends SGLStagedScreen {
                 }).build()
         ));
         menus.put(Menu.Type.HOWTOPLAY, new Menu(
-                new Options.Factory().margin(0).build()
+                new Options.Factory().build()
         ));
         menus.put(Menu.Type.ABOUT, new Menu(
-                new Options.Factory().title(new Label("About", titleLabelStyle)).build(),
-                new UIElement<TextButton>(new TextButton("Return to main menu", textButtonStyle)).addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ShowMenuScreenMessage(Menu.Type.MAINMENU));
-                    }
-                }).setDisabled(false).build()
+                new Options.Factory().build()
         ));
         menus.put(Menu.Type.DEATH, new Menu(
                 new Options.Factory().title(new Label("Game Over", titleLabelStyle)).build(),
