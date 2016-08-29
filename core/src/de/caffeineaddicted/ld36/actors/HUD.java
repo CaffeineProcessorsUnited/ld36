@@ -29,8 +29,8 @@ public class HUD extends Entity {
         getButtons().setMargin(10);
         for (Weapon.Type weapon: Weapon.Type.values()) {
             ImageButton button = createImageButton(
-                    new String[]{"button_default.png", weapon.getLevel(0).texture },
-                    new String[]{"button_active.png", weapon.getLevel(0).texture }
+                    new String[]{"button_default.png", weapon.getLevel(0).preview },
+                    new String[]{"button_active.png", weapon.getLevel(0).preview }
             );
             button.setUserObject(weapon);
             button.setSelection(new ImageButton.DrawableSelection() {
