@@ -1,5 +1,6 @@
 package de.caffeineaddicted.ld36.actors;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 
@@ -8,6 +9,7 @@ public class UnitWeapon extends Entity {
     private Weapon weapon;
     private Image texture;
     private String ACTOR_TEXTURE;
+    private Animation animation;
 
     public UnitWeapon() {
         texture = new Image();
@@ -18,7 +20,7 @@ public class UnitWeapon extends Entity {
         removeActor(getActor(ACTOR_TEXTURE));
         Weapon.Type.Level weaponLevel = weapon.type.getLevel(weapon.getLevel());
         ACTOR_TEXTURE = addTexture(weaponLevel.texture);
-        getActor().setRotation(-90);
+        //getActor().setRotation(-90);
         update();
     }
 
@@ -31,6 +33,20 @@ public class UnitWeapon extends Entity {
 
     }
 
+    @Override
+    public String addTexture(String name, Texture texture) {
+        if (animation != null) {
+            animation = null;
+        }
+        Weapon.Type.Level weaponLevel = weapon.type.getLevel(weapon.getLevel());
+        if (weaponLevel.isAnimated) {
+            animation = new Animation(texture, weaponLevel.animationCount, weaponLevel.animationWidth, weaponLevel.animationHeight, false);
+            return addActor(name, animation);
+        } else {
+            return super.addTexture(name, texture);
+        }
+    }
+
     public Actor getActor() {
         return (Actor) getActor(ACTOR_TEXTURE);
     }
@@ -38,7 +54,10 @@ public class UnitWeapon extends Entity {
     @Override
     public void act(float delta) {
         super.act(delta);
+    }
 
+    public Animation getAnimation() {
+        return this.animation;
     }
 
 

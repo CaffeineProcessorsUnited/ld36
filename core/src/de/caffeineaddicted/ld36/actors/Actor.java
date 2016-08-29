@@ -102,8 +102,10 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         setY(y - getHeight() / 2);
     }
 
-    /** Removes all actions and listeners on this actor. */
-    public void clear () {
+    /**
+     * Removes all actions and listeners on this actor.
+     */
+    public void clear() {
         super.clear();
     }
 

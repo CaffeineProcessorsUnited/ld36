@@ -84,7 +84,8 @@ public class Projectile extends Entity {
 
     @Override
     public void update() {
-        SGL.game().log("+++++"+type.texture);addTexture(type.texture);
+        SGL.game().log("+++++" + type.texture);
+        addTexture(type.texture);
     }
 
     @Override

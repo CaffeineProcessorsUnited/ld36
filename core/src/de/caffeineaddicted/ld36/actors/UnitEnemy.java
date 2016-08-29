@@ -25,7 +25,6 @@ public class UnitEnemy extends UnitBase {
         ACTOR_HEALTHBAR = addActor(new ProgressBar(6));
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_UNIT).getWidth() * 0.6f);
         getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_UNIT).getWidth() * 0.2f, getActor(ACTOR_UNIT).getHeight() + 5);
-
     }
 
     public void freeze(float freezeTime) {
@@ -63,7 +62,7 @@ public class UnitEnemy extends UnitBase {
     }
 
     @Override
-    protected void positionChanged(){
+    protected void positionChanged() {
         super.positionChanged();
     }
 
@@ -79,11 +78,14 @@ public class UnitEnemy extends UnitBase {
                 getX() + getWidth(), getY() + getHeight(),
                 castle.getX(), castle.getY(),
                 castle.getX() + castle.getWidth(), castle.getY() + castle.getHeight())) {
-            castle.receiveDamage(type.damage);
-            SGL.game().log("----UNICORN-----");
-            SGL.provide(GameScreen.class).points -= type.points;
-            onDie();
-            return;
+            if (alive()) {
+                castle.receiveDamage(type.damage);
+                SGL.game().log("----UNICORN-----");
+                SGL.provide(GameScreen.class).points -= type.points;
+                setHp(-1);
+                onDie();
+                return;
+            }
         }
         float nexty = getY();
         if (getY() > GameScreen.groundHeight) {

@@ -1,17 +1,12 @@
 package de.caffeineaddicted.ld36.actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.caffeineaddicted.ld36.screens.GameScreen;
-import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
-
-import java.util.ArrayList;
 
 /**
  * @author Malte Heinzelmann
@@ -28,10 +23,10 @@ public class HUD extends Entity {
         ACTOR_SELECTFRAME = addActor(new SelectFrame());
         ACTOR_BUTTONS = addActor(new ScrollContainer(ScrollContainer.Direction.HORIZONTAL));
         getButtons().setMargin(10);
-        for (Weapon.Type weapon: Weapon.Type.values()) {
+        for (Weapon.Type weapon : Weapon.Type.values()) {
             ImageButton button = ImageButton.createImageButton(
-                    new String[]{"button_default.png", weapon.getLevel(0).texture },
-                    new String[]{"button_active.png", weapon.getLevel(0).texture }
+                    new String[]{"button_default.png", weapon.getLevel(0).preview},
+                    new String[]{"button_active.png", weapon.getLevel(0).preview}
             );
             button.setUserObject(weapon);
             button.setSelection(new ImageButton.DrawableSelection() {
@@ -42,7 +37,7 @@ public class HUD extends Entity {
             });
             button.addListener(new InputListener() {
                 @Override
-                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     Weapon.Type weapon = (Weapon.Type) event.getTarget().getUserObject();
                     SGL.provide(GameScreen.class).getHUD().setWeaponType(weapon);
                     SGL.provide(GameScreen.class).getHUD().menuOpen();
@@ -139,12 +134,12 @@ public class HUD extends Entity {
         SGL.game().log("SELECT");
     }
 
-    public void setWeaponType(Weapon.Type type) {
-        currentWeaponType = type;
-    }
-
     public Weapon.Type getWeaponType() {
         return currentWeaponType;
+    }
+
+    public void setWeaponType(Weapon.Type type) {
+        currentWeaponType = type;
     }
 
     public boolean weaponAvailable() {

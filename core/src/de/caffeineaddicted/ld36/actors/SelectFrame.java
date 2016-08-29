@@ -1,12 +1,9 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -23,10 +20,10 @@ public class SelectFrame extends Entity {
         fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
         font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
         ACTOR_BUTTON = addActor(ImageButton.createImageButton(
-                new String[]{"button_default.png", "switch_default.png" },
-                new String[]{"button_active.png", "switch_active.png" },
-                new String[]{"button_default.png", "disabled_default.png" },
-                new String[]{"button_active.png", "disabled_active.png" }
+                new String[]{"button_default.png", "switch_default.png"},
+                new String[]{"button_active.png", "switch_active.png"},
+                new String[]{"button_default.png", "disabled_default.png"},
+                new String[]{"button_active.png", "disabled_active.png"}
         ));
         getActor(ACTOR_BUTTON, ImageButton.class).setSelection(new ImageButton.DrawableSelection() {
             @Override

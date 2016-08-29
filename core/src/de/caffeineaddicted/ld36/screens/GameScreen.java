@@ -1,21 +1,17 @@
 package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import de.caffeineaddicted.ld36.CustomStagedScreen;
 import de.caffeineaddicted.ld36.actors.*;
 import de.caffeineaddicted.ld36.input.GameInputProcessor;
 import de.caffeineaddicted.ld36.messages.GameOverMessage;
-import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.wave.WaveGenerator;
 import de.caffeineaddicted.ld36.wave.WaveGeneratorDefer;
-import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLScreen;
 
@@ -86,7 +82,7 @@ public class GameScreen extends CustomStagedScreen {
         }
 
         super.act(delta);
-        waveGenerator.setMaxSpawn(5*waveGenerator.getWaveCount());
+        waveGenerator.setMaxSpawn(5 * waveGenerator.getWaveCount());
         waveGenerator.tick(delta);
 
         int alive = 0;
@@ -97,6 +93,7 @@ public class GameScreen extends CustomStagedScreen {
                     alive++;
             }
         }
+        SGL.game().log("###" + alive);
         if (alive == 0) {
             waveGenerator.skipToNextWave();
         }

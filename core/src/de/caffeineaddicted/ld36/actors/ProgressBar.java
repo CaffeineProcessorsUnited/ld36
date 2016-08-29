@@ -13,11 +13,6 @@ public class ProgressBar extends Actor {
     private float percentage;
     private Color color = new Color(0, 0, 0, 1);
 
-    @Override
-    public String name() {
-        return "ProgressBar";
-    }
-
     ProgressBar() {
         this(10);
     }
@@ -26,16 +21,21 @@ public class ProgressBar extends Actor {
         setHeight(height);
     }
 
-    public void setPercentage(float percentage) {
-        this.percentage = percentage;
+    @Override
+    public String name() {
+        return "ProgressBar";
     }
 
     public float getPercentage() {
         return percentage;
     }
 
+    public void setPercentage(float percentage) {
+        this.percentage = percentage;
+    }
+
     public void percentageColor() {
-        if(getPercentage() < 0.1 ){
+        if (getPercentage() < 0.1) {
             color.r = 1;
             color.g = 0;
             color.b = 0;

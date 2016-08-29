@@ -9,30 +9,28 @@ import java.util.HashMap;
 
 public class UnitCastle extends UnitBase {
 
-    private HashMap<Weapon.Type,Weapon> weapons = new HashMap<Weapon.Type, Weapon>();
-
+    private final static int baseHP = 100;
+    private HashMap<Weapon.Type, Weapon> weapons = new HashMap<Weapon.Type, Weapon>();
     private Weapon.Type activeWeapon;
     private Weapon.Type activeResearch;
     private float researchTime;
     private UnitWeapon unitWeapon;
     private float lastShot;
-    private final static int baseHP = 100;
-
     private String ACTOR_BASE, ACTOR_WEAPON, ACTOR_HEALTHBAR;
 
 
     public UnitCastle() {
         ACTOR_BASE = addTexture("kenney/castle.png");
 
-        for(Weapon.Type weaponType: Weapon.Type.values()){
+        for (Weapon.Type weaponType : Weapon.Type.values()) {
             weapons.put(weaponType, new Weapon(weaponType));
-            SGL.game().log("+++"+weaponType+"//"+weapon(weaponType));
+            SGL.game().log("+++" + weaponType + "//" + weapon(weaponType));
         }
 
         unitWeapon = new UnitWeapon();
-        weapon(Weapon.Type.Tomahawk).setAvailable(true);
-        setActiveWeapon(Weapon.Type.Tomahawk);
-        SGL.game().log("------"+getActiveWeapon().toString());
+        weapon(Weapon.Type.Bow).setAvailable(true);
+        setActiveWeapon(Weapon.Type.Bow);
+        SGL.game().log("------" + getActiveWeapon().toString());
         unitWeapon.select(getActiveWeapon());
 
         ACTOR_WEAPON = addActor(unitWeapon);
@@ -49,7 +47,7 @@ public class UnitCastle extends UnitBase {
     }
 
     public Weapon weapon(Weapon.Type type) {
-        if(type == null)
+        if (type == null)
             return null;
         return weapons.get(type);
     }
@@ -58,21 +56,23 @@ public class UnitCastle extends UnitBase {
         return weapon(activeWeapon);
     }
 
-    public void setActiveWeapon(Weapon.Type type) {
-        if(weapon(type) == null)
-            return;
+    public boolean setActiveWeapon(Weapon.Type type) {
+        if (weapon(type) == null)
+            return false;
 
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
             unitWeapon.select(weapon(type));
             lastShot = weapon(activeWeapon).type.getLevel(unitWeapon.getWeapon().getLevel()).reload_time;
+            return true;
         }
+        return false;
     }
 
     public void startResearch(Weapon.Type type) {
-        if(type == null)
+        if (type == null)
             return;
-        if(weapon(type).isAvailable()) {
+        if (weapon(type).isAvailable()) {
             activeResearch = type;
             researchTime = type.getLevel(weapon(type).getLevel()).research_time;
         }
@@ -81,6 +81,7 @@ public class UnitCastle extends UnitBase {
     public void completeResearch() {
         if (activeResearch != null && researchTime < 0) {
             weapon(activeResearch).setAvailable(true);
+            weapon(activeResearch).levelUp();
             activeResearch = null;
         }
     }
@@ -89,7 +90,7 @@ public class UnitCastle extends UnitBase {
         return getActiveResearch() != null && getResearchTime() >= 0;
     }
 
-    public boolean isResearchReadyToComplete(){
+    public boolean isResearchReadyToComplete() {
         return getActiveResearch() != null && getResearchTime() < 0;
     }
 
@@ -106,6 +107,10 @@ public class UnitCastle extends UnitBase {
             return null;
         lastShot = getActiveWeapon().type.getLevel(getActiveWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
+        Animation fireAnimation = unitWeapon.getAnimation();
+        if (fireAnimation != null) {
+            fireAnimation.triggerAnimation();
+        }
         //SGL.game().debug("xx:"+getUnitWeapon().getActor().getCenterPoint().x+",yy:"+getUnitWeapon().getActor().getCenterPoint().y);
 
         projectile.setCenterPosition(getUnitWeapon().getActor().getCenterPoint().x, getUnitWeapon().getActor().getCenterPoint().y);

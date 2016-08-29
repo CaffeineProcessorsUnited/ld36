@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import de.caffeineaddicted.sgl.SGL;
 
 public class Animation extends Image {
 
@@ -13,12 +12,20 @@ public class Animation extends Image {
     private float frameDuration = 0.1f;
     private float animationDuration;
     private float time = 0;
+    private boolean loop;
+    private boolean done = true;
+
+
     Animation(Texture texture, int anzahl, int width, int height) {
         splitTexture(texture, anzahl, width, height);
-        //this.animation = new Animation(0.25f, this.frames);
-        //animation.setPlayMode(Animation.PlayMode.LOOP);
         setWidth(width);
         setHeight(height);
+        loop = true;
+    }
+
+    Animation(Texture texture, int anzahl, int width, int height, boolean loop) {
+        this(texture, anzahl, width, height);
+        this.loop = loop;
     }
 
     @Override
@@ -32,7 +39,14 @@ public class Animation extends Image {
     }
 
     public int getCurrentFrame() {
-        return (int) Math.floor(time / frameDuration);
+        if (done && !loop) {
+            return 0;
+        }
+        int currentFrame = (int) Math.floor(time / frameDuration);
+        if (currentFrame == frames.length - 1 && !loop) {
+            done = true;
+        }
+        return currentFrame;
     }
 
     private void splitTexture(Texture texture, int anzahl, int width, int height) {
@@ -55,6 +69,10 @@ public class Animation extends Image {
         while (time >= animationDuration && animationDuration > 0) {
             time -= animationDuration;
         }
+    }
+
+    public void triggerAnimation() {
+        done = false;
     }
 
 

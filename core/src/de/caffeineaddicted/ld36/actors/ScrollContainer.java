@@ -16,6 +16,7 @@ public class ScrollContainer extends Group {
     private float margin = 0;
     private float outerWidth;
     private float outerHeight;
+
     public ScrollContainer(Direction direction) {
         this.direction = direction;
         if (direction == Direction.VERTICAL) {

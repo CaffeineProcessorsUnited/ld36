@@ -72,7 +72,7 @@ public class Group extends Actor {
     }
 
     private void clearChildren() {
-        for (String actor: children.keySet()) {
+        for (String actor : children.keySet()) {
             Actor child = children.get(actor);
             child.stage(null);
             child.parent(null);

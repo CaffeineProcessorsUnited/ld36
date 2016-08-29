@@ -26,8 +26,8 @@ public class UpgradeFrame extends Entity {
         fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
         font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
         ACTOR_BUTTON = addActor(ImageButton.createImageButton(
-                new String[]{"button_default.png", "upgrade.png" },
-                new String[]{"button_active.png", "upgrade.png" }
+                new String[]{"button_default.png", "upgrade.png"},
+                new String[]{"button_active.png", "upgrade.png"}
         ));
         Image image = new Image(SGL.provide(Assets.class).get("upgrade.png", Texture.class));
         getActor(ACTOR_BUTTON).setWidth(image.getWidth());
