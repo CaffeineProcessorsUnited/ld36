@@ -98,10 +98,10 @@ abstract public class WaveGenerator {
 
     public float getRemainingTime() {
         if (state == State.NEXTWAVE) { //Wave already going
-            return Math.max(0.f, getTickWaitTimer() - getCurrentWaitTimer() + getTickDeferTimer());
+            return Math.max(0.f, getTickWaitTimer() - getCurrentWaitTimer());
         }
         //Waiting for spawning to be completed
-        return Math.max(0.f, remainingSpawns * getTickDeferTimer() - getCurrentDeferTimer());
+        return Math.max(0.f, remainingSpawns * getTickDeferTimer() - getCurrentDeferTimer() + getTickWaitTimer());
     }
 
     public int getWaveCount() {
