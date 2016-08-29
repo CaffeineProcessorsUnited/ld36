@@ -129,11 +129,13 @@ public class HUD extends Entity {
     public void upgrade() {
         SGL.game().log("UPGRADE");
         SGL.provide(GameScreen.class).getCastle().startResearch(currentWeaponType);
+        this.menuClose();
     }
 
     public void select() {
         SGL.game().log("SELECT");
         SGL.provide(GameScreen.class).getCastle().setActiveWeapon(currentWeaponType);
+        this.menuClose();
     }
 
     public Weapon.Type getWeaponType() {
@@ -145,7 +147,7 @@ public class HUD extends Entity {
     }
 
     public boolean weaponAvailable() {
-        return false;
+        return SGL.provide(GameScreen.class).getCastle().weapon(currentWeaponType).isAvailable();
     }
 
     public Actor getActor(Vector2 touched) {
