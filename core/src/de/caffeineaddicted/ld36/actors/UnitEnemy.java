@@ -23,6 +23,7 @@ public class UnitEnemy extends UnitBase {
         ACTOR_HEALTHBAR = addActor(new ProgressBar(ProgressBar.Direction.HORIZONTAL, 6));
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_UNIT).getWidth() * 0.6f);
         getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_UNIT).getWidth() * 0.2f, getActor(ACTOR_UNIT).getHeight() + 5);
+        zindex(1);
 
         speed = type.speed;
     }
@@ -75,10 +76,7 @@ public class UnitEnemy extends UnitBase {
 
         UnitCastle castle = SGL.provide(DemoModeSaveState.class).provide().getCastle();
 
-        if (MathUtils.intersectRect(getX(), getY(),
-                getX() + getWidth(), getY() + getHeight(),
-                castle.getX(), castle.getY(),
-                castle.getX() + castle.getWidth(), castle.getY() + castle.getHeight())) {
+        if(getX() < castle.getWidth()/3.f) {
             if (alive()) {
                 castle.receiveDamage(type.damage);
                 SGL.provide(GameScreen.class).points -= type.points;
