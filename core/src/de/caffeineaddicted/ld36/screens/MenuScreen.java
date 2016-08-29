@@ -113,7 +113,20 @@ public class MenuScreen extends SGLStagedScreen {
                 new Options.Factory().margin(0).build()
         ));
         menus.put(Menu.Type.ABOUT, new Menu(
-                new Options.Factory().title(new Label("About", titleLabelStyle)).build(),
+                new Options.Factory().marginLeft(0.2f).title(new Label("About", titleLabelStyle)).build(),
+                new UIElement<Label>(new Label("The MINISTRY OF SILLY WALKS proudly presents", labelStyle)).build(),
+                new UIElement<Label>(new Label("a COFFEINE PROCESSORS UNITED production:", labelStyle)).build(),
+                new UIElement<Label>(new Label("", labelStyle)).build(),
+                new UIElement<Label>(new Label("PINK FLUFFY DEFENSE", labelStyle)).build(),
+                new UIElement<Label>(new Label("", labelStyle)).build(),
+                new UIElement<Label>(new Label("A game where you need to utilize the full technological strength", labelStyle)).build(),
+                new UIElement<Label>(new Label("of ancient civilications to defend the precious last unicorn", labelStyle)).build(),
+                new UIElement<Label>(new Label("against the invading barbaric hordes.", labelStyle)).build(),
+                new UIElement<Label>(new Label("Credits:", labelStyle)).build(),
+                new UIElement<Label>(new Label("\t\tFelix Richter(@felix5721): Game logic stuff", labelStyle)).build(),
+                new UIElement<Label>(new Label("\t\tNiels Bernlöhr(@k0rmarun): Textures and Game logic", labelStyle)).build(),
+                new UIElement<Label>(new Label("\t\tMalte Heinzelmann(@hnzlmnn): Framework, GUI and fluffy clouds", labelStyle)).build(),
+                
                 new UIElement<TextButton>(new TextButton("Return to main menu", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
