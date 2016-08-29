@@ -96,7 +96,7 @@ public class Weapon {
                  new Level("Tomahawk", 0.5f, 40f, 4, 90f, false, Projectile.Type.Tomahawk1, "raw/axe/axe3.png", "raw/axe/axe3.png", false, 0, 0, 0)),
         Trident(new Level("Trident", 1f, 30f, 7, 100f, false, Projectile.Type.Trident, "raw/trident/Trident.png", "raw/trident/Trident.png", false, 0, 0, 0),
                 new Level("Trident", 0.5f, 30f, 7, 100f, false, Projectile.Type.Trident1, "raw/trident/Trident.png", "raw/trident/Trident.png", false, 0, 0, 0)),
-        UnicornUlt(new Level("Unicorn Ult", 0f, 300f, 20, 1000f, true, Projectile.Type.Unicorn, "cannon.png", "cannon.png", false, 0, 0, 0));
+        UnicornUlt(new Level("Unicorn Ult", 300f, 300f, 20, 1000f, true, Projectile.Type.Unicorn, "raw/Unicorn.png", "raw/Unicorn.png", false, 0, 0, 0));
         private ArrayList<Level> levels = new ArrayList<Level>();
 
         Type(Level... levels) {

@@ -143,7 +143,7 @@ public class Projectile extends Entity {
         Tomahawk1(300f, 4f, "raw/axe/axe3.png", 140f, 0.1f, 0.4f, 0f, 0f, 0f),
         Trident(230f, 5f, "raw/trident/Trident.png", 200f, 1f, 1f, 0f, 0f, 0f),
         Trident1(200f, 3.5f, "raw/trident/Trident.png", 400f, 1f, 1f, 0f, 0f, 0f),
-        Unicorn(100f, 1000f, "unicornutl.png", 10000f, 1f, 1f, 0f, 0f, 2000f);
+        Unicorn(100f, 1000f, "raw/UnicornUltimate.png", 10000f, 1f, 1f, 0f, 0f, 2000f);
 
         public final float speed;
         public final float weight;
