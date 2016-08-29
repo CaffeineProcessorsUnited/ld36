@@ -12,6 +12,7 @@ public class ProgressBar extends Actor {
 
     private float percentage;
     private Color color = new Color(0, 0, 0, 1);
+    private boolean staticColor = false;
 
     ProgressBar() {
         this(10);
@@ -26,6 +27,11 @@ public class ProgressBar extends Actor {
         return "ProgressBar";
     }
 
+    public void setStaticColor(Color color){
+        this.color =color;
+        staticColor = true;
+    }
+
     public float getPercentage() {
         return percentage;
     }
@@ -35,6 +41,8 @@ public class ProgressBar extends Actor {
     }
 
     public void percentageColor() {
+        if(staticColor)
+            return;
         if (getPercentage() < 0.1) {
             color.r = 1;
             color.g = 0;
