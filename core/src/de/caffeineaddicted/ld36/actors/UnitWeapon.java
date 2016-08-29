@@ -3,7 +3,6 @@ package de.caffeineaddicted.ld36.actors;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import de.caffeineaddicted.ld36.weapons.Weapon;
-import de.caffeineaddicted.sgl.SGL;
 
 public class UnitWeapon extends Entity {
 
@@ -11,7 +10,8 @@ public class UnitWeapon extends Entity {
     private String ACTOR_TEXTURE;
     private Animation animation;
 
-    public UnitWeapon() {}
+    public UnitWeapon() {
+    }
 
     public void select(Weapon weapon) {
         this.weapon = weapon;

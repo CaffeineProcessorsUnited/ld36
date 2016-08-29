@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.utils.Array;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
-import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -196,7 +194,7 @@ public class HUD extends Entity {
     }
 
     public void spawnProjectiles() {
-        for (Float angle: projectilesToSpawn) {
+        for (Float angle : projectilesToSpawn) {
             SGL.provide(DemoModeSaveState.class).provide().getCastle().fire(angle);
         }
         projectilesToSpawn.clear();

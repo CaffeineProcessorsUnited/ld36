@@ -1,8 +1,6 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.utils.Array;
-import de.caffeineaddicted.sgl.SGL;
 
 import java.util.*;
 

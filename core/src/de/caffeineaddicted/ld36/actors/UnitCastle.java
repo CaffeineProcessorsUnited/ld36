@@ -48,8 +48,8 @@ public class UnitCastle extends UnitBase {
 
         ACTOR_RESEARCHBAR = addActor(new ProgressBar());
         getActor(ACTOR_RESEARCHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
-        getActor(ACTOR_RESEARCHBAR).setPosition(getActor(ACTOR_BASE).getWidth() * 0.2f, getActor(ACTOR_BASE).getHeight()+20);
-        getActor(ACTOR_RESEARCHBAR,ProgressBar.class).setStaticColor(new Color(0.f,0.f,1.f,1.f));
+        getActor(ACTOR_RESEARCHBAR).setPosition(getActor(ACTOR_BASE).getWidth() * 0.2f, getActor(ACTOR_BASE).getHeight() + 20);
+        getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setStaticColor(new Color(0.f, 0.f, 1.f, 1.f));
         getActor(ACTOR_RESEARCHBAR).setVisible(false);
 
         update();
@@ -82,7 +82,7 @@ public class UnitCastle extends UnitBase {
         if (type == null)
             return false;
 
-        if(weapon(type).levelUpAvailable() || !weapon(type).isAvailable()) {
+        if (weapon(type).levelUpAvailable() || !weapon(type).isAvailable()) {
             activeResearch = type;
             researchTime = type.getLevel(weapon(type).getLevel()).research_time;
             SGL.game().log("Researching " + type.name() + " for " + researchTime);
@@ -95,7 +95,7 @@ public class UnitCastle extends UnitBase {
 
     public void completeResearch() {
         if (activeResearch != null && researchTime < 0) {
-            if(weapon(activeResearch).levelUpAvailable() && weapon(activeResearch).isAvailable())
+            if (weapon(activeResearch).levelUpAvailable() && weapon(activeResearch).isAvailable())
                 weapon(activeResearch).levelUp();
             weapon(activeResearch).setAvailable(true);
             activeResearch = null;
@@ -149,7 +149,7 @@ public class UnitCastle extends UnitBase {
             completeResearch();
         }
         getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxHP());
-        if(isResearching()){
+        if (isResearching()) {
             float progress = getResearchTime() / getActiveResearch().getLevel(weapon(getActiveResearch()).getLevel()).research_time;
             getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(progress);
         }

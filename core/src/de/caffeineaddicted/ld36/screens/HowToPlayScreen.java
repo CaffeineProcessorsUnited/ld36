@@ -1,13 +1,7 @@
 package de.caffeineaddicted.ld36.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import de.caffeineaddicted.ld36.LD36;
 import de.caffeineaddicted.ld36.actors.Image;
-import de.caffeineaddicted.ld36.utils.Assets;
-import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
-import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLStagedScreen;
 
 /**
