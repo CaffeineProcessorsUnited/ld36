@@ -110,7 +110,7 @@ public class MenuScreen extends SGLStagedScreen {
                 }).build()
         ));
         menus.put(Menu.Type.HOWTOPLAY, new Menu(
-                new Options.Factory().margin(0).title(new Label("How To Play", titleLabelStyle)).build()
+                new Options.Factory().margin(0).build()
         ));
         menus.put(Menu.Type.ABOUT, new Menu(
                 new Options.Factory().title(new Label("About", titleLabelStyle)).build(),
@@ -158,7 +158,7 @@ public class MenuScreen extends SGLStagedScreen {
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0f, 0f, 0f, 0.3f);
+            shapeRenderer.setColor(0f, 0f, 0f, 0.4f);
             shapeRenderer.rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
