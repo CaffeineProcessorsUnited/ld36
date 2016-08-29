@@ -32,12 +32,12 @@ public class UnitCastle extends UnitBase {
         }
 
         unitWeapon = new UnitWeapon();
+        ACTOR_WEAPON = addActor(unitWeapon);
         weapon(Weapon.Type.Bow).setAvailable(true);
         setActiveWeapon(Weapon.Type.Bow);
         unitWeapon.select(getActiveWeapon());
 
-        ACTOR_WEAPON = addActor(unitWeapon);
-        getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() / 2, getActor(ACTOR_BASE).getWidth() / 2);
+        getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth()-getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
 
         ACTOR_HEALTHBAR = addActor(new ProgressBar());
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
@@ -72,6 +72,7 @@ public class UnitCastle extends UnitBase {
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
             unitWeapon.select(weapon(type));
+            getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth()-getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
             return true;
         }
         return false;
