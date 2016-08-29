@@ -13,6 +13,7 @@ public class Projectile extends Entity {
     public final Type type;
     private float directionX, directionY;
     private boolean finished;
+    private String ACTOR_PROJECTILE;
 
     public Projectile(Type type) {
         super();
@@ -20,6 +21,7 @@ public class Projectile extends Entity {
         directionX = directionY = 0;
         finished = false;
         zindex(MathUtils.random(0, 10));
+        ACTOR_PROJECTILE = addTexture(type.texture);
         update();
     }
 
@@ -86,7 +88,6 @@ public class Projectile extends Entity {
 
     @Override
     public void update() {
-        addTexture(type.texture);
     }
 
     @Override
@@ -99,6 +100,12 @@ public class Projectile extends Entity {
         super.act(delta);
 
         Vector2 pos = nextPosition(getCenterPoint(), delta);
+
+        Actor a = getActor(ACTOR_PROJECTILE);
+        if (a != null) {
+            a.setRotation(MathUtils.between(-45, 30, directionY * 90));
+        }
+
         setX(pos.x);
         setY(pos.y);
 

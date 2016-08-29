@@ -64,4 +64,14 @@ public class MathUtils {
     public static int random(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
+
+    public static float between(int low, int high, float value) {
+        if (high < low)
+            return between(high, low, value);
+        if (value < low)
+            value = low;
+        if (value > high)
+            value = high;
+        return value;
+    }
 }
