@@ -2,6 +2,7 @@ package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
@@ -30,7 +31,6 @@ public class UnitCastle extends UnitBase {
         unitWeapon = new UnitWeapon();
         weapon(Weapon.Type.Bow).setAvailable(true);
         setActiveWeapon(Weapon.Type.Bow);
-        SGL.game().log("------" + getActiveWeapon().toString());
         unitWeapon.select(getActiveWeapon());
 
         ACTOR_WEAPON = addActor(unitWeapon);
@@ -45,8 +45,8 @@ public class UnitCastle extends UnitBase {
 
         ACTOR_RESEARCHBAR = addActor(new ProgressBar());
         getActor(ACTOR_RESEARCHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
-        getActor(ACTOR_RESEARCHBAR).setPosition(getActor(ACTOR_BASE).getWidth() * 0.2f, getActor(ACTOR_BASE).getHeight()+1);
-        getActor(ACTOR_RESEARCHBAR,ProgressBar.class).setStaticColor(new Color(0.f,1.f,0.f,0.f));
+        getActor(ACTOR_RESEARCHBAR).setPosition(getActor(ACTOR_BASE).getWidth() * 0.2f, getActor(ACTOR_BASE).getHeight()+20);
+        getActor(ACTOR_RESEARCHBAR,ProgressBar.class).setStaticColor(new Color(0.f,0.f,1.f,1.f));
         getActor(ACTOR_RESEARCHBAR).setVisible(false);
 
         update();
@@ -78,29 +78,34 @@ public class UnitCastle extends UnitBase {
     public void startResearch(Weapon.Type type) {
         if (type == null)
             return;
-        if (weapon(type).isAvailable()) {
+
+        if(weapon(type).levelUpAvailable() || !weapon(type).isAvailable()) {
             activeResearch = type;
             researchTime = type.getLevel(weapon(type).getLevel()).research_time;
+            SGL.game().log("Researching " + type.name() + " for " + researchTime);
             getActor(ACTOR_RESEARCHBAR).setVisible(true);
-            getActor(ACTOR_RESEARCHBAR,ProgressBar.class).setPercentage(1);
+            getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(1);
+        } else {
+            SGL.game().log("Y U NO AVAILIAVBLE");
         }
     }
 
     public void completeResearch() {
         if (activeResearch != null && researchTime < 0) {
+            if(weapon(activeResearch).levelUpAvailable() && weapon(activeResearch).isAvailable())
+                weapon(activeResearch).levelUp();
             weapon(activeResearch).setAvailable(true);
-            weapon(activeResearch).levelUp();
             activeResearch = null;
             getActor(ACTOR_RESEARCHBAR).setVisible(false);
         }
     }
 
     public boolean isResearching() {
-        return getActiveResearch() != null && getResearchTime() >= 0;
+        return activeResearch != null && researchTime >= 0;
     }
 
     public boolean isResearchReadyToComplete() {
-        return getActiveResearch() != null && getResearchTime() < 0;
+        return getActiveResearch() != null && researchTime < 0;
     }
 
     public Weapon.Type getActiveResearch() {
@@ -154,8 +159,9 @@ public class UnitCastle extends UnitBase {
             completeResearch();
         }
         getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxhp());
-        if(getActiveResearch() != null){
-            getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(getResearchTime() / getActiveResearch().getLevel(weapon(getActiveResearch()).getLevel()).research_time);
+        if(isResearching()){
+            float progress = getResearchTime() / getActiveResearch().getLevel(weapon(getActiveResearch()).getLevel()).research_time;
+            getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(progress);
         }
         researchTime -= delta;
         lastShot -= delta;
@@ -166,6 +172,7 @@ public class UnitCastle extends UnitBase {
         getActor(ACTOR_BASE).draw(batch, parentAlpha);
         getActor(ACTOR_WEAPON).draw(batch, parentAlpha);
         getActor(ACTOR_HEALTHBAR).draw(batch, parentAlpha);
+        getActor(ACTOR_RESEARCHBAR).draw(batch, parentAlpha);
     }
 
     public UnitWeapon getUnitWeapon() {

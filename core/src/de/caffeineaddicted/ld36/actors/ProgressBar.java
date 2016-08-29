@@ -60,6 +60,8 @@ public class ProgressBar extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if(!isVisible())
+            return;
         ShapeRenderer shaperender = SGL.provide(ShapeRenderer.class);
 
         batch.end();
