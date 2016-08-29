@@ -31,12 +31,11 @@ public class UnitCastle extends UnitBase {
         }
 
         unitWeapon = new UnitWeapon();
-        weapon(Weapon.Type.Bow).setAvailable(true);
-        setActiveWeapon(Weapon.Type.Bow);
-        unitWeapon.select(getActiveWeapon());
-
         ACTOR_WEAPON = addActor(unitWeapon);
-        SGL.game().log("LEEEEEEEEEEEL" + getActor(ACTOR_WEAPON).getWidth() + "");
+
+        weapon(Weapon.Type.Stone).setAvailable(true);
+        setActiveWeapon(Weapon.Type.Stone);
+
         getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() - getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
 
         ACTOR_HEALTHBAR = addActor(new ProgressBar());
@@ -72,7 +71,7 @@ public class UnitCastle extends UnitBase {
         if (weapon(type).isAvailable()) {
             activeWeapon = type;
             unitWeapon.select(weapon(type));
-            lastShot = weapon(activeWeapon).type.getLevel(unitWeapon.getWeapon().getLevel()).reload_time;
+            getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() - getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
             return true;
         }
         return false;
@@ -120,10 +119,9 @@ public class UnitCastle extends UnitBase {
     }
 
     public void fire(float angle) {
-        if (lastShot > 0)
-            return;
-        lastShot = getActiveWeapon().type.getLevel(getActiveWeapon().getLevel()).reload_time;
         Projectile projectile = getActiveWeapon().fire(angle);
+        if (projectile == null)
+            return;
         Animation fireAnimation = unitWeapon.getAnimation();
         if (fireAnimation != null) {
             fireAnimation.triggerAnimation();
@@ -154,7 +152,9 @@ public class UnitCastle extends UnitBase {
             getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(progress);
         }
         researchTime -= delta;
-        lastShot -= delta;
+        for (Weapon weapon : weapons.values()) {
+            weapon.act(delta);
+        }
     }
 
     @Override
