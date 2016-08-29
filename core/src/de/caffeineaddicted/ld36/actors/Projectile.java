@@ -120,17 +120,17 @@ public class Projectile extends Entity {
     }
 
     public static enum Type {
-        StoneProjectile(200f, 50f, "raw/Stone/Stone1.png", 5.0f, 0f, 0.05f, 20f, 0.1f, 0f),
-        BowArrow(400f, 2f, "raw/arrow/arrow1.png", 10f, 0f, 0.1f, 5f, 0f, 0f),
-        CrossbowBolt(400f, 2f, "raw/crossbow/bolt.png", 30f, 0.3f, 0.2f, 0f, 0.2f, 0f),
-        Javelin(250f, 100f, "raw/Javelin/Javelin1.png", 50f, 0.5f, 0.25f, 40f, 0.1f, 0f),
-        Shuriken(200f, 1f, "raw/shuriken/Shuriken1.png", 30f, 0f, 0.8f, 0f, 0f, 0f),
-        CatapultAmmo(100f, 200f, "raw/Stone/Stone3.png", 100f, 0.5f, 0.9f, 50f, 0.5f, 10f),
-        BallisteArrow(400f, 150f, "raw/Javelin/Javelin3.png", 120f, 0.7f, 0.7f, 400f, 0.8f, 0f),
-        CannonBall(300f, 200f, "raw/cannon/cannonball.png", 150f, 1f, 0f, 90f, 0.5f, 20f),
-        ExplosiveBarrel(40f, 50f, "raw/barrel/Barrel.png", 60f, 0.2f, 0.3f, 1000f, 1f, 200f),
-        Tomahawk(300f, 50f, "raw/axe/axe1.png", 80f, 0.1f, 0.4f, 0f, 0f, 0f),
-        Trident(230f, 150f, "raw/trident/Trident.png", 100f, 1f, 1f, 0f, 0f, 0f),
+        StoneProjectile(300f, 5f, "raw/Stone/Stone1.png", 5.0f, 0f, 0.05f, 20f, 0.1f, 0f),
+        BowArrow(400f, 2f, "raw/arrow/arrow1.png", 5f, 0f, 0.1f, 5f, 0f, 0f),
+        CrossbowBolt(400f, 2f, "raw/crossbow/bolt.png", 20f, 0.3f, 0.2f, 0f, 0.2f, 0f),
+        Javelin(200f, 5f, "raw/Javelin/Javelin1.png", 50f, 0.5f, 0.25f, 40f, 0.1f, 0f),
+        Shuriken(200f, 1.5f, "raw/shuriken/Shuriken1.png", 10f, 0f, 0.8f, 0f, 0f, 0f),
+        CatapultAmmo(1000f, 4f, "raw/Stone/Stone3.png", 100f, 0.5f, 0.9f, 50f, 0.5f, 10f),
+        BallisteArrow(1000f, 4f, "raw/Javelin/Javelin3.png", 120f, 0.7f, 0.7f, 400f, 0.8f, 0f),
+        CannonBall(5000f, 3f, "raw/cannon/cannonball.png", 150f, 1f, 0f, 90f, 0.5f, 20f),
+        ExplosiveBarrel(400f, 5f, "raw/barrel/Barrel.png", 60f, 0.2f, 0.3f, 1000f, 1f, 200f),
+        Tomahawk(300f, 5f, "raw/axe/axe1.png", 80f, 0.1f, 0.4f, 0f, 0f, 0f),
+        Trident(230f, 5f, "raw/trident/Trident.png", 100f, 1f, 1f, 0f, 0f, 0f),
         Unicorn(100f, 1000f, "unicornutl.png", 10000f, 1f, 1f, 0f, 0f, 2000f);
 
         public final float speed;

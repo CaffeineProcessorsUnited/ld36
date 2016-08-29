@@ -83,7 +83,6 @@ public class UnitEnemy extends UnitBase {
                 castle.getX() + castle.getWidth(), castle.getY() + castle.getHeight())) {
             if (alive()) {
                 castle.receiveDamage(type.damage);
-                SGL.game().log("----UNICORN-----");
                 SGL.provide(GameScreen.class).points -= type.points;
                 setHp(-1);
                 onDie();
@@ -135,9 +134,10 @@ public class UnitEnemy extends UnitBase {
     }
 
     public static enum Type {
-        Rider(100, 20, 300, 0.5f, 80f, 10, 10, "raw/enemy_horse_rider/Combined.png", 4, 100, 100,3),
-        Wiking(50f, 10f, 70f, 0.5f, 80f, 5, 10, "raw/enemy_viking/combined.png", 7, 70, 68,1),
-        Soldier(40f, 20f, 90f, 0.6f, 80f, 1, 5, "raw/enemy_soldier/combined.png", 4, 70, 68,0);
+        Rider(60, 20, 300, 0.5f, 60f, 10, 10, "raw/enemy_horse_rider/Combined.png", 4, 100, 100,3),
+        Wiking(30f, 10f, 70f, 0.5f, 50f, 5, 10, "raw/enemy_viking/combined.png", 7, 70, 68,0),
+        Soldier(20f, 20f, 90f, 0.6f, 40f, 1, 5, "raw/enemy_soldier/combined.png", 4, 70, 68,0),
+        Tower(1000f, 380f, 1000, 4f, 10f, 50, 50, "raw/tower/Combined.png", 5, 80, 128,5);
         public final float hp;
         public final float armor;
         public final float mass;

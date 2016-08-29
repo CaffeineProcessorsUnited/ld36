@@ -112,5 +112,6 @@ public class Assets extends AssetManager {
         load("raw/enemy_horse_rider/Combined.png", Texture.class);
         load("raw/enemy_viking/combined.png", Texture.class);
         load("raw/enemy_soldier/combined.png", Texture.class);
+        load("raw/tower/Combined.png", Texture.class);
     }
 }
