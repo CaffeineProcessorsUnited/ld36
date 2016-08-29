@@ -7,13 +7,10 @@ import de.caffeineaddicted.ld36.weapons.Weapon;
 public class UnitWeapon extends Entity {
 
     private Weapon weapon;
-    private Image texture;
     private String ACTOR_TEXTURE;
     private Animation animation;
 
-    public UnitWeapon() {
-        texture = new Image();
-    }
+    public UnitWeapon() {}
 
     public void select(Weapon weapon) {
         this.weapon = weapon;
