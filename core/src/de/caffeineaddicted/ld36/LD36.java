@@ -98,6 +98,11 @@ public class LD36 extends SGLGame {
                 loadScreen(provide(MenuScreen.class));
                 supply(HowToPlayScreen.class, new HowToPlayScreen());
                 loadScreen(provide(HowToPlayScreen.class));
+                supply(AboutScreen.class, new AboutScreen());
+                loadScreen(provide(AboutScreen.class));
+
+                provide(GameScreen.class).reset();
+                provide(DemoGameScreen.class).reset();
                 /*
                     ... future versions of the library will fix that
                  */
@@ -110,7 +115,8 @@ public class LD36 extends SGLGame {
             public void receiveMessage(Message message) {
                 provide(SGLRootScreen.class).hideScreen(GameScreen.class);
                 provide(SGLRootScreen.class).hideScreen(HowToPlayScreen.class);
-                provide(DemoGameScreen.class).reset();
+                provide(SGLRootScreen.class).hideScreen(AboutScreen.class);
+                provide(DemoGameScreen.class).setDrawHud(false);
                 provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
                 provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
             }
@@ -121,7 +127,6 @@ public class LD36 extends SGLGame {
                 provide(GameScreen.class).reset();
                 provide(SGLRootScreen.class).hideScreen(MenuScreen.class);
                 provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.MID);
-                ((GameScreen) provide(SGLRootScreen.class).get(GameScreen.class)).reset();
             }
         });
         SGL.registerMessageReceiver(GameOverMessage.class, new MessageReceiver() {
@@ -135,11 +140,18 @@ public class LD36 extends SGLGame {
         SGL.registerMessageReceiver(ShowHowToPlayMessage.class, new MessageReceiver() {
             @Override
             public void receiveMessage(Message message) {
-                provide(DemoGameScreen.class).reset();
-                SGL.provide(DemoModeSaveState.class).provide().setDrawHood(true);
+                SGL.provide(DemoModeSaveState.class).provide().setDrawHud(true);
                 provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
                 provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
                 provide(SGLRootScreen.class).showScreen(HowToPlayScreen.class, SGLRootScreen.ZINDEX.NEAREST);
+            }
+        });
+        SGL.registerMessageReceiver(ShowAboutMessage.class, new MessageReceiver() {
+            @Override
+            public void receiveMessage(Message message) {
+                SGL.provide(DemoModeSaveState.class).provide().setDrawHud(false);
+                provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
+                provide(SGLRootScreen.class).showScreen(AboutScreen.class, SGLRootScreen.ZINDEX.NEAREST);
             }
         });
     }

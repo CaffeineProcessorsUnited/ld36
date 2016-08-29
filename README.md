@@ -1,5 +1,19 @@
 # Ludum Dare 36: Ancient Technology
 
+The MINISTRY OF SILLY WALKS proudly presents
+a COFFEINE PROCESSORS UNITED production:
+
+PINK FLUFFY DEFENCE
+
+A game where you need to utilize the full technological strength
+of ancient civilizations to defend the precious last unicorn
+against the invading barbaric hordes.
+
+Credits:
+Felix Richter(@felix5721): Game logic stuff
+Niels Bernlöhr(@k0rmarun): Textures and Game logic
+Malte Heinzelmann(@hnzlmnn): Framework, GUI and fluffy clouds
+
 ## Development
 
 ### Setup

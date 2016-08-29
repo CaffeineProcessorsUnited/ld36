@@ -2,6 +2,7 @@ package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -13,12 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.caffeineaddicted.ld36.LD36;
 import de.caffeineaddicted.ld36.input.GameInputProcessor;
 import de.caffeineaddicted.ld36.input.MenuInputProcessor;
-import de.caffeineaddicted.ld36.messages.ExitGameMessage;
-import de.caffeineaddicted.ld36.messages.ShowHowToPlayMessage;
-import de.caffeineaddicted.ld36.messages.ShowMenuScreenMessage;
-import de.caffeineaddicted.ld36.messages.StartGameMessage;
+import de.caffeineaddicted.ld36.messages.*;
 import de.caffeineaddicted.ld36.ui.UIElement;
 import de.caffeineaddicted.ld36.utils.Highscore;
 import de.caffeineaddicted.sgl.SGL;
@@ -89,6 +88,16 @@ public class MenuScreen extends SGLStagedScreen {
                         SGL.message(new StartGameMessage());
                     }
                 }).build(),
+                new UIElement<TextButton>(new TextButton("Toggle Music", textButtonStyle)).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        if (SGL.provide(Music.class).isPlaying()) {
+                            SGL.provide(Music.class).pause();
+                        } else {
+                            SGL.provide(Music.class).play();
+                        }
+                    }
+                }).build(),
                 new UIElement<TextButton>(new TextButton("How To Play", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
@@ -100,6 +109,7 @@ public class MenuScreen extends SGLStagedScreen {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SGL.message(new ShowMenuScreenMessage(Menu.Type.ABOUT));
+                        SGL.message(new ShowAboutMessage());
                     }
                 }).build(),
                 new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
@@ -110,29 +120,10 @@ public class MenuScreen extends SGLStagedScreen {
                 }).build()
         ));
         menus.put(Menu.Type.HOWTOPLAY, new Menu(
-                new Options.Factory().margin(0).build()
+                new Options.Factory().build()
         ));
         menus.put(Menu.Type.ABOUT, new Menu(
-                new Options.Factory().marginLeft(0.2f).title(new Label("About", titleLabelStyle)).build(),
-                new UIElement<Label>(new Label("The MINISTRY OF SILLY WALKS proudly presents", labelStyle)).build(),
-                new UIElement<Label>(new Label("a COFFEINE PROCESSORS UNITED production:", labelStyle)).build(),
-                new UIElement<Label>(new Label("", labelStyle)).build(),
-                new UIElement<Label>(new Label("PINK FLUFFY DEFENSE", labelStyle)).build(),
-                new UIElement<Label>(new Label("", labelStyle)).build(),
-                new UIElement<Label>(new Label("A game where you need to utilize the full technological strength", labelStyle)).build(),
-                new UIElement<Label>(new Label("of ancient civilications to defend the precious last unicorn", labelStyle)).build(),
-                new UIElement<Label>(new Label("against the invading barbaric hordes.", labelStyle)).build(),
-                new UIElement<Label>(new Label("Credits:", labelStyle)).build(),
-                new UIElement<Label>(new Label("\t\tFelix Richter(@felix5721): Game logic stuff", labelStyle)).build(),
-                new UIElement<Label>(new Label("\t\tNiels Bernlöhr(@k0rmarun): Textures and Game logic", labelStyle)).build(),
-                new UIElement<Label>(new Label("\t\tMalte Heinzelmann(@hnzlmnn): Framework, GUI and fluffy clouds", labelStyle)).build(),
-                
-                new UIElement<TextButton>(new TextButton("Return to main menu", textButtonStyle)).addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent e, float x, float y) {
-                        SGL.message(new ShowMenuScreenMessage(Menu.Type.MAINMENU));
-                    }
-                }).setDisabled(false).build()
+                new Options.Factory().build()
         ));
         menus.put(Menu.Type.DEATH, new Menu(
                 new Options.Factory().title(new Label("Game Over", titleLabelStyle)).build(),
@@ -171,7 +162,7 @@ public class MenuScreen extends SGLStagedScreen {
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0f, 0f, 0f, 0.4f);
+            shapeRenderer.setColor(0f, 0f, 0f, 0.5f);
             shapeRenderer.rect(stage.getViewOrigX(), stage.getViewOrigY(), stage.getViewWidth(), stage.getViewHeight());
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
