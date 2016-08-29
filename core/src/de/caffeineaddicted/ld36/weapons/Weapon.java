@@ -74,7 +74,7 @@ public class Weapon {
 
     public static enum Type {
         // TODO: adjust textures
-        Stone(new Level("Stone", 0.3f, 0f, 0, 70f, false, Projectile.Type.StoneProjectile, "raw/Stone/Stone1.png", "raw/Stone/Stone1.png", false, 0, 0, 0)),
+        Stone(new Level("Stone", 0.3f, 0f, 0, 70f, false, Projectile.Type.StoneProjectile, "raw/Stone/Combined.png", "raw/Stone/Stone1.png", true, 5, 128, 128)),
         Bow(new Level("Bow", 0.2f, 0f, 1, 300f, false, Projectile.Type.BowArrow, "raw/arrow/ArchersCombined.png", "raw/arrow/arrow3.png", true, 4, 128, 128)),
         Crossbow(new Level("Crossbow", 0.5f, 0f, 2, 300f, false, Projectile.Type.CrossbowBolt, "raw/crossbow/bolt.png", "raw/crossbow/bolt.png", false, 0, 0, 0)),
         Speer(new Level("Speer", 0.6f, 0f, 3, 100f, false, Projectile.Type.Javelin, "raw/Javelin/Javelin3.png", "raw/Javelin/Javelin3.png", false, 0, 0, 0)),

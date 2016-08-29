@@ -77,6 +77,12 @@ public class Assets extends AssetManager {
         load("raw/Stone/Stone3.png", Texture.class);
         load("raw/Stone/Stone4.png", Texture.class);
         load("raw/Stone/Stone5.png", Texture.class);
+        load("raw/Stone/Combined.png", Texture.class);
+        load("raw/Stone/golem1.png", Texture.class);
+        load("raw/Stone/golem2.png", Texture.class);
+        load("raw/Stone/golem3.png", Texture.class);
+        load("raw/Stone/golem4.png", Texture.class);
+        load("raw/Stone/golem5.png", Texture.class);
         load("raw/arrow/arrow1.png", Texture.class);
         load("raw/arrow/arrow2.png", Texture.class);
         load("raw/arrow/arrow3.png", Texture.class);
