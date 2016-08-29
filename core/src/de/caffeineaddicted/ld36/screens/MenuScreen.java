@@ -64,10 +64,10 @@ public class MenuScreen extends SGLStagedScreen {
         }
 
         FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
+        fontParams.size = Math.round(28 * Gdx.graphics.getDensity());
         font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
         FreeTypeFontGenerator.FreeTypeFontParameter titleFontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        titleFontParams.size = Math.round(40 * Gdx.graphics.getDensity());
+        titleFontParams.size = Math.round(44 * Gdx.graphics.getDensity());
         titleFont = SGL.provide(FreeTypeFontGenerator.class).generateFont(titleFontParams);
 
 
@@ -82,12 +82,33 @@ public class MenuScreen extends SGLStagedScreen {
                         SGL.message(new StartGameMessage());
                     }
                 }).build(),
+                new UIElement<TextButton>(new TextButton("How To Play", textButtonStyle)).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        SGL.message(new ShowAboutMessage());
+                    }
+                }).build(),
                 new UIElement<TextButton>(new TextButton("About", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
                         SGL.message(new ShowAboutMessage());
                     }
                 }).build(),
+                new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        SGL.message(new ExitGameMessage());
+                    }
+                }).build()
+        ));
+        menus.put(Menu.Type.HOWTOPLAY, new Menu(
+                new Options.Factory().title(new Label("How To Play", titleLabelStyle)).build(),
+                new UIElement<TextButton>(new TextButton("Start Game", textButtonStyle)).addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent e, float x, float y) {
+                        SGL.message(new StartGameMessage());
+                    }
+                }).setDisabled(false).build(),
                 new UIElement<TextButton>(new TextButton("Exit Game", textButtonStyle)).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float x, float y) {
@@ -322,7 +343,7 @@ public class MenuScreen extends SGLStagedScreen {
         }
 
         public enum Type {
-            NONE, MAINMENU, ABOUT, DEATH;
+            NONE, MAINMENU, ABOUT, DEATH, HOWTOPLAY;
         }
     }
 }

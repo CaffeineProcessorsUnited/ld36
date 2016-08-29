@@ -24,6 +24,8 @@ public class UnitCastle extends UnitBase {
 
     public UnitCastle() {
         ACTOR_BASE = addTexture("kenney/castle.png");
+        setWidth(getActor(ACTOR_BASE).getWidth());
+        setHeight(getActor(ACTOR_BASE).getHeight());
 
         for (Weapon.Type weaponType : Weapon.Type.values()) {
             weapons.put(weaponType, new Weapon(weaponType));
@@ -35,7 +37,7 @@ public class UnitCastle extends UnitBase {
         unitWeapon.select(getActiveWeapon());
 
         ACTOR_WEAPON = addActor(unitWeapon);
-        setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
+        getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() / 2, getActor(ACTOR_BASE).getWidth() / 2);
 
         ACTOR_HEALTHBAR = addActor(new ProgressBar());
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_BASE).getWidth() * 0.6f);
@@ -137,13 +139,6 @@ public class UnitCastle extends UnitBase {
     @Override
     protected void onDie() {
         SGL.provide(DemoModeSaveState.class).provide().loseGame();
-    }
-
-    @Override
-    protected void positionChanged() {
-        super.positionChanged();
-        Actor a = getActor(ACTOR_WEAPON);
-        a.setPosition(getWidth() - a.getWidth(), getHeight() - a.getHeight());
     }
 
     @Override
