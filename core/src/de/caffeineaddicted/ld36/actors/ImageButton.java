@@ -94,6 +94,10 @@ public class ImageButton extends Image {
         this.selection = selection;
     }
 
+    public boolean isHovered() {
+        return hovered;
+    }
+
     @Override
     public String name() {
         return "ImageButton";

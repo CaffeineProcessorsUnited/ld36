@@ -1,6 +1,7 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
@@ -11,11 +12,19 @@ public class UnitEnemy extends UnitBase {
     private float freezeTime;
     private float knockbackTime;
     private float speed;
+    private ProgressBar healthBar;
+
+    private String ACTOR_HEALTHBAR, ACTOR_UNIT;
 
     public UnitEnemy(UnitEnemy.Type type) {
         SGL.game().log("Spawning enemy: " + type.name());
         this.type = type;
-        update();
+        setMaxhp(type.hp);
+        setHp(type.hp);
+        ACTOR_UNIT = addTexture(type.fileActive);
+        healthBar = new ProgressBar(this);
+        healthBar.setWidth(type.width-10);
+        ACTOR_HEALTHBAR = addActor(healthBar);
     }
 
     public void freeze(float freezeTime) {
@@ -25,7 +34,6 @@ public class UnitEnemy extends UnitBase {
 
     public void unfreeze() {
         freezeTime = -1;
-        addTexture(type.fileActive);
     }
 
     @Override
@@ -48,16 +56,16 @@ public class UnitEnemy extends UnitBase {
     }
 
     @Override
-    public void update() {
-        setMaxhp(type.hp);
-        setHp(type.hp);
-        addTexture(type.fileActive);
-    }
-
-    @Override
     protected void onDie() {
         SGL.provide(DemoModeSaveState.class).provide().deleteLater.add(this);
         SGL.provide(DemoModeSaveState.class).provide().points += type.points;
+    }
+
+    @Override
+    protected void positionChanged(){
+        super.positionChanged();
+        Actor b = getActor(ACTOR_HEALTHBAR);
+        b.setPosition(0, 0);
     }
 
     @Override
@@ -76,9 +84,9 @@ public class UnitEnemy extends UnitBase {
             onDie();
             return;
         }
-
+        float nexty = getY();
         if (getY() > GameScreen.groundHeight) {
-            setY(Math.max(GameScreen.groundHeight, getY() - GameScreen.gravity * delta));
+            nexty = Math.max(GameScreen.groundHeight, getY() - GameScreen.gravity * delta);
         }
 
         float speedDiff = speed - type.speed;
@@ -95,8 +103,15 @@ public class UnitEnemy extends UnitBase {
         freezeTime -= delta;
         if (freezeTime > 0)
             return;
+        float nextx = getX() - speed * delta;
 
-        setX(getX() - speed * delta);
+        this.setPosition(nextx, nexty);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        getActor(ACTOR_UNIT).draw(batch, parentAlpha);
+        getActor(ACTOR_HEALTHBAR).draw(batch, parentAlpha);
     }
 
     @Override
@@ -105,14 +120,19 @@ public class UnitEnemy extends UnitBase {
     }
 
     @Override
+    public void update() {
+
+    }
+
+    @Override
     public String addTexture(String name, Texture texture) {
         return addActor(name, new Animation(texture, this.type.frameCount, this.type.width, this.type.height));
     }
 
     public static enum Type {
-        Rider(100, 20, 300, 0.5f, 50f, 10, 10, "raw/enemy_horse_rider/Combined.png", 4, 100, 100),
-        Wiking(50f, 10f, 70f, 0.5f, 20f, 5, 10, "raw/enemy_viking/combined.png", 7, 70, 68),
-        Soldier(30f, 20f, 90f, 0.6f, 10f, 1, 5, "raw/enemy_soldier/combined.png", 4, 70, 68);
+        Rider(100, 20, 300, 0.5f, 80f, 10, 10, "raw/enemy_horse_rider/Combined.png", 4, 100, 100),
+        Wiking(50f, 10f, 70f, 0.5f, 80f, 5, 10, "raw/enemy_viking/combined.png", 7, 70, 68),
+        Soldier(40f, 20f, 90f, 0.6f, 80f, 1, 5, "raw/enemy_soldier/combined.png", 4, 70, 68);
         public final float hp;
         public final float armor;
         public final float mass;

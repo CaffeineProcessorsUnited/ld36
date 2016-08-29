@@ -15,6 +15,7 @@ import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.wave.WaveGenerator;
 import de.caffeineaddicted.ld36.wave.WaveGeneratorDefer;
+import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 import de.caffeineaddicted.sgl.ui.screens.SGLScreen;
 
@@ -218,7 +219,7 @@ public class GameScreen extends CustomStagedScreen {
             cloud.init();
         }
 
-        castle = new UnitCastle(UnitCastle.Weapons.TEST);
+        castle = new UnitCastle(new Weapon(Weapon.Type.Stone));
         ACTOR_CASTLE = stage().addActor(castle);
         stage().getActor(ACTOR_CASTLE).setPosition(0, groundHeight);
         ACTOR_HUD = stage().addActor(new HUD());

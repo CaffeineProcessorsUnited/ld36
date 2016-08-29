@@ -8,18 +8,19 @@ import de.caffeineaddicted.sgl.SGL;
 import java.util.ArrayList;
 
 public class UnitCastle extends UnitBase {
-    private Weapons weapons;
+    private Weapon weapons;
     private int activeWeapon;
     private int activeResearch;
     private float researchTime;
     private UnitWeapon weapon;
+    private ProgressBar healthbar;
     private float lastShot;
 
 
-    private String ACTOR_BASE, ACTOR_WEAPON;
+    private String ACTOR_BASE, ACTOR_WEAPON, ACTOR_HEALTHBAR;
 
 
-    public UnitCastle(UnitCastle.Weapons weapons) {
+    public UnitCastle(Weapon weapons) {
         //setBounds(getX(), getY(), getWidth(), getHeight());
         this.weapons = weapons;
         ACTOR_BASE = addTexture("kenney/castle.png");
@@ -27,6 +28,8 @@ public class UnitCastle extends UnitBase {
         ACTOR_WEAPON = addActor(weapon);
         setSize(getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_WEAPON).getHeight());
         activeWeapon = 0;
+        healthbar = new ProgressBar(this);
+        ACTOR_HEALTHBAR = addActor(healthbar);
         int hp = 100;
         setMaxhp(hp);
         setHp(hp);
@@ -36,7 +39,7 @@ public class UnitCastle extends UnitBase {
     }
 
     public Weapon weapon(int type) {
-        return weapons.get(type);
+        return weapons;
     }
 
     public Weapon getActiveWeapon() {
@@ -52,12 +55,12 @@ public class UnitCastle extends UnitBase {
     }
 
     public void startResearch(int wid) {
-        if (wid < weapons.length()) {
-            if (!weapon(wid).isAvailable()) {
-                activeResearch = wid;
-                researchTime = weapon(wid).type.getLevel(weapon.getWeapon().getLevel()).research_time;
-            }
-        }
+        //if (wid < weapons.length()) {
+        //   if (!weapon(wid).isAvailable()) {
+        //        activeResearch = wid;
+        //        researchTime = weapon(wid).type.getLevel(weapon.getWeapon().getLevel()).research_time;
+        //    }
+        //}
     }
 
     public void completeResearch() {
@@ -103,6 +106,8 @@ public class UnitCastle extends UnitBase {
         super.positionChanged();
         Actor a = getActor(ACTOR_WEAPON);
         a.setPosition(getWidth() - a.getWidth(), getHeight() - a.getHeight());
+        a = getActor(ACTOR_HEALTHBAR);
+        a.setPosition(getX() + ((getWidth() - a.getWidth())/2), getHeight() + 10);
     }
 
     @Override
@@ -125,29 +130,10 @@ public class UnitCastle extends UnitBase {
     public void draw(Batch batch, float parentAlpha) {
         getActor(ACTOR_BASE).draw(batch, parentAlpha);
         getActor(ACTOR_WEAPON).draw(batch, parentAlpha);
+        getActor(ACTOR_HEALTHBAR).draw(batch, parentAlpha);
     }
 
     public UnitWeapon getWeapon() {
         return getActor(ACTOR_WEAPON, UnitWeapon.class);
-    }
-
-    public static enum Weapons {
-        DUMMY(),
-        TEST(new Weapon(Weapon.Type.Stone));
-        private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
-
-        Weapons(Weapon... ws) {
-            for (Weapon w : ws) {
-                weapons.add(w);
-            }
-        }
-
-        public int length() {
-            return weapons.size() - 1;
-        }
-
-        public Weapon get(int type) {
-            return weapons.get(type);
-        }
     }
 }

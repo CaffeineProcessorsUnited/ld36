@@ -36,7 +36,7 @@ public class HUD extends Entity {
             button.setSelection(new ImageButton.DrawableSelection() {
                 @Override
                 public int select(ImageButton button) {
-                    return (getWeaponType() != null && button.getUserObject() == getWeaponType()) ? 1 : 0;
+                    return (button.isHovered() || (getWeaponType() != null && button.getUserObject() == getWeaponType())) ? 1 : 0;
                 }
             });
             button.addListener(new InputListener() {
