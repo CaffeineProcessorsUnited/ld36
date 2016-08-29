@@ -71,7 +71,7 @@ public class Projectile extends Entity {
     }
 
     public Vector2 nextPosition(Vector2 pos, float delta) {
-        directionY -= GameScreen.gravity * delta * delta;
+        directionY -= type.weight*GameScreen.gravity * delta * delta;
         float newX = pos.x + type.speed * directionX * delta;
         float newY = pos.y + type.speed * directionY * delta;
         if (newY < GameScreen.groundHeight) {
@@ -84,7 +84,6 @@ public class Projectile extends Entity {
 
     @Override
     public void update() {
-        SGL.game().log("+++++" + type.texture);
         addTexture(type.texture);
     }
 

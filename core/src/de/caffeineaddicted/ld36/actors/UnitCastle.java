@@ -25,7 +25,6 @@ public class UnitCastle extends UnitBase {
 
         for (Weapon.Type weaponType : Weapon.Type.values()) {
             weapons.put(weaponType, new Weapon(weaponType));
-            SGL.game().log("+++" + weaponType + "//" + weapon(weaponType));
         }
 
         unitWeapon = new UnitWeapon();
