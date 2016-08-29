@@ -25,10 +25,12 @@ public class UnitEnemy extends UnitBase {
         ACTOR_HEALTHBAR = addActor(new ProgressBar(6));
         getActor(ACTOR_HEALTHBAR).setWidth(getActor(ACTOR_UNIT).getWidth() * 0.6f);
         getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_UNIT).getWidth() * 0.2f, getActor(ACTOR_UNIT).getHeight() + 5);
+
+        speed = type.speed;
     }
 
     public void freeze(float freezeTime) {
-        this.freezeTime = freezeTime;
+        //this.freezeTime = freezeTime;
         //addTexture(type.fileFreeze);
     }
 
@@ -65,6 +67,8 @@ public class UnitEnemy extends UnitBase {
     public void act(float delta) {
         super.act(delta);
 
+        knockbackTime += delta;
+
         getActor(ACTOR_HEALTHBAR, ProgressBar.class).setPercentage(getHp() / getMaxhp());
 
         UnitCastle castle = SGL.provide(DemoModeSaveState.class).provide().getCastle();
@@ -94,9 +98,8 @@ public class UnitEnemy extends UnitBase {
             speedDir = 1;
 
         if (Math.abs(speedDiff) > 0.1) {
-            speed = speed - (speedDiff - speedDir * knockbackTime * type.drag);
+            speed = speed - (speedDiff*knockbackTime * type.drag);
         }
-
         freezeTime -= delta;
         if (freezeTime > 0)
             return;
