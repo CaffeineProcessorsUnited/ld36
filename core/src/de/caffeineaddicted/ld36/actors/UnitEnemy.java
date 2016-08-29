@@ -15,11 +15,11 @@ public class UnitEnemy extends UnitBase {
 
     private String ACTOR_HEALTHBAR, ACTOR_UNIT;
 
-    public UnitEnemy(UnitEnemy.Type type) {
+    public UnitEnemy(UnitEnemy.Type type, float waveMultiplier){
         SGL.game().log("Spawning enemy: " + type.name());
         this.type = type;
-        setMaxhp(type.hp);
-        setHp(type.hp);
+        setMaxhp(type.hp*waveMultiplier);
+        setHp(type.hp*waveMultiplier);
         ACTOR_UNIT = addTexture(type.fileActive);
         SGL.game().log(getActor(ACTOR_UNIT).getHeight() + " height for unit");
         ACTOR_HEALTHBAR = addActor(new ProgressBar(6));
@@ -27,6 +27,10 @@ public class UnitEnemy extends UnitBase {
         getActor(ACTOR_HEALTHBAR).setPosition(getActor(ACTOR_UNIT).getWidth() * 0.2f, getActor(ACTOR_UNIT).getHeight() + 5);
 
         speed = type.speed;
+    }
+
+    public UnitEnemy(UnitEnemy.Type type) {
+        this(type,1);
     }
 
     public void freeze(float freezeTime) {
@@ -131,9 +135,9 @@ public class UnitEnemy extends UnitBase {
     }
 
     public static enum Type {
-        Rider(100, 20, 300, 0.5f, 80f, 10, 10, "raw/enemy_horse_rider/Combined.png", 4, 100, 100),
-        Wiking(50f, 10f, 70f, 0.5f, 80f, 5, 10, "raw/enemy_viking/combined.png", 7, 70, 68),
-        Soldier(40f, 20f, 90f, 0.6f, 80f, 1, 5, "raw/enemy_soldier/combined.png", 4, 70, 68);
+        Rider(100, 20, 300, 0.5f, 80f, 10, 10, "raw/enemy_horse_rider/Combined.png", 4, 100, 100,3),
+        Wiking(50f, 10f, 70f, 0.5f, 80f, 5, 10, "raw/enemy_viking/combined.png", 7, 70, 68,1),
+        Soldier(40f, 20f, 90f, 0.6f, 80f, 1, 5, "raw/enemy_soldier/combined.png", 4, 70, 68,0);
         public final float hp;
         public final float armor;
         public final float mass;
@@ -145,8 +149,9 @@ public class UnitEnemy extends UnitBase {
         public final int frameCount;
         public final int width;
         public final int height;
+        public final int firstWave;
 
-        Type(float hp, float armor, float mass, float drag, float speed, int points, int damage, String file, int frameCount, int width, int height) {
+        Type(float hp, float armor, float mass, float drag, float speed, int points, int damage, String file, int frameCount, int width, int height, int firstWave) {
             this.hp = hp;
             this.armor = armor;
             this.mass = mass;
@@ -158,11 +163,15 @@ public class UnitEnemy extends UnitBase {
             this.frameCount = frameCount;
             this.width = width;
             this.height = height;
-
+            this.firstWave = firstWave;
         }
 
-        public static Type getRandom() {
-            return values()[MathUtils.random(0, values().length - 1)];
+        public static Type getRandom(int wavecount) {
+            Type plannedType;
+            do {
+                plannedType = values()[MathUtils.random(0, values().length - 1)];
+            } while (plannedType.firstWave > wavecount);
+            return plannedType;
         }
     }
 }

@@ -13,7 +13,7 @@ public class WaveGeneratorDefer extends WaveGenerator {
     @Override
     protected void spawn() {
         if (remainingSpawns >= 0) {
-            UnitEnemy enemy = new UnitEnemy(UnitEnemy.Type.getRandom());
+            UnitEnemy enemy = new UnitEnemy(UnitEnemy.Type.getRandom(getWaveCount()),1+0.15f*getWaveCount());
             Vector2 pos = GameScreen.spawnPosition;
             SGL.provide(DemoModeSaveState.class).provide().addActor(enemy);
             enemy.setPosition(pos);

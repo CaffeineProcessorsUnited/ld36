@@ -31,6 +31,7 @@ abstract public class WaveGenerator {
             if (currentWaitTimer > tickWaitTimer) {
                 currentWaitTimer -= tickWaitTimer;
                 remainingSpawns = MathUtils.random(getMinSpawn(), getMaxSpawn());
+                tickDeferTimer = Math.max(0.95f*tickDeferTimer, 1);
 
                 state = State.DEFER;
                 waveCount++;
