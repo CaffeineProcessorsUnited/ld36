@@ -54,6 +54,16 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return getY() + getHeight();
     }
 
+    /*
+    public Vector2 getCenter() {
+        return new Vector2(getWidth() / 2, getHeight() / 2);
+    }
+
+    public Vector2 getCenterPoint() {
+        return getCenter().add(getX(), getY());
+    }
+    */
+
     public Vector2 getCenter() {
         return center;
     }
