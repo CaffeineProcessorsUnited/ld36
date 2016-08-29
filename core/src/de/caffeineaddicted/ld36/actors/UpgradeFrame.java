@@ -88,7 +88,7 @@ public class UpgradeFrame extends Entity {
         SGL.provide(ShapeRenderer.class).end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
         batch.begin();
-        if( getWeaponProjectile() != Projectile.Type.Unicorn) {
+        if (getWeaponProjectile() != Projectile.Type.Unicorn) {
             writeText(batch, "Weapon Information:", 0);
             writeText(batch, "Name:            " + getSelectedWeaponType().name(), 1);
             writeText(batch, "Damage:          " + getWeaponProjectile().damage, 2);
@@ -101,13 +101,13 @@ public class UpgradeFrame extends Entity {
         } else {
             writeText(batch, "Its pretty but Deadly!", 0);
             writeText(batch, "Name:            ?", 1);
-            writeText(batch, "Damage:          ?" , 2);
-            writeText(batch, "Reload Time:     ?" , 3);
-            writeText(batch, "Research Time:   ?" , 4);
-            writeText(batch, "Knockback:       ?" , 5);
-            writeText(batch, "Armor Piercing:  ?" , 6);
-            writeText(batch, "Crit Hit Chance: ?" , 7);
-            writeText(batch, "Freeze Chance:   ?" , 8);
+            writeText(batch, "Damage:          ?", 2);
+            writeText(batch, "Reload Time:     ?", 3);
+            writeText(batch, "Research Time:   ?", 4);
+            writeText(batch, "Knockback:       ?", 5);
+            writeText(batch, "Armor Piercing:  ?", 6);
+            writeText(batch, "Crit Hit Chance: ?", 7);
+            writeText(batch, "Freeze Chance:   ?", 8);
         }
         getActor(ACTOR_BUTTON).draw(batch, parentAlpha);
     }
@@ -116,15 +116,15 @@ public class UpgradeFrame extends Entity {
         return SGL.provide(GameScreen.class).getHUD().getWeaponType();
     }
 
-    private UnitCastle getCastle () {
+    private UnitCastle getCastle() {
         return SGL.provide(GameScreen.class).getCastle();
     }
 
-    private Weapon.Type.Level getSelectedWeaponTypeLevel () {
+    private Weapon.Type.Level getSelectedWeaponTypeLevel() {
         return getCastle().weapon(getSelectedWeaponType()).type.getLevel(getCastle().weapon(getSelectedWeaponType()).getLevel());
     }
 
-    private Projectile.Type getWeaponProjectile () {
+    private Projectile.Type getWeaponProjectile() {
         return getSelectedWeaponTypeLevel().projectile;
     }
 

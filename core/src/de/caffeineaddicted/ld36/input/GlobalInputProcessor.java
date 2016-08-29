@@ -2,9 +2,9 @@ package de.caffeineaddicted.ld36.input;
 
 import com.badlogic.gdx.Input;
 import de.caffeineaddicted.ld36.LD36;
-import de.caffeineaddicted.ld36.messages.*;
-import de.caffeineaddicted.ld36.screens.AboutScreen;
-import de.caffeineaddicted.ld36.screens.DemoGameScreen;
+import de.caffeineaddicted.ld36.messages.PauseGameMessage;
+import de.caffeineaddicted.ld36.messages.ShowMenuScreenMessage;
+import de.caffeineaddicted.ld36.messages.ToggleFullscreenMessage;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.screens.MenuScreen;
 import de.caffeineaddicted.sgl.SGL;

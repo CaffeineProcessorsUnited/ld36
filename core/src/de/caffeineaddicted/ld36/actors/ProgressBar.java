@@ -11,15 +11,10 @@ import de.caffeineaddicted.sgl.SGL;
  */
 public class ProgressBar extends Actor {
 
-    public enum Direction {
-        HORIZONTAL, VERTICAL
-    }
-
+    private final Direction direction;
     private float percentage;
     private Color color = new Color(0, 0, 0, 1);
     private boolean staticColor = false;
-    private final Direction direction;
-
     ProgressBar() {
         this(Direction.HORIZONTAL);
     }
@@ -100,6 +95,10 @@ public class ProgressBar extends Actor {
         shaperender.end();
         batch.begin();
 
+    }
+
+    public enum Direction {
+        HORIZONTAL, VERTICAL
     }
 
 }

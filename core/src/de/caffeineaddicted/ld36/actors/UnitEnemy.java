@@ -76,7 +76,7 @@ public class UnitEnemy extends UnitBase {
 
         UnitCastle castle = SGL.provide(DemoModeSaveState.class).provide().getCastle();
 
-        if(getX() < castle.getWidth()/3.f) {
+        if (getX() < castle.getWidth() / 3.f) {
             if (alive()) {
                 castle.receiveDamage(type.damage);
                 SGL.provide(GameScreen.class).points -= type.points;

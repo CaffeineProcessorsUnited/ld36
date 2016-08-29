@@ -14,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import de.caffeineaddicted.ld36.LD36;
-import de.caffeineaddicted.ld36.input.GameInputProcessor;
 import de.caffeineaddicted.ld36.input.MenuInputProcessor;
 import de.caffeineaddicted.ld36.messages.*;
 import de.caffeineaddicted.ld36.ui.UIElement;

@@ -1,7 +1,6 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
@@ -83,7 +82,7 @@ public class Projectile extends Entity {
         return new Vector2(newX, newY);
     }
 
-    private Vector2 unicornMove(Vector2 pos, float delta){
+    private Vector2 unicornMove(Vector2 pos, float delta) {
         float newX = pos.x + type.speed * directionX * delta;
         float newY = pos.y;
         return new Vector2(newX, newY);
@@ -135,10 +134,10 @@ public class Projectile extends Entity {
             for (Entity entity : entities) {
                 if (entity instanceof UnitEnemy) {
                     UnitEnemy enemy = (UnitEnemy) entity;
-                    enemy.receiveDamage(enemy.getHp()+1);
+                    enemy.receiveDamage(enemy.getHp() + 1);
                 }
             }
-            if( unicornPos.y > SGL.provide(GameScreen.class).stage().getViewWidth()) {
+            if (unicornPos.y > SGL.provide(GameScreen.class).stage().getViewWidth()) {
                 finished = true;
             }
         }
