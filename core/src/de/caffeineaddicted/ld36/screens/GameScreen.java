@@ -37,6 +37,8 @@ public class GameScreen extends CustomStagedScreen {
     private Runnable shouldReset;
     private WaveGenerator waveGenerator;
 
+    private boolean drawHud;
+
     public GameScreen() {
         this(false);
     }
@@ -65,6 +67,7 @@ public class GameScreen extends CustomStagedScreen {
     public void show() {
         super.show();
         SGL.provide(BackgroundScreen.class).setBackground("kenney/background.png");
+        if (stage().getActor(ACTOR_HUD) != null) stage().getActor(ACTOR_HUD).setVisible(drawHud);
     }
 
     public void addActor(Actor actor) {
@@ -99,7 +102,8 @@ public class GameScreen extends CustomStagedScreen {
             waveGenerator.skipToNextWave();
         }
 
-        getHUD().spawnProjectiles();
+        if (getHUD() != null)
+            getHUD().spawnProjectiles();
 
         if (shouldReset != null) {
             shouldReset.run();
@@ -228,7 +232,6 @@ public class GameScreen extends CustomStagedScreen {
         stage().getActor(ACTOR_HUD).setPosition(0, 0);
         stage().getActor(ACTOR_HUD).init();
         stage().getActor(ACTOR_HUD).zindex(999);
-        setDrawHud(!demo);
 
         points = 0;
 
@@ -241,6 +244,6 @@ public class GameScreen extends CustomStagedScreen {
     }
 
     public void setDrawHud(boolean drawHud) {
-        stage().getActor(ACTOR_HUD).setVisible(drawHud);
+        this.drawHud = drawHud;
     }
 }
