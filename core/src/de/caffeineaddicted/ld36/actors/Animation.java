@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class Animation extends Image {
 
     private Drawable[] frames;
-    private float frameDuration = 0.1f;
+    private float frameDuration = 0.12f;
     private float animationDuration;
     private float time = 0;
     private boolean loop;
