@@ -97,6 +97,7 @@ public class GameScreen extends CustomStagedScreen {
                     alive++;
             }
         }
+        SGL.game().log("###"+alive);
         if (alive == 0) {
             waveGenerator.skipToNextWave();
         }
