@@ -124,7 +124,9 @@ public class LD36 extends SGLGame {
         SGL.registerMessageReceiver(StartGameMessage.class, new MessageReceiver() {
             @Override
             public void receiveMessage(Message message) {
+                provide(GameScreen.class).setDrawHud(true);
                 provide(GameScreen.class).reset();
+                provide(SGLRootScreen.class).hideScreen(DemoGameScreen.class);
                 provide(SGLRootScreen.class).hideScreen(MenuScreen.class);
                 provide(SGLRootScreen.class).showScreen(GameScreen.class, SGLRootScreen.ZINDEX.MID);
             }
@@ -150,6 +152,7 @@ public class LD36 extends SGLGame {
             @Override
             public void receiveMessage(Message message) {
                 SGL.provide(DemoModeSaveState.class).provide().setDrawHud(false);
+                provide(SGLRootScreen.class).showScreen(DemoGameScreen.class, SGLRootScreen.ZINDEX.MID);
                 provide(SGLRootScreen.class).showScreen(MenuScreen.class, SGLRootScreen.ZINDEX.NEAR);
                 provide(SGLRootScreen.class).showScreen(AboutScreen.class, SGLRootScreen.ZINDEX.NEAREST);
             }
