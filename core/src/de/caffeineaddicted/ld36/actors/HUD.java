@@ -56,7 +56,6 @@ public class HUD extends Entity {
     @Override
     protected void positionChanged() {
         super.positionChanged();
-        SGL.game().log("positionChanged() =>" + getWidth() + "," + getHeight() + "," + getX() + "," + getY());
         Actor a;
         a = getActor(ACTOR_UPGRADEFRAME);
         ((UpgradeFrame) a).setAutoWidth(false);
@@ -70,12 +69,10 @@ public class HUD extends Entity {
         a.setWidth(getWidth() * 0.2f);
         a.setHeight(getHeight() * 0.2f);
         a.setPosition(getWidth() * 0.15f, getHeight() * 0.4f);
-        SGL.game().log("positionChanged() =>" + a.getWidth() + "," + a.getHeight() + "," + a.getX() + "," + a.getY());
         a = getButtons();
         getButtons().setOuterWidth(getWidth());
         getButtons().setOuterHeight(getHeight());
         getButtons().setPosition(0, getY() + getHeight() - getButtons().getContentHeight());
-        SGL.game().log("positionChanged() =>" + a.getWidth() + "," + a.getHeight() + "," + a.getX() + "," + a.getY());
     }
 
     @Override
@@ -142,14 +139,12 @@ public class HUD extends Entity {
     }
 
     public void upgrade() {
-        SGL.game().log("UPGRADE");
         if (SGL.provide(GameScreen.class).getCastle().startResearch(currentWeaponType)) {
             this.menuClose();
         }
     }
 
     public void select() {
-        SGL.game().log("SELECT");
         if (SGL.provide(GameScreen.class).getCastle().setActiveWeapon(currentWeaponType)) {
             this.menuClose();
         }

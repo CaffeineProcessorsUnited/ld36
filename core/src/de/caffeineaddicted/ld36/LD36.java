@@ -38,7 +38,6 @@ public class LD36 extends SGLGame {
 
     @Override
     protected void initGame() {
-        SGL.game().log(Gdx.graphics.getDensity() + "");
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         supply(SGLScreenInputMultiplexer.class, new CustomScreenInputMultiplexer());
         multiplexer.clear();

@@ -11,16 +11,30 @@ import de.caffeineaddicted.sgl.SGL;
  */
 public class ProgressBar extends Actor {
 
+    public enum Direction {
+        HORIZONTAL, VERTICAL
+    }
+
     private float percentage;
     private Color color = new Color(0, 0, 0, 1);
     private boolean staticColor = false;
+    private final Direction direction;
 
     ProgressBar() {
-        this(10);
+        this(Direction.HORIZONTAL);
     }
 
-    ProgressBar(int height) {
-        setHeight(height);
+    ProgressBar(Direction direction) {
+        this(direction, 10);
+    }
+
+    ProgressBar(Direction direction, int heightOrWidth) {
+        this.direction = direction;
+        if (direction == Direction.HORIZONTAL) {
+            setHeight(heightOrWidth);
+        } else {
+            setWidth(heightOrWidth);
+        }
     }
 
     @Override
@@ -30,7 +44,7 @@ public class ProgressBar extends Actor {
 
     public void setStaticColor(Color color) {
         this.color = color;
-        staticColor = true;
+        staticColor = (color != null);
     }
 
     public float getPercentage() {
@@ -44,6 +58,8 @@ public class ProgressBar extends Actor {
     public void percentageColor() {
         if (staticColor)
             return;
+        if (color == null)
+            color = new Color();
         if (getPercentage() < 0.1) {
             color.r = 1;
             color.g = 0;
@@ -67,18 +83,23 @@ public class ProgressBar extends Actor {
         shaperender.setProjectionMatrix(SGL.provide(Viewport.class).getCamera().combined);
 
         batch.end();
+        if (getPercentage() > 0) {
+            percentageColor();
+            shaperender.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+            shaperender.begin(ShapeRenderer.ShapeType.Filled);
+            if (direction == Direction.HORIZONTAL) {
+                shaperender.rect(getX(), getY(), getWidth() * getPercentage(), getHeight());
+            } else {
+                shaperender.rect(getX(), getY(), getWidth(), getHeight() * getPercentage());
+            }
+            shaperender.end();
+        }
         shaperender.setColor(0, 0, 0, 1 * parentAlpha);
         shaperender.begin(ShapeRenderer.ShapeType.Line);
         shaperender.rect(getX(), getY(), getWidth(), getHeight());
         shaperender.end();
-        //batch.end();
-        //batch.begin();
-        percentageColor();
-        shaperender.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        shaperender.begin(ShapeRenderer.ShapeType.Filled);
-        shaperender.rect(getX() + 1, getY() + 1, getWidth() * getPercentage() - 2, getHeight() - 2);
-        shaperender.end();
         batch.begin();
+
     }
 
 }

@@ -21,6 +21,14 @@ public class Weapon {
         return this.level;
     }
 
+    public float getReloadPercentage() {
+        return Math.max(0, waitForShot / type.getLevel(getLevel()).reload_time);
+    }
+
+    public boolean worthAReloadbar() {
+        return type.getLevel(getLevel()).reload_time >= 0.5f;
+    }
+
     public void levelUp() {
         if (level < type.maxlevel()) {
             level++;

@@ -90,12 +90,14 @@ public class GameInputProcessor extends SGLInputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (screen.getHUD().isDragging()) {
             float distance = lastTouched.x - screenX;
-            screen.getHUD().getButtons().scrollBy(distance);
+            if (Math.abs(distance) > 10) {
+                screen.getHUD().getButtons().scrollBy(distance);
+                lastTouched.set(screenX, screenY);
+                dragged = true;
+            }
         } else {
             screen.getHUD().autoFire(screenX, screenY);
         }
-        dragged = true;
-        lastTouched.set(screenX, screenY);
         return false;
     }
 

@@ -180,7 +180,6 @@ public class GameScreen extends CustomStagedScreen {
     }
 
     public void reset() {
-        SGL.game().log(isCreated() + "");
         if (!isCreated()) {
             return;
         }
