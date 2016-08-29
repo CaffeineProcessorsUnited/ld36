@@ -1,6 +1,7 @@
 package de.caffeineaddicted.ld36.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
@@ -53,6 +54,7 @@ public class GameScreen extends CustomStagedScreen {
         }
         FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
+        fontParams.color = Color.BLACK;
         font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
 
         spawnPosition = new Vector2(stage().getViewWidth(), groundHeight);
@@ -110,9 +112,9 @@ public class GameScreen extends CustomStagedScreen {
         super.draw();
         if (!demo) {
             stage().getBatch().begin();
-            font.draw(stage().getBatch(), "Score: " + points, 10, stage().getCamera().viewportHeight - 10);
-            font.draw(stage().getBatch(), "Current wave: " + waveGenerator.getWaveCount(), 10, stage().getCamera().viewportHeight - font.getCapHeight() - 20);
-            font.draw(stage().getBatch(), "Time to next wave: " + (int) waveGenerator.getRemainingTime(), 10, stage().getCamera().viewportHeight - 2 * font.getCapHeight() - 30);
+            font.draw(stage().getBatch(), "Score: " + points, 10, stage().getCamera().viewportHeight - 150);
+            font.draw(stage().getBatch(), "Current wave: " + waveGenerator.getWaveCount(), 10, stage().getCamera().viewportHeight - font.getCapHeight() - 160);
+            font.draw(stage().getBatch(), "Time to next wave: " + (int) waveGenerator.getRemainingTime(), 10, stage().getCamera().viewportHeight - 2 * font.getCapHeight() - 170);
             stage().getBatch().end();
         }
     }

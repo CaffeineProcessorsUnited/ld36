@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.Assets;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
+import de.caffeineaddicted.ld36.weapons.Weapon;
 import de.caffeineaddicted.sgl.SGL;
 
 /**
@@ -24,7 +25,8 @@ public class UpgradeFrame extends Entity {
     public UpgradeFrame() {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParams.size = Math.round(24 * Gdx.graphics.getDensity());
-        font = SGL.provide(FreeTypeFontGenerator.class).generateFont(fontParams);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RobotoMono-Medium.ttf"));
+        font = generator.generateFont(fontParams);
         ACTOR_BUTTON = addActor(ImageButton.createImageButton(
                 new String[]{"upgrade_default.png"},
                 new String[]{"upgrade_active.png"}
@@ -63,10 +65,32 @@ public class UpgradeFrame extends Entity {
         SGL.provide(ShapeRenderer.class).end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
         batch.begin();
-        writeText(batch, "AAAAAAAAAAAA", 0);
-        writeText(batch, SGL.provide(GameScreen.class).getHUD().getWeaponType().name(), 1);
-        writeText(batch, "CCCCCCCCCCCC", 2);
+        writeText(batch, "Weapon Information:", 0);
+        writeText(batch, "Name:            " + getSelectedWeaponType().name(), 1);
+        writeText(batch, "Damage:          " + getWeaponProjectile().damage, 2);
+        writeText(batch, "Reload Time:     " + getSelectedWeaponTypeLevel().reload_time, 3);
+        writeText(batch, "Research Time:   " + getSelectedWeaponTypeLevel().research_time, 4);
+        writeText(batch, "Knockback:       " + getWeaponProjectile().knockback, 5);
+        writeText(batch, "Armor Piercing:  " + getWeaponProjectile().armor_piercing, 6);
+        writeText(batch, "Crit Hit Chance: " + getWeaponProjectile().crit_hit_chance, 7);
+        writeText(batch, "Freeze Chance:   " + getWeaponProjectile().freeze_chance, 8);
         getActor(ACTOR_BUTTON).draw(batch, parentAlpha);
+    }
+
+    private Weapon.Type getSelectedWeaponType () {
+        return SGL.provide(GameScreen.class).getHUD().getWeaponType();
+    }
+
+    private UnitCastle getCastle () {
+        return SGL.provide(GameScreen.class).getCastle();
+    }
+
+    private Weapon.Type.Level getSelectedWeaponTypeLevel () {
+        return getCastle().weapon(getSelectedWeaponType()).type.getLevel(getCastle().weapon(getSelectedWeaponType()).getLevel());
+    }
+
+    private Projectile.Type getWeaponProjectile () {
+        return getSelectedWeaponTypeLevel().projectile;
     }
 
     public void writeText(Batch batch, String text, int i) {
