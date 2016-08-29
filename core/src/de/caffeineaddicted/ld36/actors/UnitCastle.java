@@ -14,6 +14,7 @@ public class UnitCastle extends UnitBase {
     private final static int baseHP = 100;
     private HashMap<Weapon.Type, Weapon> weapons = new HashMap<Weapon.Type, Weapon>();
     private Weapon.Type activeWeapon;
+    private Weapon.Type lastWeapon;
     private Weapon.Type activeResearch;
     private float researchTime;
     private UnitWeapon unitWeapon;
@@ -78,6 +79,7 @@ public class UnitCastle extends UnitBase {
             return false;
 
         if (weapon(type).isAvailable()) {
+            lastWeapon = activeWeapon;
             activeWeapon = type;
             unitWeapon.select(weapon(type));
             getActor(ACTOR_WEAPON).setPosition(getActor(ACTOR_BASE).getWidth() - getActor(ACTOR_WEAPON).getWidth(), getActor(ACTOR_BASE).getWidth() / 2);
@@ -127,6 +129,10 @@ public class UnitCastle extends UnitBase {
     }
 
     public void fire(float angle) {
+        if (!weapon(activeWeapon).isAvailable()) {
+            setActiveWeapon(lastWeapon);
+            lastWeapon = Weapon.Type.Stone;
+        }
         Projectile projectile = getActiveWeapon().fire(angle);
         if (projectile == null)
             return;

@@ -65,15 +65,27 @@ public class UpgradeFrame extends Entity {
         SGL.provide(ShapeRenderer.class).end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
         batch.begin();
-        writeText(batch, "Weapon Information:", 0);
-        writeText(batch, "Name:            " + getSelectedWeaponType().name(), 1);
-        writeText(batch, "Damage:          " + getWeaponProjectile().damage, 2);
-        writeText(batch, "Reload Time:     " + getSelectedWeaponTypeLevel().reload_time, 3);
-        writeText(batch, "Research Time:   " + getSelectedWeaponTypeLevel().research_time, 4);
-        writeText(batch, "Knockback:       " + getWeaponProjectile().knockback, 5);
-        writeText(batch, "Armor Piercing:  " + getWeaponProjectile().armor_piercing, 6);
-        writeText(batch, "Crit Hit Chance: " + getWeaponProjectile().crit_hit_chance, 7);
-        writeText(batch, "Freeze Chance:   " + getWeaponProjectile().freeze_chance, 8);
+        if( getWeaponProjectile() != Projectile.Type.Unicorn) {
+            writeText(batch, "Weapon Information:", 0);
+            writeText(batch, "Name:            " + getSelectedWeaponType().name(), 1);
+            writeText(batch, "Damage:          " + getWeaponProjectile().damage, 2);
+            writeText(batch, "Reload Time:     " + getSelectedWeaponTypeLevel().reload_time, 3);
+            writeText(batch, "Research Time:   " + getSelectedWeaponTypeLevel().research_time, 4);
+            writeText(batch, "Knockback:       " + getWeaponProjectile().knockback, 5);
+            writeText(batch, "Armor Piercing:  " + getWeaponProjectile().armor_piercing, 6);
+            writeText(batch, "Crit Hit Chance: " + getWeaponProjectile().crit_hit_chance, 7);
+            writeText(batch, "Freeze Chance:   " + getWeaponProjectile().freeze_chance, 8);
+        } else {
+            writeText(batch, "Its pretty but Deadly!", 0);
+            writeText(batch, "Name:            ?", 1);
+            writeText(batch, "Damage:          ?" , 2);
+            writeText(batch, "Reload Time:     ?" , 3);
+            writeText(batch, "Research Time:   ?" , 4);
+            writeText(batch, "Knockback:       ?" , 5);
+            writeText(batch, "Armor Piercing:  ?" , 6);
+            writeText(batch, "Crit Hit Chance: ?" , 7);
+            writeText(batch, "Freeze Chance:   ?" , 8);
+        }
         getActor(ACTOR_BUTTON).draw(batch, parentAlpha);
     }
 

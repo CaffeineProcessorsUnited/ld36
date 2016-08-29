@@ -1,6 +1,7 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
 import de.caffeineaddicted.ld36.utils.MathUtils;
@@ -14,6 +15,7 @@ public class Projectile extends Entity {
     private float directionX, directionY;
     private boolean finished;
     private String ACTOR_PROJECTILE;
+    private Vector2 unicornPos;
 
     public Projectile(Type type) {
         super();
@@ -22,6 +24,7 @@ public class Projectile extends Entity {
         finished = false;
         zindex(MathUtils.random(0, 10));
         ACTOR_PROJECTILE = addTexture(type.texture);
+        unicornPos = new Vector2(0, SGL.provide(GameScreen.class).groundHeight);
         update();
     }
 
@@ -80,6 +83,12 @@ public class Projectile extends Entity {
         return new Vector2(newX, newY);
     }
 
+    private Vector2 unicornMove(Vector2 pos, float delta){
+        float newX = pos.x + type.speed * directionX * delta;
+        float newY = pos.y;
+        return new Vector2(newX, newY);
+    }
+
     @Override
     public void update() {
     }
@@ -90,33 +99,48 @@ public class Projectile extends Entity {
             onDie();
             return;
         }
-        super.act(delta);
+        if (type != Type.Unicorn) {
+            super.act(delta);
 
-        Vector2 pos = nextPosition(getCenterPoint(), delta);
+            Vector2 pos = nextPosition(getCenterPoint(), delta);
 
-        Actor a = getActor(ACTOR_PROJECTILE);
-        if (a != null) {
-            a.setRotation(MathUtils.between(-45, 30, directionY * 90));
-        }
-
-        setX(pos.x);
-        setY(pos.y);
-
-        ArrayList<Entity> entities = Entity.getEntitiesInRange(pos.x, pos.y, type.range);
-        for (Entity entity : entities) {
-            if (entity instanceof UnitEnemy) {
-                UnitEnemy enemy = (UnitEnemy) entity;
-                if (!enemy.alive())
-                    continue;
-                finished = true;
-                Damage damage = calculateDamage(enemy);
-                enemy.freeze(damage.getSleep());
-                enemy.receiveDamage(damage.getHp_damage(), damage.getKnockback());
+            Actor a = getActor(ACTOR_PROJECTILE);
+            if (a != null) {
+                a.setRotation(MathUtils.between(-45, 30, directionY * 90));
             }
-        }
 
-        if (pos.y <= GameScreen.groundHeight) {
-            finished = true;
+            setX(pos.x);
+            setY(pos.y);
+
+            ArrayList<Entity> entities = Entity.getEntitiesInRange(pos.x, pos.y, type.range);
+            for (Entity entity : entities) {
+                if (entity instanceof UnitEnemy) {
+                    UnitEnemy enemy = (UnitEnemy) entity;
+                    if (!enemy.alive())
+                        continue;
+                    finished = true;
+                    Damage damage = calculateDamage(enemy);
+                    enemy.freeze(damage.getSleep());
+                    enemy.receiveDamage(damage.getHp_damage(), damage.getKnockback());
+                }
+            }
+
+            if (pos.y <= GameScreen.groundHeight) {
+                finished = true;
+            }
+        } else {
+            unicornPos = unicornMove(unicornPos, delta);
+            setPosition(unicornPos.x, unicornPos.y);
+            ArrayList<Entity> entities = Entity.getEntitiesInRange(unicornPos.x, unicornPos.y, 0);
+            for (Entity entity : entities) {
+                if (entity instanceof UnitEnemy) {
+                    UnitEnemy enemy = (UnitEnemy) entity;
+                    enemy.receiveDamage(enemy.getHp()+1);
+                }
+            }
+            if( unicornPos.y > SGL.provide(GameScreen.class).stage().getViewWidth()) {
+                finished = true;
+            }
         }
     }
 
@@ -143,7 +167,7 @@ public class Projectile extends Entity {
         Tomahawk1(300f, 4f, "raw/axe/axe3.png", 140f, 0.1f, 0.4f, 0f, 0f, 0f),
         Trident(230f, 5f, "raw/trident/Trident.png", 200f, 1f, 1f, 0f, 0f, 0f),
         Trident1(200f, 3.5f, "raw/trident/Trident.png", 400f, 1f, 1f, 0f, 0f, 0f),
-        Unicorn(100f, 1000f, "raw/UnicornUltimate.png", 10000f, 1f, 1f, 0f, 0f, 2000f);
+        Unicorn(100f, 2f, "raw/UnicornUltimate.png", 10000f, 1f, 1f, 0f, 0f, 2000f);
 
         public final float speed;
         public final float weight;
