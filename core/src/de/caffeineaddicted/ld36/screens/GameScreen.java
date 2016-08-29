@@ -200,7 +200,6 @@ public class GameScreen extends CustomStagedScreen {
         for (int i = 0; i < cloudCount; i++) {
             cloud = stage().getActor(stage().addActor(new Cloud()), Cloud.class);
             cloud.init();
-            cloud.setZIndex(1);
             cloud.setInitialPosition(-cloud.getWidth(),
                     stage().getHeight() - MathUtils.random(
                             (int) Math.ceil(cloud.getHeight()),
@@ -227,7 +226,7 @@ public class GameScreen extends CustomStagedScreen {
         stage().getActor(ACTOR_HUD).setHeight(stage().getViewHeight());
         stage().getActor(ACTOR_HUD).setPosition(0, 0);
         stage().getActor(ACTOR_HUD).init();
-        stage().getActor(ACTOR_HUD).setZIndex(999);
+        stage().getActor(ACTOR_HUD).zindex(999);
         stage().getActor(ACTOR_HUD).setVisible(!demo);
 
         points = 0;

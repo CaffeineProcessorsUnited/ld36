@@ -76,9 +76,9 @@ public class UnitCastle extends UnitBase {
         return false;
     }
 
-    public void startResearch(Weapon.Type type) {
+    public boolean startResearch(Weapon.Type type) {
         if (type == null)
-            return;
+            return false;
 
         if(weapon(type).levelUpAvailable() || !weapon(type).isAvailable()) {
             activeResearch = type;
@@ -86,9 +86,9 @@ public class UnitCastle extends UnitBase {
             SGL.game().log("Researching " + type.name() + " for " + researchTime);
             getActor(ACTOR_RESEARCHBAR).setVisible(true);
             getActor(ACTOR_RESEARCHBAR, ProgressBar.class).setPercentage(1);
-        } else {
-            SGL.game().log("Y U NO AVAILIAVBLE");
+            return true;
         }
+        return false;
     }
 
     public void completeResearch() {
@@ -126,8 +126,6 @@ public class UnitCastle extends UnitBase {
         if (fireAnimation != null) {
             fireAnimation.triggerAnimation();
         }
-        //SGL.game().debug("xx:"+getUnitWeapon().getActor().getCenterPoint().x+",yy:"+getUnitWeapon().getActor().getCenterPoint().y);
-
         projectile.setCenterPosition(getUnitWeapon().getActor().getCenterPoint().x, getUnitWeapon().getActor().getCenterPoint().y);
         SGL.provide(DemoModeSaveState.class).provide().addActor(projectile);
     }

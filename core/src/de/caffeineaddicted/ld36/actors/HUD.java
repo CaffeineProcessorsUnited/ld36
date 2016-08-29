@@ -89,8 +89,6 @@ public class HUD extends Entity {
         super.act(delta);
 
         if (autoFire.x != 0 && autoFire.y != 0) {
-            SGL.game().log(autoFire.toString());
-            SGL.game().log("FIRE!!!");
             fireProjectile(autoFire.x, autoFire.y);
         }
     }
@@ -147,14 +145,16 @@ public class HUD extends Entity {
 
     public void upgrade() {
         SGL.game().log("UPGRADE");
-        SGL.provide(GameScreen.class).getCastle().startResearch(currentWeaponType);
-        this.menuClose();
+        if (SGL.provide(GameScreen.class).getCastle().startResearch(currentWeaponType)) {
+            this.menuClose();
+        }
     }
 
     public void select() {
         SGL.game().log("SELECT");
-        SGL.provide(GameScreen.class).getCastle().setActiveWeapon(currentWeaponType);
-        this.menuClose();
+        if (SGL.provide(GameScreen.class).getCastle().setActiveWeapon(currentWeaponType)) {
+            this.menuClose();
+        }
     }
 
     public Weapon.Type getWeaponType() {
@@ -184,12 +184,10 @@ public class HUD extends Entity {
     }
 
     public void autoFire(int screenX, int screenY) {
-        SGL.game().log("AUTOFIRE INIT");
         autoFire.set(screenX, screenY);
     }
 
     public void stopAutoFire() {
-        SGL.game().log("AUTOFIRE STOP");
         autoFire.set(0, 0);
     }
 

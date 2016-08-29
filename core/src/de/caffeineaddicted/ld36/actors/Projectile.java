@@ -3,6 +3,7 @@ package de.caffeineaddicted.ld36.actors;
 import com.badlogic.gdx.math.Vector2;
 import de.caffeineaddicted.ld36.screens.GameScreen;
 import de.caffeineaddicted.ld36.utils.DemoModeSaveState;
+import de.caffeineaddicted.ld36.utils.MathUtils;
 import de.caffeineaddicted.ld36.weapons.Damage;
 import de.caffeineaddicted.sgl.SGL;
 
@@ -18,6 +19,7 @@ public class Projectile extends Entity {
         this.type = type;
         directionX = directionY = 0;
         finished = false;
+        zindex(MathUtils.random(0, 10));
         update();
     }
 

@@ -95,7 +95,6 @@ public class GameInputProcessor extends SGLInputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (screen.getHUD().isDragging()) {
             float distance = lastTouched.x - screenX;
-            SGL.game().log(distance + "");
             screen.getHUD().getButtons().scrollBy(distance);
         } else {
             screen.getHUD().autoFire(screenX, screenY);
@@ -108,7 +107,6 @@ public class GameInputProcessor extends SGLInputProcessor {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         Actor hoveredActor = screen.getHUD().getActor(new Vector2(screenX, screenY));
-        if (hoveredActor != null) SGL.game().log(hoveredActor.toString());
         boolean exitOld = (lastOver != null && lastOver != hoveredActor);
         boolean enterNew = (hoveredActor != null && hoveredActor != lastOver);
         if (exitOld) {

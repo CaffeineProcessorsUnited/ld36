@@ -1,9 +1,10 @@
 package de.caffeineaddicted.ld36.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.Array;
+import de.caffeineaddicted.sgl.SGL;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Malte Heinzelmann
@@ -31,6 +32,7 @@ public class Group extends Actor {
         children.put(name, a);
         a.parent(this);
         a.stage(stage());
+        a.positionChanged();
         return name;
     }
 
@@ -60,8 +62,14 @@ public class Group extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         if (!isVisible())
             return;
-        for (String n : children.keySet()) {
-            children.get(n).draw(batch, parentAlpha);
+        List<Actor> sortedChildren = new ArrayList<Actor>(children.values());
+        Collections.sort(sortedChildren, new Comparator<Actor>() {
+            public int compare(Actor a1, Actor a2) {
+                return ((Integer) a1.zindex()).compareTo(a2.zindex());
+            }
+        });
+        for (Actor child : sortedChildren) {
+            child.draw(batch, parentAlpha);
         }
     }
 
@@ -100,6 +108,14 @@ public class Group extends Actor {
         super.positionChanged();
         for (String n : children.keySet()) {
             children.get(n).positionChanged();
+        }
+    }
+
+    @Override
+    protected void sizeChanged() {
+        super.sizeChanged();
+        for (String n : children.keySet()) {
+            children.get(n).sizeChanged();
         }
     }
 

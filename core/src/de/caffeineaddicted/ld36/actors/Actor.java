@@ -12,6 +12,7 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     protected Vector2 centerpoint = new Vector2();
     private Group parent;
     private Stage stage;
+    private int zindex;
 
     public void init() {
         sizeChanged();
@@ -100,6 +101,14 @@ public abstract class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     public void setCenterPosition(float x, float y) {
         setX(x - getWidth() / 2);
         setY(y - getHeight() / 2);
+    }
+
+    public void zindex(int zindex) {
+        this.zindex = zindex;
+    }
+
+    public int zindex() {
+        return zindex + ((parent() != null) ? parent().zindex() : 0);
     }
 
     /**

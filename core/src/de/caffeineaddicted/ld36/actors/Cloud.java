@@ -27,6 +27,7 @@ public class Cloud extends Image {
 
     public Cloud(String texture) {
         super(SGL.provide(Assets.class).get(texture, Texture.class));
+        zindex(MathUtils.random(0, 10));
         setScale(0.4f);
     }
 

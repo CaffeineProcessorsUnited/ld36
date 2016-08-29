@@ -3,6 +3,7 @@ package de.caffeineaddicted.ld36.actors;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import de.caffeineaddicted.ld36.weapons.Weapon;
+import de.caffeineaddicted.sgl.SGL;
 
 public class UnitWeapon extends Entity {
 
@@ -45,7 +46,7 @@ public class UnitWeapon extends Entity {
     }
 
     public Actor getActor() {
-        return (Actor) getActor(ACTOR_TEXTURE);
+        return getActor(ACTOR_TEXTURE);
     }
 
     @Override
